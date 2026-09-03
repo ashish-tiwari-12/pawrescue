@@ -11,18 +11,30 @@ import { seedNationalDogRegistry } from "../seeds/dogRegistrySeeder.js";
 
 const DEFAULT_MONGODB_URI = "mongodb://localhost:27017/pawrescue";
 
+let isConnected = false;
+
 export const connectDatabase = async () => {
+  if (isConnected && mongoose.connection.readyState >= 1) {
+    return;
+  }
+
   const uri = process.env.MONGODB_URI || DEFAULT_MONGODB_URI;
 
   try {
     console.log("⏳ Connecting to MongoDB Atlas database 'pawrescue'...");
-    await mongoose.connect(uri);
+    await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000
+    });
+    isConnected = true;
     console.log("✅ Successfully connected to MongoDB Atlas ('pawrescue')");
 
-    // Run initial, Delhi-NCR, and National Dog Registry seeders
-    await seedInitialData();
-    await seedDelhiNcrNGOs();
-    await seedNationalDogRegistry();
+    // Run initial, Delhi-NCR, and National Dog Registry seeders in standalone mode
+    if (!process.env.VERCEL) {
+      await seedInitialData();
+      await seedDelhiNcrNGOs();
+      await seedNationalDogRegistry();
+    }
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
   }

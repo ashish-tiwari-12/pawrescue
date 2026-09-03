@@ -47,11 +47,38 @@ app.use("/api/volunteers", volunteersRouter);
 app.use("/api/ngos", ngosRouter);
 app.use("/api/notifications", notificationsRouter);
 app.use("/api/analytics", analyticsRouter);
+// Lazy DB connection middleware for serverless requests
+app.use(async (req, res, next) => {
+  try {
+    await connectDatabase();
+  } catch (err) {
+    console.error("DB connection error in request middleware:", err);
+  }
+  next();
+});
+
+// API Routes
 app.use("/api/dogs", dogsRouter);
 app.use("/api/gov-analytics", govAnalyticsRouter);
 app.use("/api/geospatial", geospatialRouter);
 
-// Health Check
+// Root & Health Check
+app.get("/", (req, res) => {
+  res.json({
+    status: "healthy",
+    message: "🐾 PawConnect India Backend API is online!",
+    endpoints: [
+      "/api/auth",
+      "/api/complaints",
+      "/api/ngos",
+      "/api/dogs",
+      "/api/geospatial",
+      "/api/gov-analytics"
+    ],
+    version: "2.1.0"
+  });
+});
+
 app.get("/health", (req, res) => {
   res.json({
     status: "healthy",
