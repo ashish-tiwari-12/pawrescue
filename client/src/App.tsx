@@ -129,7 +129,7 @@ export default function App() {
       left: 0,
       behavior: "smooth"
     });
-  }, [citizenView, ngoView, activePortal, selectedTrackingId]);
+  }, [citizenView, ngoView, activePortal]);
 
   // Real-time Socket.io listeners
   useEffect(() => {
