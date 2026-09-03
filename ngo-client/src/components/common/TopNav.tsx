@@ -185,6 +185,20 @@ export const TopNav: React.FC<Props> = ({
                     <span>🐕 Dog Registry</span>
                   </button>
                   <button
+                    onClick={() => onNavigateNGO("ai_review")}
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                      ngoView === "ai_review"
+                        ? "text-indigo-700 bg-indigo-50 font-extrabold border border-indigo-200"
+                        : "text-slate-600 hover:text-indigo-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className="material-symbols-outlined !text-base text-indigo-600">psychology</span>
+                    <span>AI Dog Review</span>
+                    <span className="text-[9px] font-black bg-indigo-600 text-white px-1.5 py-0.2 rounded-full">
+                      AI
+                    </span>
+                  </button>
+                  <button
                     onClick={() => onNavigateNGO("maps")}
                     className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
                       ngoView === "maps"
@@ -430,6 +444,19 @@ export const TopNav: React.FC<Props> = ({
                 >
                   <span className="material-symbols-outlined !text-lg text-emerald-600">pets</span>
                   <span>National Dog Registry</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    onNavigateNGO("ai_review");
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "ai_review" ? "bg-indigo-50 text-indigo-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className="material-symbols-outlined !text-lg text-indigo-600">psychology</span>
+                  <span>AI Dog Profile Review</span>
                 </button>
 
                 <button

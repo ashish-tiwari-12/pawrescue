@@ -20,6 +20,7 @@ import { VolunteerManagement } from "./components/ngo/VolunteerManagement";
 import { AnalyticsView } from "./components/ngo/AnalyticsView";
 import { NGOSettingsModal } from "./components/ngo/NGOSettingsModal";
 import { NGODogRegistry } from "./components/ngo/NGODogRegistry";
+import { AIDogReviewView } from "./components/ngo/AIDogReviewView";
 import { GovernmentAnalyticsView } from "./components/ngo/GovernmentAnalyticsView";
 import { NGODispatchMap } from "./components/maps/NGODispatchMap";
 import { DogProfileModal } from "./components/dogs/DogProfileModal";
@@ -398,6 +399,15 @@ export const App: React.FC = () => {
                 ngo={activeNgo}
                 onSelectDog={(dog) => setSelectedDog(dog)}
                 onRefreshDogs={loadInitialData}
+              />
+            )}
+
+            {currentTab === "ai_review" && (
+              <AIDogReviewView
+                onDogApproved={() => {
+                  loadInitialData();
+                }}
+                onSelectDog={(dog) => setSelectedDog(dog)}
               />
             )}
 

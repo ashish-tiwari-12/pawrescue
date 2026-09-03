@@ -11,6 +11,9 @@ import {
 import { authenticateJWT, optionalAuth, requireRole, AuthRequest } from "../middleware/auth.js";
 import { uploadImages, processUploadedImages } from "../middleware/upload.js";
 
+import { broadcastEvent } from "../sockets/index.js";
+import { analyzeDogImageWithAI } from "../services/aiDogProfilingService.js";
+
 const router = Router();
 
 // Generate unique Dog ID (e.g. DOG-0482)
@@ -19,7 +22,7 @@ function generateDogId(): string {
   return `DOG-${randomNum}`;
 }
 
-// 1. List / Search Community Dogs (MODULE 1 & MODULE 7)
+// 1. List / Search Community Dogs (Filters out unreviewed drafts for public registry)
 router.get("/", async (req: Request, res: Response) => {
   try {
     const {
@@ -30,11 +33,20 @@ router.get("/", async (req: Request, res: Response) => {
       vaccinationStatus,
       sterilizationStatus,
       adoptionStatus,
+      reviewStatus,
+      includePending,
       page = 1,
       limit = 24
     } = req.query;
 
     const query: any = {};
+
+    // Only show approved profiles publicly unless explicitly requested by NGO dashboard
+    if (reviewStatus) {
+      query.reviewStatus = reviewStatus;
+    } else if (includePending !== "true") {
+      query.reviewStatus = { $ne: "Pending NGO Review", $nin: ["Pending NGO Review", "Rejected"] };
+    }
 
     if (search) {
       const q = String(search).trim();
@@ -72,6 +84,87 @@ router.get("/", async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error("List dogs error:", error);
     return res.status(500).json({ error: "Failed to fetch dogs registry." });
+  }
+});
+
+// 1B. Get AI-Generated Draft Dog Profiles Awaiting NGO Review
+router.get("/pending-review", authenticateJWT, async (req: AuthRequest, res: Response) => {
+  try {
+    const drafts = await DogProfileModel.find({ reviewStatus: "Pending NGO Review" })
+      .sort({ createdAt: -1 })
+      .limit(50);
+
+    return res.json({
+      drafts: drafts.map((d) => d.toJSON()),
+      count: drafts.length
+    });
+  } catch (error: any) {
+    console.error("Fetch pending review drafts error:", error);
+    return res.status(500).json({ error: "Failed to fetch drafts for review." });
+  }
+});
+
+// 1C. Review Action for AI Draft Dog Profile (Approve / Edit / Reject)
+router.post("/:id/review", authenticateJWT, requireRole(["ngo_admin", "volunteer"]), async (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { action, name, breed, colorPattern, estimatedAge, gender, currentArea, vaccinationStatus, sterilizationStatus } = req.body;
+
+    const dog = await DogProfileModel.findById(id);
+    if (!dog) {
+      return res.status(404).json({ error: "Dog profile not found." });
+    }
+
+    if (action === "reject") {
+      dog.reviewStatus = "Rejected";
+      await dog.save();
+      const dogJson = dog.toJSON();
+      broadcastEvent("dog:rejected", { dog: dogJson });
+      return res.json({ message: `Dog Profile #${dog.dogId} rejected.`, dog: dogJson });
+    }
+
+    // Action: Approve or Edit & Approve
+    dog.reviewStatus = "Approved";
+    if (name) dog.name = name;
+    if (breed) dog.breed = breed;
+    if (colorPattern) dog.colorPattern = colorPattern;
+    if (estimatedAge) dog.estimatedAge = estimatedAge;
+    if (gender) dog.gender = gender;
+    if (currentArea) dog.currentArea = currentArea;
+    if (vaccinationStatus) dog.vaccinationStatus = vaccinationStatus;
+    if (sterilizationStatus) dog.sterilizationStatus = sterilizationStatus;
+    dog.registeredByNgoId = req.user?.ngoId || dog.registeredByNgoId;
+    dog.registeredByNgoName = req.user?.name || dog.registeredByNgoName;
+
+    await dog.save();
+    const dogJson = dog.toJSON();
+
+    broadcastEvent("dog:approved", { dog: dogJson });
+    broadcastEvent("dog:created", { dog: dogJson });
+
+    return res.json({
+      message: `Dog Profile #${dog.dogId} successfully approved and published to the Community Registry!`,
+      dog: dogJson
+    });
+  } catch (error: any) {
+    console.error("Review action error:", error);
+    return res.status(500).json({ error: "Failed to process dog review action." });
+  }
+});
+
+// 1D. Direct AI Image Feature Analysis
+router.post("/analyze-image", optionalAuth, async (req: Request, res: Response) => {
+  try {
+    const { imageUrl, title, description, category } = req.body;
+    if (!imageUrl) {
+      return res.status(400).json({ error: "Image URL is required for AI analysis." });
+    }
+
+    const aiResult = await analyzeDogImageWithAI(imageUrl, { title, description, category });
+    return res.json({ analysis: aiResult });
+  } catch (error: any) {
+    console.error("Image analysis error:", error);
+    return res.status(500).json({ error: "Image analysis failed." });
   }
 });
 

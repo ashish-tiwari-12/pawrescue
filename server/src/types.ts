@@ -233,6 +233,29 @@ export interface RescueHistoryItem {
   ngoName: string;
 }
 
+export type DogReviewStatus = "Pending NGO Review" | "Approved" | "Rejected";
+
+export interface AIDogMetadata {
+  breedPrediction: {
+    breed: string;
+    confidence: number;
+  };
+  colorPrediction: {
+    primaryColor: string;
+    secondaryColor?: string;
+    pattern: string;
+    confidence: number;
+  };
+  agePrediction: {
+    ageGroup: "Puppy" | "Young Adult" | "Adult" | "Senior";
+    confidence: number;
+  };
+  overallConfidence: number;
+  matchedTrackingId?: string;
+  matchedComplaintId?: string;
+  analyzedAt?: string;
+}
+
 export interface DogProfile {
   id: string;
   dogId: string; // e.g. "DOG-0023", "DOG-IND-8912"
@@ -245,6 +268,8 @@ export interface DogProfile {
   vaccinationStatus: VaccinationStatus;
   sterilizationStatus: SterilizationStatus;
   adoptionStatus: AdoptionStatus;
+  reviewStatus?: DogReviewStatus;
+  aiMetadata?: AIDogMetadata;
   currentArea: string;
   city: string;
   pincode: string;

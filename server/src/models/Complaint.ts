@@ -42,6 +42,7 @@ export interface IComplaintDocument extends Document {
   volunteerPhone?: string;
   distanceKm?: number;
   autoAssigned?: boolean;
+  matchedDogId?: string;
   timeline: TimelineEvent[];
   notes: ComplaintNote[];
   resolutionNotes?: string;
@@ -145,6 +146,7 @@ const ComplaintSchema = new Schema<IComplaintDocument>(
     volunteerPhone: { type: String },
     distanceKm: { type: Number },
     autoAssigned: { type: Boolean, default: false },
+    matchedDogId: { type: String, index: true },
     timeline: [TimelineEventSchema],
     notes: [ComplaintNoteSchema],
     resolutionNotes: { type: String },

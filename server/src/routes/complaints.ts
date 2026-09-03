@@ -18,6 +18,7 @@ import {
   TimelineEvent
 } from "../types.js";
 import { broadcastEvent } from "../sockets/index.js";
+import { processResolvedComplaintForDogProfile } from "../services/aiDogProfilingService.js";
 
 const router = Router();
 
@@ -402,6 +403,13 @@ router.patch("/:id/status", authenticateJWT, async (req: AuthRequest, res: Respo
       complaint.resolvedAt = new Date();
       complaint.resolutionNotes =
         resolutionNotes || note || "Rescue and veterinary care completed.";
+
+      // FEATURE: AI-powered Dog Profile Generation from Resolved Complaint
+      processResolvedComplaintForDogProfile(complaint._id.toString())
+        .then((aiResult) => {
+          console.log(`🐕 [AI PROFILER] Auto-profile generated for #${complaint.trackingId}:`, aiResult.message);
+        })
+        .catch((err) => console.error("Auto dog profile error:", err));
     }
 
     await complaint.save();

@@ -380,6 +380,40 @@ export const api = {
     return res.data;
   },
 
+  // AI Dog Profile Review & Vision Analysis
+  async getPendingDogReviews(): Promise<{ drafts: DogProfile[]; count: number }> {
+    const res = await apiInstance.get("/dogs/pending-review");
+    return res.data;
+  },
+
+  async reviewDogProfile(
+    id: string,
+    actionData: {
+      action: "approve" | "reject" | "edit";
+      name?: string;
+      breed?: string;
+      colorPattern?: string;
+      estimatedAge?: string;
+      gender?: "Male" | "Female" | "Unknown";
+      currentArea?: string;
+      vaccinationStatus?: string;
+      sterilizationStatus?: string;
+    }
+  ): Promise<{ dog: DogProfile; message: string }> {
+    const res = await apiInstance.post(`/dogs/${id}/review`, actionData);
+    return res.data;
+  },
+
+  async analyzeDogImage(data: {
+    imageUrl: string;
+    title?: string;
+    description?: string;
+    category?: string;
+  }): Promise<{ analysis: any }> {
+    const res = await apiInstance.post("/dogs/analyze-image", data);
+    return res.data;
+  },
+
   // Government & Municipal Analytics (Phase 3)
   async getGovernmentAnalytics(): Promise<any> {
     const res = await apiInstance.get("/gov-analytics/summary");

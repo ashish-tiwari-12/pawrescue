@@ -39,6 +39,7 @@ import { AnalyticsView } from "./components/ngo/AnalyticsView";
 import { NGODispatchMap } from "./components/maps/NGODispatchMap";
 import { NGOSettingsModal } from "./components/ngo/NGOSettingsModal";
 import { NGODogRegistry } from "./components/ngo/NGODogRegistry";
+import { AIDogReviewView } from "./components/ngo/AIDogReviewView";
 import { GovernmentAnalyticsView } from "./components/ngo/GovernmentAnalyticsView";
 import { NGOProfile } from "./components/ngo/NGOProfile";
 
@@ -418,6 +419,16 @@ export default function App() {
                 volunteers={volunteers}
                 onOpenComplaintModal={(c) => setInspectComplaint(c)}
                 onRefreshComplaints={loadAllData}
+              />
+            )}
+
+            {ngoView === "ai_review" && (
+              <AIDogReviewView
+                onDogApproved={(dog) => {
+                  loadAllData();
+                  showToast("✓ Profile Approved", `#${dog.dogId} is published to the Community Registry.`);
+                }}
+                onSelectDog={(dog) => setSelectedDog(dog)}
               />
             )}
 

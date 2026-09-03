@@ -6,7 +6,9 @@ import {
   VaccinationRecord,
   SterilizationRecord,
   MedicalRecord,
-  RescueHistoryItem
+  RescueHistoryItem,
+  DogReviewStatus,
+  AIDogMetadata
 } from "../types.js";
 
 export interface IDogProfileDocument extends Document {
@@ -20,6 +22,8 @@ export interface IDogProfileDocument extends Document {
   vaccinationStatus: VaccinationStatus;
   sterilizationStatus: SterilizationStatus;
   adoptionStatus: AdoptionStatus;
+  reviewStatus?: DogReviewStatus;
+  aiMetadata?: AIDogMetadata;
   currentArea: string;
   city: string;
   pincode: string;
@@ -156,6 +160,32 @@ const DogProfileSchema = new Schema<IDogProfileDocument>(
       ],
       default: "Community Dog (Free Roaming)",
       index: true
+    },
+    reviewStatus: {
+      type: String,
+      enum: ["Pending NGO Review", "Approved", "Rejected"],
+      default: "Approved",
+      index: true
+    },
+    aiMetadata: {
+      breedPrediction: {
+        breed: { type: String },
+        confidence: { type: Number }
+      },
+      colorPrediction: {
+        primaryColor: { type: String },
+        secondaryColor: { type: String },
+        pattern: { type: String },
+        confidence: { type: Number }
+      },
+      agePrediction: {
+        ageGroup: { type: String, enum: ["Puppy", "Young Adult", "Adult", "Senior"] },
+        confidence: { type: Number }
+      },
+      overallConfidence: { type: Number },
+      matchedTrackingId: { type: String },
+      matchedComplaintId: { type: String },
+      analyzedAt: { type: String }
     },
     currentArea: { type: String, required: true, index: true },
     city: { type: String, required: true, index: true, default: "Noida" },

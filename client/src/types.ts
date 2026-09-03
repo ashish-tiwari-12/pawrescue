@@ -1,7 +1,7 @@
 export type UserRole = "citizen" | "ngo_admin" | "volunteer";
 export type PortalType = "citizen" | "ngo";
 export type CitizenView = "home" | "report" | "track" | "my_reports" | "community_dogs" | "profile";
-export type NGOView = "overview" | "complaints" | "maps" | "dogs" | "volunteers" | "analytics" | "gov_analytics" | "profile" | "settings";
+export type NGOView = "overview" | "complaints" | "maps" | "dogs" | "ai_review" | "volunteers" | "analytics" | "gov_analytics" | "profile" | "settings";
 
 export interface User {
   id: string;
@@ -235,6 +235,29 @@ export interface RescueHistoryItem {
   ngoName: string;
 }
 
+export type DogReviewStatus = "Pending NGO Review" | "Approved" | "Rejected";
+
+export interface AIDogMetadata {
+  breedPrediction: {
+    breed: string;
+    confidence: number;
+  };
+  colorPrediction: {
+    primaryColor: string;
+    secondaryColor?: string;
+    pattern: string;
+    confidence: number;
+  };
+  agePrediction: {
+    ageGroup: "Puppy" | "Young Adult" | "Adult" | "Senior";
+    confidence: number;
+  };
+  overallConfidence: number;
+  matchedTrackingId?: string;
+  matchedComplaintId?: string;
+  analyzedAt?: string;
+}
+
 export interface DogProfile {
   id: string;
   dogId: string; // e.g. "DOG-0023", "DOG-IND-8912"
@@ -247,6 +270,8 @@ export interface DogProfile {
   vaccinationStatus: VaccinationStatus;
   sterilizationStatus: SterilizationStatus;
   adoptionStatus: AdoptionStatus;
+  reviewStatus?: DogReviewStatus;
+  aiMetadata?: AIDogMetadata;
   currentArea: string;
   city: string;
   pincode: string;
