@@ -9,68 +9,39 @@ interface Props {
   initialEmergency?: boolean;
 }
 
-const CATEGORIES: {
+// 4 Quick Primary Problem Cards
+const QUICK_ISSUES: {
   category: ComplaintCategory;
-  icon: string;
+  emoji: string;
   title: string;
-  desc: string;
+  badge: string;
   isUrgent?: boolean;
 }[] = [
   {
     category: "Emergency Rescue",
-    icon: "emergency",
-    title: "Emergency Rescue",
-    desc: "Hit & run, deep bleeding, trapped, unconscious dog",
+    emoji: "🚨",
+    title: "Critical Accident / Severe Bleeding",
+    badge: "Urgent Ambulance",
     isUrgent: true
   },
   {
     category: "Injured Dog",
-    icon: "healing",
-    title: "Injured Stray Dog",
-    desc: "Fracture, limping, bite wounds, physical trauma"
-  },
-  {
-    category: "Sick Dog",
-    icon: "medical_services",
-    title: "Sick / Infected Dog",
-    desc: "Severe mange, high fever, vomiting, viral symptoms"
+    emoji: "🩹",
+    title: "Injured / Limping / Bone Fracture",
+    badge: "Medical Aid"
   },
   {
     category: "Abandoned Puppy",
-    icon: "pets",
-    title: "Abandoned Puppies",
-    desc: "Litter found without mother, vulnerable puppies"
+    emoji: "🐶",
+    title: "Motherless / Abandoned Puppies",
+    badge: "Puppy Foster"
   },
   {
-    category: "Aggressive Dog",
-    icon: "warning",
-    title: "Aggressive / Biting Dog",
-    desc: "Rabies suspicion, aggressive behavior, territorial"
-  },
-  {
-    category: "Sterilization Request",
-    icon: "content_cut",
-    title: "Animal Birth Control (ABC)",
-    desc: "Request sterilization & spaying for community dogs"
-  },
-  {
-    category: "Vaccination Request",
-    icon: "vaccines",
-    title: "Anti-Rabies Vaccination",
-    desc: "Request vaccination drive for local strays"
+    category: "Sick Dog",
+    emoji: "🩺",
+    title: "Skin Disease / Severe Infection / Weak",
+    badge: "Treatment"
   }
-];
-
-const DOG_CONDITION_TAGS = [
-  "Bleeding / Open Wound",
-  "Limping / Cannot Walk",
-  "Severe Skin Mange (Hair loss)",
-  "Shivering / Hypothermic",
-  "Newborn Puppies (No Mother)",
-  "Aggressive / Snarls",
-  "Maggot Infestation",
-  "Dehydrated / Starving",
-  "Trapped in Drain / Gate"
 ];
 
 export const ReportIssuePage: React.FC<Props> = ({
@@ -82,33 +53,30 @@ export const ReportIssuePage: React.FC<Props> = ({
   const [selectedCategory, setSelectedCategory] = useState<ComplaintCategory>(
     initialEmergency ? "Emergency Rescue" : "Injured Dog"
   );
-  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
-  const [description, setDescription] = useState("");
-  
-  // Location & Address States
-  const [detectedArea, setDetectedArea] = useState("");
-  const [spotDetails, setSpotDetails] = useState("");
-  const [address, setAddress] = useState("");
-  const [landmark, setLandmark] = useState("");
-  const [city, setCity] = useState("Mumbai");
-  const [pincode, setPincode] = useState("400053");
-  const [showManualLocation, setShowManualLocation] = useState(false);
-
-  const [contactNumber, setContactNumber] = useState(user?.phone || "");
-  const [citizenName, setCitizenName] = useState(user?.name || "");
   const [isEmergency, setIsEmergency] = useState(initialEmergency);
 
-  // GPS coordinates
+  // Spot / Landmark & Location
+  const [detectedArea, setDetectedArea] = useState("");
+  const [spotAddress, setSpotAddress] = useState("");
+  const [city, setCity] = useState("Mumbai");
+  const [pincode, setPincode] = useState("400053");
+
+  // Optional Extra Note
+  const [extraDetails, setExtraDetails] = useState("");
+  const [showExtraDetails, setShowExtraDetails] = useState(false);
+
+  // Contact
+  const [contactNumber, setContactNumber] = useState(user?.phone || "");
+  const [citizenName, setCitizenName] = useState(user?.name || "");
+
+  // GPS Coordinates
   const [latitude, setLatitude] = useState<number | null>(null);
   const [longitude, setLongitude] = useState<number | null>(null);
   const [gpsLoading, setGpsLoading] = useState(false);
-  const [gpsSuccess, setGpsSuccess] = useState(false);
 
   // Images state
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-  const [previewUrls, setPreviewUrls] = useState<string[]>([
-    "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800&auto=format&fit=crop&q=80"
-  ]);
+  const [previewUrls, setPreviewUrls] = useState<string[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -118,7 +86,6 @@ export const ReportIssuePage: React.FC<Props> = ({
     handleFetchLocation();
   }, []);
 
-  // Reverse Geocoding with OpenStreetMap Nominatim
   const reverseGeocode = async (lat: number, lon: number) => {
     try {
       const response = await fetch(
@@ -134,27 +101,21 @@ export const ReportIssuePage: React.FC<Props> = ({
         const detectedCity = addr.city || addr.town || addr.municipality || addr.district || "Mumbai";
         const detectedPincode = addr.postcode || "400053";
 
-        const areaName = [road, neighborhood, detectedCity].filter(Boolean).join(", ");
-        setDetectedArea(areaName || data.display_name.split(",").slice(0, 3).join(","));
+        const areaName = [road, neighborhood].filter(Boolean).join(", ");
+        setDetectedArea(areaName || data.display_name.split(",").slice(0, 2).join(","));
         setCity(detectedCity);
         setPincode(detectedPincode);
-        if (!address) {
-          setAddress(areaName);
-        }
       }
     } catch (err) {
-      console.warn("Reverse geocode lookup warning:", err);
+      console.warn("Reverse geocode warning:", err);
     }
   };
 
   const handleFetchLocation = () => {
     if (!navigator.geolocation) {
-      // Fallback coordinates
       setLatitude(19.1197);
       setLongitude(72.8468);
-      setDetectedArea("Near SV Road, Andheri West, Mumbai");
-      setAddress("Near SV Road, Andheri West");
-      setGpsSuccess(true);
+      setDetectedArea("Near Andheri West");
       return;
     }
 
@@ -166,31 +127,16 @@ export const ReportIssuePage: React.FC<Props> = ({
         setLatitude(lat);
         setLongitude(lon);
         setGpsLoading(false);
-        setGpsSuccess(true);
-
-        // Fetch exact neighborhood & street name
         await reverseGeocode(lat, lon);
       },
-      (err) => {
-        console.warn("GPS lookup error:", err);
+      () => {
         setGpsLoading(false);
-        // Fallback default coordinates (Mumbai)
         setLatitude(19.1197);
         setLongitude(72.8468);
-        setDetectedArea("SV Road, Andheri West, Mumbai");
-        setAddress("Near SV Road, Andheri West");
-        setGpsSuccess(true);
+        setDetectedArea("Near Andheri West, Mumbai");
       },
       { enableHighAccuracy: true, timeout: 8000 }
     );
-  };
-
-  const handleToggleCondition = (tag: string) => {
-    if (selectedConditions.includes(tag)) {
-      setSelectedConditions(selectedConditions.filter((c) => c !== tag));
-    } else {
-      setSelectedConditions([...selectedConditions, tag]);
-    }
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,30 +158,30 @@ export const ReportIssuePage: React.FC<Props> = ({
     e.preventDefault();
     setError(null);
 
-    // Combine spot details with detected area for full rescue address
-    const fullAddress = spotDetails
-      ? `${spotDetails}, ${detectedArea || address}`
-      : (detectedArea || address);
+    const fullLocation = spotAddress
+      ? `${spotAddress}, ${detectedArea || "Local Area"}, ${city}`
+      : `${detectedArea || "Local Area"}, ${city}`;
 
-    if (!description || !fullAddress || !contactNumber) {
-      setError("Please provide a description, location/address, and your contact phone number.");
+    if (!contactNumber) {
+      setError("Please enter a valid phone number so rescue volunteers can reach you.");
       return;
     }
 
     setLoading(true);
 
     try {
+      const defaultDesc = `${selectedCategory} reported at ${fullLocation}. ${extraDetails}`.trim();
+
       const formData = new FormData();
       formData.append("category", selectedCategory);
-      formData.append("description", description);
-      formData.append("address", fullAddress);
-      formData.append("landmark", landmark);
+      formData.append("description", defaultDesc);
+      formData.append("address", fullLocation);
+      formData.append("landmark", spotAddress);
       formData.append("city", city);
       formData.append("pincode", pincode);
       formData.append("contactNumber", contactNumber);
-      formData.append("citizenName", citizenName || "Concerned Citizen");
-      formData.append("isEmergency", String(isEmergency));
-      formData.append("dogCondition", JSON.stringify(selectedConditions));
+      formData.append("citizenName", citizenName || user?.name || "Concerned Citizen");
+      formData.append("isEmergency", String(isEmergency || selectedCategory === "Emergency Rescue"));
 
       if (latitude && longitude) {
         formData.append("latitude", String(latitude));
@@ -247,90 +193,89 @@ export const ReportIssuePage: React.FC<Props> = ({
         formData.append("images", file);
       });
 
-      // Pass existing image URLs if no file was uploaded
-      if (selectedFiles.length === 0 && previewUrls.length > 0) {
-        formData.append("imageUrls", JSON.stringify(previewUrls));
+      // Default sample image if none taken
+      if (selectedFiles.length === 0) {
+        formData.append(
+          "imageUrls",
+          JSON.stringify([
+            "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800&auto=format&fit=crop&q=80"
+          ])
+        );
       }
 
       const res = await api.createComplaint(formData);
       onSuccess(res.complaint);
     } catch (err: any) {
-      setError(
-        err.response?.data?.error || "Failed to submit complaint. Please check your internet connection."
-      );
+      setError(err.response?.data?.error || "Failed to submit rescue report.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8ff] py-8 sm:py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
-        {/* Header Title */}
-        <div className="text-center space-y-2">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-bold uppercase tracking-wider">
-            <span className="material-symbols-outlined !text-sm">health_and_safety</span>
-            <span>Citizen Stray Animal Rescue Form</span>
+    <div className="min-h-screen bg-[#faf8ff] py-6 sm:py-10">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 space-y-6">
+        {/* Quick Header */}
+        <div className="text-center space-y-1">
+          <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-orange-100 text-orange-800 rounded-full text-[11px] font-bold">
+            <span>⚡ 60-Second Quick Rescue Alert</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Report a Stray Dog in Distress
+          <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
+            Report a Dog in Need
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
-            Your sighting report will be instantly dispatched to verified local NGOs and nearby ambulance volunteers.
+          <p className="text-xs text-slate-500">
+            Tell us what happened and where. We'll alert nearby animal rescue NGOs immediately.
           </p>
         </div>
 
         {error && (
-          <div className="p-4 bg-red-50 text-red-700 text-xs rounded-2xl border border-red-200 flex items-start gap-2 shadow-sm animate-shake">
-            <span className="material-symbols-outlined !text-base shrink-0 text-red-600">
-              error
-            </span>
+          <div className="p-3 bg-red-50 text-red-700 text-xs rounded-2xl border border-red-200 flex items-center gap-2 animate-shake">
+            <span className="material-symbols-outlined !text-base text-red-600">error</span>
             <span>{error}</span>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Section 1: Category Selection */}
-          <div className="bg-white p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
-            <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* STEP 1: What is the issue? (4 Big Cards) */}
+          <div className="bg-white p-5 sm:p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-3">
+            <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+              <span className="w-5 h-5 rounded-full bg-orange-500 text-white text-[11px] flex items-center justify-center font-bold">
                 1
               </span>
-              Select Complaint Category
-            </h2>
+              What is the situation?
+            </label>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {CATEGORIES.map((cat) => {
-                const isSelected = selectedCategory === cat.category;
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              {QUICK_ISSUES.map((issue) => {
+                const isSelected = selectedCategory === issue.category;
                 return (
                   <div
-                    key={cat.category}
+                    key={issue.category}
                     onClick={() => {
-                      setSelectedCategory(cat.category);
-                      if (cat.isUrgent) setIsEmergency(true);
+                      setSelectedCategory(issue.category);
+                      if (issue.isUrgent) setIsEmergency(true);
                     }}
-                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                    className={`p-3.5 rounded-2xl border-2 cursor-pointer transition-all flex items-center justify-between ${
                       isSelected
-                        ? "border-orange-500 bg-orange-50/40 shadow-sm"
-                        : "border-slate-100 hover:border-slate-200 bg-slate-50/50"
+                        ? "border-orange-500 bg-orange-50/50 shadow-sm"
+                        : "border-slate-100 hover:border-slate-200 bg-slate-50/40"
                     }`}
                   >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center ${
-                          isSelected
-                            ? "bg-orange-500 text-white"
-                            : "bg-slate-200 text-slate-700"
-                        }`}
-                      >
-                        <span className="material-symbols-outlined !text-xl">{cat.icon}</span>
-                      </div>
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-2xl">{issue.emoji}</span>
                       <div>
-                        <h3 className="font-bold text-xs text-slate-900">{cat.title}</h3>
-                        <p className="text-[10px] text-slate-500 line-clamp-2 mt-0.5">
-                          {cat.desc}
-                        </p>
+                        <h3 className="font-bold text-xs text-slate-900">{issue.title}</h3>
+                        <span className="text-[10px] text-orange-700 font-semibold bg-orange-100/60 px-1.5 py-0.2 rounded">
+                          {issue.badge}
+                        </span>
                       </div>
+                    </div>
+                    <div
+                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                        isSelected ? "border-orange-500 bg-orange-500 text-white" : "border-slate-300"
+                      }`}
+                    >
+                      {isSelected && <span className="material-symbols-outlined !text-xs font-bold">check</span>}
                     </div>
                   </div>
                 );
@@ -338,323 +283,171 @@ export const ReportIssuePage: React.FC<Props> = ({
             </div>
           </div>
 
-          {/* Section 2: Dog Condition Symptom Tags */}
-          <div className="bg-white p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
-            <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
+          {/* STEP 2: Where is the dog? (Auto-Detected GPS + 1 Simple Spot Input) */}
+          <div className="bg-white p-5 sm:p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-3.5">
+            <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+              <span className="w-5 h-5 rounded-full bg-orange-500 text-white text-[11px] flex items-center justify-center font-bold">
                 2
               </span>
-              Observed Symptoms & Condition (Tap to select)
-            </h2>
+              Where is the dog?
+            </label>
 
-            <div className="flex flex-wrap gap-2">
-              {DOG_CONDITION_TAGS.map((tag) => {
-                const isSelected = selectedConditions.includes(tag);
-                return (
-                  <button
-                    key={tag}
-                    type="button"
-                    onClick={() => handleToggleCondition(tag)}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
-                      isSelected
-                        ? "bg-orange-500 text-white border-orange-500 shadow-sm"
-                        : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
-                    }`}
-                  >
-                    {tag}
-                  </button>
-                );
-              })}
+            {/* Auto-detected GPS banner */}
+            <div className="p-3 bg-emerald-50/90 border border-emerald-200 rounded-2xl flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 min-w-0">
+                <span className="material-symbols-outlined text-emerald-600 !text-xl shrink-0">
+                  location_on
+                </span>
+                <div className="min-w-0">
+                  <span className="text-[10px] font-bold uppercase text-emerald-800 block">
+                    Auto-Detected Area
+                  </span>
+                  <p className="text-xs font-extrabold text-slate-900 truncate">
+                    {detectedArea || "Detecting your location..."} ({city} - {pincode})
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleFetchLocation}
+                disabled={gpsLoading}
+                className="px-2.5 py-1 bg-white border border-emerald-300 text-emerald-800 rounded-xl text-[11px] font-bold shrink-0 hover:bg-slate-50 transition-colors flex items-center gap-1 shadow-sm"
+              >
+                <span className={`material-symbols-outlined !text-sm text-emerald-600 ${gpsLoading ? "animate-spin" : ""}`}>
+                  {gpsLoading ? "sync" : "my_location"}
+                </span>
+                <span>{gpsLoading ? "..." : "Re-detect"}</span>
+              </button>
             </div>
 
+            {/* One Simple Spot Input */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Detailed Incident Description *
+                Exact Spot / Shop / Landmark (e.g. Near Chai Tapri, Metro Pillar #42) *
               </label>
-              <textarea
-                required
-                rows={3}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="Describe what happened, dog's color/breed, current posture, danger level..."
-                className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-              />
-            </div>
-          </div>
-
-          {/* Section 3: Photo Upload */}
-          <div className="bg-white p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
-                  3
-                </span>
-                Photo Evidence
-              </h2>
-              <span className="text-xs text-slate-400">Up to 5 images</span>
-            </div>
-
-            {/* Drag and Drop Zone */}
-            <div className="border-2 border-dashed border-slate-200 hover:border-orange-400 rounded-2xl p-6 text-center transition-colors bg-slate-50/50">
               <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-                id="photo-upload-input"
+                type="text"
+                required
+                value={spotAddress}
+                onChange={(e) => setSpotAddress(e.target.value)}
+                placeholder="e.g. Outside Gate 2 of Royal Towers, Behind Bus Stop"
+                className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-slate-50"
               />
-              <label
-                htmlFor="photo-upload-input"
-                className="cursor-pointer flex flex-col items-center justify-center gap-2"
-              >
-                <div className="w-12 h-12 rounded-2xl bg-orange-100 text-orange-600 flex items-center justify-center">
-                  <span className="material-symbols-outlined !text-2xl">add_photo_alternate</span>
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-800">
-                    Click to upload photos or drag & drop
-                  </p>
-                  <p className="text-[11px] text-slate-500 mt-0.5">
-                    Clear photos help veterinary triage teams dispatch the right medicines
-                  </p>
-                </div>
-              </label>
             </div>
-
-            {/* Photo Previews */}
-            {previewUrls.length > 0 && (
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                {previewUrls.map((url, idx) => (
-                  <div
-                    key={idx}
-                    className="relative aspect-video rounded-xl overflow-hidden border border-slate-200 group shadow-sm"
-                  >
-                    <img src={url} alt="Dog preview" className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveImage(idx)}
-                      className="absolute top-1.5 right-1.5 w-6 h-6 rounded-full bg-red-600 text-white flex items-center justify-center opacity-90 hover:opacity-100 transition-opacity"
-                    >
-                      <span className="material-symbols-outlined !text-sm">close</span>
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
           </div>
 
-          {/* Section 4: Blinkit-Style Auto Location & Spot Address */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl card-elevation-1 border border-slate-100 space-y-5">
-            <div className="flex items-center justify-between">
-              <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
-                  4
-                </span>
-                Incident Location & Spot Details
-              </h2>
-              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100/70 px-2.5 py-1 rounded-full flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>GPS Auto-Locator Active</span>
+          {/* STEP 3: Photo & Quick Contact */}
+          <div className="bg-white p-5 sm:p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
+            <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+              <span className="w-5 h-5 rounded-full bg-orange-500 text-white text-[11px] flex items-center justify-center font-bold">
+                3
               </span>
-            </div>
+              Photo & Your Contact Phone
+            </label>
 
-            {/* Blinkit-Style Auto Detected Location Card */}
-            <div className="p-4 sm:p-5 bg-gradient-to-br from-emerald-50/80 via-emerald-50/40 to-slate-50 border-2 border-emerald-200/90 rounded-2xl space-y-3 shadow-sm">
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex items-start gap-3">
-                  <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/20">
-                    <span className="material-symbols-outlined !text-2xl">location_on</span>
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block">
-                      📍 Auto-Detected Area
-                    </span>
-                    <h3 className="text-sm font-extrabold text-slate-900 mt-0.5">
-                      {detectedArea || address || "Detecting your current location..."}
-                    </h3>
-                    <p className="text-xs text-slate-500 font-mono mt-0.5">
-                      {city} ({pincode}) {latitude && longitude ? `• GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}` : ""}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleFetchLocation}
-                  disabled={gpsLoading}
-                  className="px-3 py-1.5 bg-white hover:bg-slate-50 border border-emerald-300 text-emerald-800 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1 shrink-0"
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Photo Button */}
+              <div>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={handleFileChange}
+                  className="hidden"
+                  id="simple-photo-input"
+                />
+                <label
+                  htmlFor="simple-photo-input"
+                  className="w-full h-11 border-2 border-dashed border-orange-300 hover:bg-orange-50/50 rounded-2xl flex items-center justify-center gap-2 text-xs font-bold text-orange-700 cursor-pointer transition-colors"
                 >
-                  <span className={`material-symbols-outlined !text-base text-emerald-600 ${gpsLoading ? "animate-spin" : ""}`}>
-                    {gpsLoading ? "sync" : "my_location"}
-                  </span>
-                  <span>{gpsLoading ? "Locating..." : "Re-detect GPS"}</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Spot & Landmark Inputs (Just like Blinkit asks for Flat / Shop / Landmark) */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
-              <div className="sm:col-span-2">
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Exact Spot / Shop / Building / Street Details *
+                  <span className="material-symbols-outlined !text-lg">photo_camera</span>
+                  <span>{selectedFiles.length > 0 ? `+ Add More (${selectedFiles.length})` : "Attach Dog Photo"}</span>
                 </label>
-                <input
-                  type="text"
-                  required
-                  value={spotDetails}
-                  onChange={(e) => setSpotDetails(e.target.value)}
-                  placeholder="e.g. Near Metro Pillar #48, Behind Chai Tapri, Outside Gate 2"
-                  className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-white"
-                />
-                <p className="text-[11px] text-slate-400 mt-1">
-                  Helps ambulance drivers locate the injured dog quickly upon arrival.
-                </p>
               </div>
 
+              {/* Contact Phone Number */}
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Prominent Landmark (Optional)
-                </label>
-                <input
-                  type="text"
-                  value={landmark}
-                  onChange={(e) => setLandmark(e.target.value)}
-                  placeholder="e.g. Opposite HDFC Bank ATM / D-Mart"
-                  className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-                />
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs font-semibold text-slate-700">
-                    City & Pincode
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setShowManualLocation(!showManualLocation)}
-                    className="text-[11px] text-orange-600 font-semibold hover:underline"
-                  >
-                    {showManualLocation ? "Hide Manual Edit" : "Edit Manually"}
-                  </button>
-                </div>
-                <div className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 font-medium">
-                  {city} - {pincode}
-                </div>
-              </div>
-            </div>
-
-            {/* Manual Location Override (if needed) */}
-            {showManualLocation && (
-              <div className="grid grid-cols-2 gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 animate-fadeIn">
-                <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                    City
-                  </label>
-                  <input
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white"
-                  />
-                </div>
-                <div>
-                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
-                    Pincode
-                  </label>
-                  <input
-                    type="text"
-                    value={pincode}
-                    onChange={(e) => setPincode(e.target.value)}
-                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Section 5: Citizen Contact Info & Emergency Switch */}
-          <div className="bg-white p-6 sm:p-8 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
-            <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
-              <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
-                5
-              </span>
-              Reporter Contact & Priority
-            </h2>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Your Full Name
-                </label>
-                <input
-                  type="text"
-                  value={citizenName}
-                  onChange={(e) => setCitizenName(e.target.value)}
-                  placeholder="e.g. Aarav Mehta"
-                  className="w-full px-3.5 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Your Phone Number (For Rescue Team Call) *
-                </label>
                 <input
                   type="tel"
                   required
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  placeholder="+91 98200 XXXXX"
-                  className="w-full px-3.5 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  placeholder="Your phone number (+91...)"
+                  className="w-full h-11 px-3.5 text-xs border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-slate-50 font-medium"
                 />
               </div>
             </div>
 
-            {/* Emergency Priority Toggle */}
-            <div className="p-4 bg-orange-50/70 border border-orange-200 rounded-2xl flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-md shadow-orange-500/20">
-                  <span className="material-symbols-outlined">emergency</span>
-                </div>
-                <div>
-                  <h4 className="font-extrabold text-xs text-orange-950">
-                    Mark as Immediate Life-Threatening Emergency
-                  </h4>
-                  <p className="text-[11px] text-orange-800/80">
-                    Triggers high-priority siren notifications to ambulance drivers.
-                  </p>
-                </div>
+            {/* Photo Previews */}
+            {previewUrls.length > 0 && (
+              <div className="flex gap-2 overflow-x-auto pt-1 pb-1">
+                {previewUrls.map((url, idx) => (
+                  <div key={idx} className="relative w-16 h-16 rounded-xl overflow-hidden border border-slate-200 shrink-0">
+                    <img src={url} alt="" className="w-full h-full object-cover" />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(idx)}
+                      className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-600 text-white rounded-full flex items-center justify-center text-[10px]"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
               </div>
-              <input
-                type="checkbox"
-                checked={isEmergency}
-                onChange={(e) => setIsEmergency(e.target.checked)}
-                className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500 cursor-pointer"
-              />
+            )}
+
+            {/* Optional Extra Notes Toggle */}
+            <div className="pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setShowExtraDetails(!showExtraDetails)}
+                className="text-[11px] text-slate-500 hover:text-slate-800 font-semibold flex items-center gap-1"
+              >
+                <span>{showExtraDetails ? "− Hide Extra Details" : "+ Add Extra Incident Details (Optional)"}</span>
+              </button>
+
+              {showExtraDetails && (
+                <div className="mt-2 space-y-2 animate-fadeIn">
+                  <textarea
+                    rows={2}
+                    value={extraDetails}
+                    onChange={(e) => setExtraDetails(e.target.value)}
+                    placeholder="Dog color/size, visible symptoms, or special instructions..."
+                    className="w-full p-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 bg-slate-50"
+                  />
+                  <input
+                    type="text"
+                    value={citizenName}
+                    onChange={(e) => setCitizenName(e.target.value)}
+                    placeholder="Your Name (Optional)"
+                    className="w-full p-2 text-xs border border-slate-200 rounded-xl bg-slate-50"
+                  />
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Form Submit Actions */}
-          <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-2">
+          {/* Submit Action */}
+          <div className="flex items-center gap-3 pt-2">
             <button
               type="button"
               onClick={onCancel}
-              className="w-full sm:w-auto px-6 py-3 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors"
+              className="px-5 py-3.5 border border-slate-200 hover:bg-slate-100 rounded-2xl text-xs font-bold text-slate-600 transition-colors"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="w-full sm:w-auto px-8 py-3.5 bg-[#f97316] hover:bg-orange-600 text-white rounded-xl text-xs font-bold shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+              className="flex-1 py-4 bg-gradient-to-r from-orange-600 to-[#f97316] hover:from-orange-700 hover:to-orange-600 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-xl shadow-orange-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
             >
               {loading ? (
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <span className="material-symbols-outlined !text-lg">send</span>
-                  <span>Submit Complaint & Alert NGOs</span>
+                  <span className="material-symbols-outlined !text-xl">emergency</span>
+                  <span>🚨 Alert Nearby NGOs & Dispatch Help</span>
                 </>
               )}
             </button>
