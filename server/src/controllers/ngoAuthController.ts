@@ -408,8 +408,15 @@ export const updateProfile = async (req: NGOAuthRequest, res: Response) => {
  */
 export const demoLogin = async (req: Request, res: Response) => {
   try {
-    let demoUser = await UserModel.findOne({ role: "ngo_admin" });
-    let ngo = await NGOModel.findOne();
+    const { ngoId } = req.body;
+    let ngo = null;
+
+    if (ngoId) {
+      ngo = await NGOModel.findById(ngoId);
+    }
+    if (!ngo) {
+      ngo = await NGOModel.findOne();
+    }
 
     if (!ngo) {
       ngo = await NGOModel.create({
@@ -434,16 +441,19 @@ export const demoLogin = async (req: Request, res: Response) => {
       });
     }
 
+    const currentNgoId = (ngo as any)._id?.toString() || (ngo as any).id;
+    let demoUser = await UserModel.findOne({ ngoId: currentNgoId });
+
     if (!demoUser) {
       const salt = await bcrypt.genSalt(10);
       const hashedPassword = await bcrypt.hash("demo123", salt);
       demoUser = await UserModel.create({
-        name: "Dr. Ananya Sharma (Triage Officer)",
-        email: "ananya.sharma@vsa-rescue.org",
-        phone: "+91 98112 34567",
+        name: `Triage Officer (${ngo.name.split(" ")[0]})`,
+        email: ngo.email,
+        phone: ngo.phone,
         password: hashedPassword,
         role: "ngo_admin",
-        ngoId: ngo.id || ngo._id.toString(),
+        ngoId: currentNgoId,
         isVerified: true
       });
     }
@@ -451,7 +461,7 @@ export const demoLogin = async (req: Request, res: Response) => {
     const token = generateToken(demoUser);
 
     return res.json({
-      message: "Logged in as Demo NGO Administrator",
+      message: `Logged in as Demo Admin for ${ngo.name}`,
       token,
       user: demoUser.toJSON(),
       ngo

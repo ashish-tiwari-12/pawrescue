@@ -48,6 +48,104 @@ export interface NGORegisterPayload {
   servicesOffered?: string[];
 }
 
+export const SEEDED_DEMO_NGOS: NGO[] = [
+  {
+    id: "ngo-1",
+    name: "Voice for Stray Animals (VSA)",
+    registrationNumber: "DL-AWBI-2018-9482",
+    email: "vsa.rescue@pawconnect.in",
+    phone: "+91 98112 34567",
+    address: "Plot 14, Institutional Area, Sector 32, Gurugram",
+    city: "Gurugram",
+    state: "Haryana",
+    location: { type: "Point", coordinates: [77.0422, 28.4595] },
+    pincodesCovered: ["122001", "122002", "122003"],
+    coverageRadiusKm: 20,
+    servicesOffered: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination"],
+    workingHours: "24/7 Emergency Dispatch",
+    emergency24x7: true,
+    activeVolunteersCount: 14,
+    totalRescued: 342,
+    verified: true
+  },
+  {
+    id: "ngo-2",
+    name: "Friendicoes SECA",
+    registrationNumber: "DL-AWBI-1979-1002",
+    email: "friendicoes@pawconnect.in",
+    phone: "+91 98710 12345",
+    address: "271 & 272, Flyover Market, Defence Colony",
+    city: "New Delhi",
+    state: "Delhi",
+    location: { type: "Point", coordinates: [77.2345, 28.5729] },
+    pincodesCovered: ["110024", "110049", "110003"],
+    coverageRadiusKm: 25,
+    servicesOffered: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination"],
+    workingHours: "24/7",
+    emergency24x7: true,
+    activeVolunteersCount: 22,
+    totalRescued: 820,
+    verified: true
+  },
+  {
+    id: "ngo-3",
+    name: "Sanjay Gandhi Animal Care Centre (SGACC)",
+    registrationNumber: "DL-AWBI-1983-0541",
+    email: "sgacc.delhi@pawconnect.in",
+    phone: "+91 98100 98765",
+    address: "Near Shivaji College, Raja Garden",
+    city: "New Delhi",
+    state: "Delhi",
+    location: { type: "Point", coordinates: [77.1216, 28.6542] },
+    pincodesCovered: ["110015", "110027", "110026"],
+    coverageRadiusKm: 30,
+    servicesOffered: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination"],
+    workingHours: "24/7",
+    emergency24x7: true,
+    activeVolunteersCount: 30,
+    totalRescued: 1450,
+    verified: true
+  },
+  {
+    id: "ngo-4",
+    name: "People For Animals (PFA) Delhi NCR",
+    registrationNumber: "DL-AWBI-1992-0045",
+    email: "pfa.delhi@pawconnect.in",
+    phone: "+91 98111 22334",
+    address: "14 Ashoka Road, Connaught Place",
+    city: "New Delhi",
+    state: "Delhi",
+    location: { type: "Point", coordinates: [77.2144, 28.6253] },
+    pincodesCovered: ["110001", "110002", "110005"],
+    coverageRadiusKm: 20,
+    servicesOffered: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination"],
+    workingHours: "24/7",
+    emergency24x7: true,
+    activeVolunteersCount: 18,
+    totalRescued: 620,
+    verified: true
+  },
+  {
+    id: "ngo-5",
+    name: "House of Stray Animals (HSA)",
+    registrationNumber: "UP-AWBI-2015-3819",
+    email: "hsa.noida@pawconnect.in",
+    phone: "+91 98180 55443",
+    address: "Sector 55, Near Block B Park",
+    city: "Noida",
+    state: "Uttar Pradesh",
+    location: { type: "Point", coordinates: [77.3621, 28.6012] },
+    pincodesCovered: ["201301", "201307", "201308"],
+    coverageRadiusKm: 15,
+    servicesOffered: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination"],
+    workingHours: "24/7",
+    emergency24x7: true,
+    activeVolunteersCount: 12,
+    totalRescued: 410,
+    verified: true
+  }
+];
+
 export const ngoAuthService = {
   /**
    * NGO Login
@@ -61,7 +159,6 @@ export const ngoAuthService = {
       }
       return res.data;
     } catch (err: any) {
-      // Fallback to unified auth if dedicated is unavailable
       const fallback = await apiClient.post("/auth/login", credentials);
       if (fallback.data.token) {
         localStorage.setItem("pawconnect_token", fallback.data.token);
@@ -112,11 +209,11 @@ export const ngoAuthService = {
   },
 
   /**
-   * Demo 1-Click NGO Login
+   * Demo 1-Click NGO Login with optional ngoId selection
    */
-  async demoLogin(): Promise<NGOAuthResponse> {
+  async demoLogin(ngoId?: string): Promise<NGOAuthResponse> {
     try {
-      const res = await apiClient.post("/ngo/auth/demo-login");
+      const res = await apiClient.post("/ngo/auth/demo-login", { ngoId });
       if (res.data.token) {
         localStorage.setItem("pawconnect_token", res.data.token);
         localStorage.setItem("pawconnect_user", JSON.stringify(res.data.user));
@@ -124,54 +221,36 @@ export const ngoAuthService = {
       return res.data;
     } catch (err) {
       try {
-        const fallback = await apiClient.post("/auth/demo-login", { role: "ngo_admin" });
+        const fallback = await apiClient.post("/auth/demo-login", { role: "ngo_admin", ngoId });
         if (fallback.data.token) {
           localStorage.setItem("pawconnect_token", fallback.data.token);
           localStorage.setItem("pawconnect_user", JSON.stringify(fallback.data.user));
         }
         return fallback.data;
       } catch (e) {
-        // Guaranteed Instant Demo Session (Even if Backend API is offline)
-        const mockNGO: NGO = {
-          id: "ngo-vsa-demo",
-          name: "Voice for Stray Animals (VSA)",
-          registrationNumber: "DL-AWBI-2018-9482",
-          email: "vsa.rescue@pawconnect.in",
-          phone: "+91 98112 34567",
-          address: "Plot 14, Institutional Area, Sector 32, Gurugram",
-          city: "Gurugram",
-          state: "Haryana",
-          location: { type: "Point", coordinates: [77.0422, 28.4595] },
-          pincodesCovered: ["122001", "122002", "122003"],
-          coverageRadiusKm: 20,
-          servicesOffered: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination"],
-          workingHours: "24/7",
-          emergency24x7: true,
-          activeVolunteersCount: 14,
-          totalRescued: 342,
-          verified: true
-        };
+        // Find matching preset NGO or default to first
+        const selectedNGO = SEEDED_DEMO_NGOS.find((n) => n.id === ngoId) || SEEDED_DEMO_NGOS[0];
 
         const mockUser: User = {
-          id: "user-demo-admin",
-          name: "Dr. Ananya Sharma (Triage Officer)",
-          email: "ananya.sharma@vsa-rescue.org",
-          phone: "+91 98112 34567",
+          id: `user-demo-${selectedNGO.id}`,
+          name: `Triage Officer (${selectedNGO.name.split(" ")[0]})`,
+          email: selectedNGO.email,
+          phone: selectedNGO.phone,
           role: "ngo_admin",
-          ngoId: mockNGO.id,
+          ngoId: selectedNGO.id,
           isVerified: true,
           createdAt: new Date().toISOString()
         };
 
-        const mockToken = "demo_jwt_token_ngo_admin_" + Date.now();
+        const mockToken = "demo_jwt_token_ngo_admin_" + selectedNGO.id + "_" + Date.now();
         localStorage.setItem("pawconnect_token", mockToken);
         localStorage.setItem("pawconnect_user", JSON.stringify(mockUser));
 
         return {
-          message: "Signed in as Demo NGO Administrator",
+          message: `Signed in as Demo Administrator for ${selectedNGO.name}`,
           token: mockToken,
           user: mockUser,
-          ngo: mockNGO
+          ngo: selectedNGO
         };
       }
     }

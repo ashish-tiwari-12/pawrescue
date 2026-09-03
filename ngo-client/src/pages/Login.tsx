@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNgoAuth } from "../context/NgoAuthContext";
+import { SEEDED_DEMO_NGOS } from "../services/ngoAuthService";
 
 interface LoginProps {
   onNavigateRegister?: () => void;
@@ -15,8 +16,11 @@ export const Login: React.FC<LoginProps> = ({
   const { login, demoLogin, isLoading } = useNgoAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [selectedDemoNgoId, setSelectedDemoNgoId] = useState<string>(SEEDED_DEMO_NGOS[0].id);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+
+  const selectedNgoObj = SEEDED_DEMO_NGOS.find((n) => n.id === selectedDemoNgoId) || SEEDED_DEMO_NGOS[0];
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,7 +50,7 @@ export const Login: React.FC<LoginProps> = ({
     setError(null);
     setSubmitting(true);
     try {
-      await demoLogin();
+      await demoLogin(selectedDemoNgoId);
       if (onSuccess) onSuccess();
     } catch (err: any) {
       setError(err.response?.data?.error || "Demo login failed.");
@@ -153,16 +157,50 @@ export const Login: React.FC<LoginProps> = ({
             </button>
           </form>
 
-          {/* Quick Demo Login */}
-          <div className="pt-2 border-t border-slate-800">
+          {/* Quick Demo NGO Selection Dropdown */}
+          <div className="pt-4 border-t border-slate-800 space-y-2.5">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                <span className="material-symbols-outlined !text-sm text-emerald-400">tune</span>
+                <span>Demo NGO Testing Selector</span>
+              </span>
+              <span className="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800/80 px-2 py-0.5 rounded-full font-bold">
+                5 Shelters Available
+              </span>
+            </div>
+
+            <div className="relative">
+              <span className="material-symbols-outlined absolute left-3 top-2.5 !text-lg text-emerald-400 pointer-events-none">
+                domain
+              </span>
+              <select
+                value={selectedDemoNgoId}
+                onChange={(e) => setSelectedDemoNgoId(e.target.value)}
+                className="w-full pl-10 pr-8 py-2.5 bg-slate-950/90 border border-slate-800 hover:border-slate-700 rounded-xl text-xs font-semibold text-slate-200 focus:outline-none focus:border-emerald-500 appearance-none transition-colors cursor-pointer"
+              >
+                {SEEDED_DEMO_NGOS.map((ngo) => (
+                  <option key={ngo.id} value={ngo.id} className="bg-slate-900 text-slate-100 py-1">
+                    {ngo.name} • {ngo.city} ({ngo.coverageRadiusKm} KM Zone)
+                  </option>
+                ))}
+              </select>
+              <span className="material-symbols-outlined absolute right-3 top-2.5 !text-base text-slate-500 pointer-events-none">
+                expand_more
+              </span>
+            </div>
+
             <button
               type="button"
               onClick={handleDemoLogin}
               disabled={submitting}
-              className="w-full py-2.5 bg-slate-800/80 hover:bg-slate-700/80 text-emerald-400 border border-emerald-500/30 font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all"
+              className="w-full py-2.5 bg-gradient-to-r from-emerald-600/20 to-teal-500/20 hover:from-emerald-600/30 hover:to-teal-500/30 text-emerald-300 border border-emerald-500/40 font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition-all shadow-sm group"
             >
-              <span className="material-symbols-outlined !text-base">bolt</span>
-              <span>1-Click Demo NGO Admin Sign In</span>
+              <span className="material-symbols-outlined !text-base text-emerald-400 group-hover:scale-110 transition-transform">
+                bolt
+              </span>
+              <span>
+                1-Click Sign In as {selectedNgoObj?.name.split(" ")[0] || "Demo"} Admin
+              </span>
             </button>
           </div>
 

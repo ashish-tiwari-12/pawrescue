@@ -13,7 +13,7 @@ interface NgoAuthContextType {
   verifyEmail: (email: string, otp: string) => Promise<NGOAuthResponse>;
   forgotPassword: (email: string) => Promise<{ message: string; email: string }>;
   resetPassword: (data: { email: string; otp: string; newPassword: string }) => Promise<NGOAuthResponse>;
-  demoLogin: () => Promise<NGOAuthResponse>;
+  demoLogin: (ngoId?: string) => Promise<NGOAuthResponse>;
   logout: () => void;
   updateNgoProfile: (settings: Partial<NGO>) => Promise<{ message: string; ngo: NGO }>;
   refreshProfile: () => Promise<void>;
@@ -100,10 +100,10 @@ export const NgoAuthProvider: React.FC<{ children: ReactNode }> = ({ children })
     return res;
   };
 
-  const demoLogin = async () => {
+  const demoLogin = async (ngoId?: string) => {
     setIsLoading(true);
     try {
-      const res = await ngoAuthService.demoLogin();
+      const res = await ngoAuthService.demoLogin(ngoId);
       if (res.token) setToken(res.token);
       if (res.user) setUser(res.user);
       if (res.ngo) setNgo(res.ngo);

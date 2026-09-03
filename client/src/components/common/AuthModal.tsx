@@ -590,10 +590,35 @@ export const AuthModal: React.FC<Props> = ({
 
           {/* 1-Click Demo Accounts (Only on Login screen) */}
           {mode === "login" && (
-            <div className="pt-4 border-t border-slate-100">
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2 text-center">
-                1-Click Instant Demo Access
-              </span>
+            <div className="pt-4 border-t border-slate-100 space-y-2.5">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
+                  <span className="material-symbols-outlined !text-sm text-emerald-600">tune</span>
+                  <span>Demo Access / Testing</span>
+                </span>
+                <span className="text-[10px] bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                  Choose Shelter
+                </span>
+              </div>
+
+              {/* Demo NGO Dropdown */}
+              <div className="relative">
+                <select
+                  value={ngoId}
+                  onChange={(e) => setNgoId(e.target.value)}
+                  className="w-full pl-3 pr-8 py-2 bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl text-xs font-semibold text-slate-800 focus:outline-none focus:border-emerald-500 appearance-none cursor-pointer"
+                >
+                  <option value="ngo-1">Voice for Stray Animals (VSA) • Gurugram (20 KM)</option>
+                  <option value="ngo-2">Friendicoes SECA • South Delhi (25 KM)</option>
+                  <option value="ngo-3">Sanjay Gandhi Animal Centre (SGACC) • West Delhi (30 KM)</option>
+                  <option value="ngo-4">People For Animals (PFA) • Central Delhi (20 KM)</option>
+                  <option value="ngo-5">House of Stray Animals (HSA) • Noida (15 KM)</option>
+                </select>
+                <span className="material-symbols-outlined absolute right-2.5 top-2.5 !text-sm text-slate-400 pointer-events-none">
+                  expand_more
+                </span>
+              </div>
+
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
@@ -607,9 +632,10 @@ export const AuthModal: React.FC<Props> = ({
                   type="button"
                   onClick={() => handleDemoLogin("ngo_admin")}
                   disabled={loading}
-                  className="p-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl text-[11px] font-bold text-emerald-900 transition-colors flex items-center justify-center gap-1.5"
+                  className="p-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[11px] font-bold shadow-sm transition-colors flex items-center justify-center gap-1.5"
                 >
-                  <span>🏥 Demo NGO Admin</span>
+                  <span className="material-symbols-outlined !text-sm">bolt</span>
+                  <span>Sign In as NGO Admin</span>
                 </button>
               </div>
             </div>
