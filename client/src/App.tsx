@@ -39,6 +39,7 @@ import { NGODispatchMap } from "./components/maps/NGODispatchMap";
 import { NGOSettingsModal } from "./components/ngo/NGOSettingsModal";
 import { NGODogRegistry } from "./components/ngo/NGODogRegistry";
 import { GovernmentAnalyticsView } from "./components/ngo/GovernmentAnalyticsView";
+import { NGOProfile } from "./components/ngo/NGOProfile";
 
 // Dog Modals
 import { DogProfileModal } from "./components/dogs/DogProfileModal";
@@ -421,6 +422,16 @@ export default function App() {
               <AnalyticsView
                 analytics={analytics}
                 complaints={complaints}
+              />
+            )}
+
+            {ngoView === "profile" && (
+              <NGOProfile
+                user={user}
+                ngo={currentNgo}
+                complaints={complaints}
+                onUpdateNGO={(updated) => setCurrentNgo(updated)}
+                onSelectComplaint={(c) => setInspectComplaint(c)}
               />
             )}
           </div>

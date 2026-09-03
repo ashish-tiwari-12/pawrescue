@@ -225,6 +225,17 @@ export const TopNav: React.FC<Props> = ({
                   >
                     Volunteers
                   </button>
+                  <button
+                    onClick={() => onNavigateNGO("profile")}
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                      ngoView === "profile"
+                        ? "text-[#006c49] bg-emerald-50 font-bold"
+                        : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
+                    }`}
+                  >
+                    <span className="material-symbols-outlined !text-base text-emerald-600">domain</span>
+                    <span>NGO Profile</span>
+                  </button>
                 </>
               )}
             </nav>

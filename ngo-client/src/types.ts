@@ -1,7 +1,7 @@
 export type UserRole = "citizen" | "ngo_admin" | "volunteer";
 export type PortalType = "citizen" | "ngo";
 export type CitizenView = "landing" | "report" | "track" | "dashboard" | "profile" | "community_dogs";
-export type NGOView = "overview" | "complaints" | "maps" | "dogs" | "volunteers" | "analytics" | "gov_analytics" | "settings";
+export type NGOView = "overview" | "complaints" | "maps" | "dogs" | "volunteers" | "analytics" | "gov_analytics" | "profile" | "settings";
 
 export interface User {
   id: string;

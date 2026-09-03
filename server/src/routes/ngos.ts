@@ -72,6 +72,10 @@ router.put(
     try {
       const { id } = req.params;
       const {
+        name,
+        phone,
+        email,
+        pincodesCovered,
         servicesOffered,
         coverageRadiusKm,
         workingHours,
@@ -86,6 +90,10 @@ router.put(
         return res.status(404).json({ error: "NGO shelter not found." });
       }
 
+      if (name) ngo.name = name;
+      if (phone) ngo.phone = phone;
+      if (email) ngo.email = email;
+      if (pincodesCovered && Array.isArray(pincodesCovered)) ngo.pincodesCovered = pincodesCovered;
       if (servicesOffered && Array.isArray(servicesOffered)) {
         ngo.servicesOffered = servicesOffered;
       }
@@ -111,7 +119,7 @@ router.put(
       await ngo.save();
 
       return res.json({
-        message: "NGO settings and coverage zone updated successfully!",
+        message: "NGO profile & settings updated successfully!",
         ngo: ngo.toJSON()
       });
     } catch (error: any) {

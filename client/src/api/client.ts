@@ -210,6 +210,10 @@ export const api = {
   async updateNGOSettings(
     id: string,
     settings: {
+      name?: string;
+      phone?: string;
+      email?: string;
+      pincodesCovered?: string[];
       coverageRadiusKm?: number;
       servicesOffered?: string[];
       workingHours?: string;

@@ -25,6 +25,7 @@ import { NGODispatchMap } from "./components/maps/NGODispatchMap";
 import { DogProfileModal } from "./components/dogs/DogProfileModal";
 import { NotificationDrawer } from "./components/common/NotificationDrawer";
 import { AuthModal } from "./components/common/AuthModal";
+import { NGOProfile } from "./components/ngo/NGOProfile";
 
 export const App: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -216,12 +217,15 @@ export const App: React.FC = () => {
           {/* User Account / Auth */}
           {currentUser ? (
             <div className="flex items-center gap-2 pl-2 border-l border-slate-800">
-              <div className="hidden sm:block text-right">
+              <button
+                onClick={() => setCurrentTab("profile")}
+                className="hidden sm:block text-right hover:opacity-80 transition-opacity"
+              >
                 <span className="text-xs font-bold text-white block">{currentUser.name}</span>
-                <span className="text-[10px] text-slate-400 uppercase font-mono">
-                  {currentUser.role === "ngo_admin" ? "Triage Officer" : "Field Rescuer"}
+                <span className="text-[10px] text-emerald-400 uppercase font-mono">
+                  {currentUser.role === "ngo_admin" ? "Triage Officer" : "Field Rescuer"} • Profile
                 </span>
-              </div>
+              </button>
               <button
                 onClick={handleLogout}
                 className="p-2 rounded-xl bg-slate-800 hover:bg-red-900/40 text-slate-300 hover:text-red-300 transition-colors"
@@ -250,7 +254,8 @@ export const App: React.FC = () => {
           { id: "dogs" as NGOView, icon: "pets", label: `National Dog Registry (${dogs.length})` },
           { id: "volunteers" as NGOView, icon: "group", label: `Volunteers (${volunteers.length})` },
           { id: "analytics" as NGOView, icon: "analytics", label: "Rescue Analytics" },
-          { id: "gov_analytics" as NGOView, icon: "bar_chart", label: "Municipal ARV/ABC Heatmap" }
+          { id: "gov_analytics" as NGOView, icon: "bar_chart", label: "Municipal ARV/ABC Heatmap" },
+          { id: "profile" as NGOView, icon: "domain", label: "NGO Profile" }
         ].map((tab) => {
           const isActive = currentTab === tab.id;
           return (
@@ -334,6 +339,16 @@ export const App: React.FC = () => {
             )}
 
             {currentTab === "gov_analytics" && <GovernmentAnalyticsView />}
+
+            {currentTab === "profile" && (
+              <NGOProfile
+                user={currentUser}
+                ngo={activeNgo}
+                complaints={complaints}
+                onUpdateNGO={(updatedNgo) => setActiveNgo(updatedNgo)}
+                onSelectComplaint={(complaint) => setSelectedComplaint(complaint)}
+              />
+            )}
           </>
         )}
       </main>
