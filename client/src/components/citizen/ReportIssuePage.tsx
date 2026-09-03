@@ -1,94 +1,99 @@
 import React, { useState, useEffect } from "react";
+import { ComplaintCategory, User } from "../../types";
 import { api } from "../../api/client";
-import { User, ComplaintCategory, Complaint } from "../../types";
 
 interface Props {
   user: User | null;
-  initialEmergency?: boolean;
-  onSuccess: (complaint: Complaint) => void;
+  onSuccess: (complaint: any) => void;
   onCancel: () => void;
+  initialEmergency?: boolean;
 }
 
 const CATEGORIES: {
   category: ComplaintCategory;
   icon: string;
+  title: string;
   desc: string;
-  color: string;
-  isEmergency?: boolean;
+  isUrgent?: boolean;
 }[] = [
   {
     category: "Emergency Rescue",
     icon: "emergency",
-    desc: "Critical accident, hit-and-run, trapped, or unconscious",
-    color: "border-red-400 bg-red-50/50 text-red-700",
-    isEmergency: true
+    title: "Emergency Rescue",
+    desc: "Hit & run, deep bleeding, trapped, unconscious dog",
+    isUrgent: true
   },
   {
     category: "Injured Dog",
     icon: "healing",
-    desc: "Visible fractures, deep wounds, bleeding, or limping",
-    color: "border-orange-400 bg-orange-50/50 text-orange-700"
+    title: "Injured Stray Dog",
+    desc: "Fracture, limping, bite wounds, physical trauma"
   },
   {
     category: "Sick Dog",
-    icon: "sick",
-    desc: "Severe mange, high fever, vomiting, or maggot wounds",
-    color: "border-amber-400 bg-amber-50/50 text-amber-700"
+    icon: "medical_services",
+    title: "Sick / Infected Dog",
+    desc: "Severe mange, high fever, vomiting, viral symptoms"
   },
   {
     category: "Abandoned Puppy",
     icon: "pets",
-    desc: "Motherless litter, newborn pups needing shelter & feeding",
-    color: "border-purple-400 bg-purple-50/50 text-purple-700"
+    title: "Abandoned Puppies",
+    desc: "Litter found without mother, vulnerable puppies"
   },
   {
     category: "Aggressive Dog",
     icon: "warning",
-    desc: "Biting tendency, rabies symptoms, or public threat",
-    color: "border-yellow-400 bg-yellow-50/50 text-yellow-800"
+    title: "Aggressive / Biting Dog",
+    desc: "Rabies suspicion, aggressive behavior, territorial"
   },
   {
     category: "Sterilization Request",
-    icon: "medical_services",
-    desc: "Animal Birth Control (ABC) drive for community dogs",
-    color: "border-blue-400 bg-blue-50/50 text-blue-700"
+    icon: "content_cut",
+    title: "Animal Birth Control (ABC)",
+    desc: "Request sterilization & spaying for community dogs"
   },
   {
     category: "Vaccination Request",
     icon: "vaccines",
-    desc: "Anti-rabies and 9-in-1 community vaccination",
-    color: "border-emerald-400 bg-emerald-50/50 text-emerald-700"
+    title: "Anti-Rabies Vaccination",
+    desc: "Request vaccination drive for local strays"
   }
 ];
 
-const CONDITION_TAGS = [
+const DOG_CONDITION_TAGS = [
   "Bleeding / Open Wound",
-  "Limping / Broken Bone",
-  "Severe Skin Mange",
-  "Maggots Infestation",
-  "Hypothermic / Shivering",
-  "Newborn Puppies",
-  "Aggressive / Snapping",
-  "Unconscious / Lethargic",
-  "Eye Injury",
-  "Friendly / Docile"
+  "Limping / Cannot Walk",
+  "Severe Skin Mange (Hair loss)",
+  "Shivering / Hypothermic",
+  "Newborn Puppies (No Mother)",
+  "Aggressive / Snarls",
+  "Maggot Infestation",
+  "Dehydrated / Starving",
+  "Trapped in Drain / Gate"
 ];
 
 export const ReportIssuePage: React.FC<Props> = ({
   user,
-  initialEmergency = false,
   onSuccess,
-  onCancel
+  onCancel,
+  initialEmergency = false
 }) => {
   const [selectedCategory, setSelectedCategory] = useState<ComplaintCategory>(
     initialEmergency ? "Emergency Rescue" : "Injured Dog"
   );
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
   const [description, setDescription] = useState("");
+  
+  // Location & Address States
+  const [detectedArea, setDetectedArea] = useState("");
+  const [spotDetails, setSpotDetails] = useState("");
   const [address, setAddress] = useState("");
   const [landmark, setLandmark] = useState("");
   const [city, setCity] = useState("Mumbai");
   const [pincode, setPincode] = useState("400053");
+  const [showManualLocation, setShowManualLocation] = useState(false);
+
   const [contactNumber, setContactNumber] = useState(user?.phone || "");
   const [citizenName, setCitizenName] = useState(user?.name || "");
   const [isEmergency, setIsEmergency] = useState(initialEmergency);
@@ -108,32 +113,75 @@ export const ReportIssuePage: React.FC<Props> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Auto-fetch GPS on load if emergency
+  // Auto-fetch GPS on load
   useEffect(() => {
     handleFetchLocation();
   }, []);
 
+  // Reverse Geocoding with OpenStreetMap Nominatim
+  const reverseGeocode = async (lat: number, lon: number) => {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&addressdetails=1`
+      );
+      if (!response.ok) return;
+      const data = await response.json();
+
+      if (data && data.address) {
+        const addr = data.address;
+        const road = addr.road || addr.street || addr.pedestrian || "";
+        const neighborhood = addr.neighbourhood || addr.suburb || addr.residential || "";
+        const detectedCity = addr.city || addr.town || addr.municipality || addr.district || "Mumbai";
+        const detectedPincode = addr.postcode || "400053";
+
+        const areaName = [road, neighborhood, detectedCity].filter(Boolean).join(", ");
+        setDetectedArea(areaName || data.display_name.split(",").slice(0, 3).join(","));
+        setCity(detectedCity);
+        setPincode(detectedPincode);
+        if (!address) {
+          setAddress(areaName);
+        }
+      }
+    } catch (err) {
+      console.warn("Reverse geocode lookup warning:", err);
+    }
+  };
+
   const handleFetchLocation = () => {
-    if (!navigator.geolocation) return;
+    if (!navigator.geolocation) {
+      // Fallback coordinates
+      setLatitude(19.1197);
+      setLongitude(72.8468);
+      setDetectedArea("Near SV Road, Andheri West, Mumbai");
+      setAddress("Near SV Road, Andheri West");
+      setGpsSuccess(true);
+      return;
+    }
+
     setGpsLoading(true);
     navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setLatitude(pos.coords.latitude);
-        setLongitude(pos.coords.longitude);
+      async (pos) => {
+        const lat = pos.coords.latitude;
+        const lon = pos.coords.longitude;
+        setLatitude(lat);
+        setLongitude(lon);
         setGpsLoading(false);
         setGpsSuccess(true);
-        if (!address) {
-          setAddress("Near Current Location, Four Bungalows, Andheri West");
-          setLandmark("Near Metro Station Gate 2");
-        }
+
+        // Fetch exact neighborhood & street name
+        await reverseGeocode(lat, lon);
       },
       (err) => {
-        console.warn("GPS error:", err);
+        console.warn("GPS lookup error:", err);
         setGpsLoading(false);
         // Fallback default coordinates (Mumbai)
         setLatitude(19.1197);
         setLongitude(72.8468);
-      }
+        setDetectedArea("SV Road, Andheri West, Mumbai");
+        setAddress("Near SV Road, Andheri West");
+        setGpsSuccess(true);
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
     );
   };
 
@@ -164,8 +212,13 @@ export const ReportIssuePage: React.FC<Props> = ({
     e.preventDefault();
     setError(null);
 
-    if (!description || !address || !contactNumber) {
-      setError("Please provide a description, address, and contact phone number.");
+    // Combine spot details with detected area for full rescue address
+    const fullAddress = spotDetails
+      ? `${spotDetails}, ${detectedArea || address}`
+      : (detectedArea || address);
+
+    if (!description || !fullAddress || !contactNumber) {
+      setError("Please provide a description, location/address, and your contact phone number.");
       return;
     }
 
@@ -175,7 +228,7 @@ export const ReportIssuePage: React.FC<Props> = ({
       const formData = new FormData();
       formData.append("category", selectedCategory);
       formData.append("description", description);
-      formData.append("address", address);
+      formData.append("address", fullAddress);
       formData.append("landmark", landmark);
       formData.append("city", city);
       formData.append("pincode", pincode);
@@ -202,118 +255,110 @@ export const ReportIssuePage: React.FC<Props> = ({
       const res = await api.createComplaint(formData);
       onSuccess(res.complaint);
     } catch (err: any) {
-      setError(err.response?.data?.error || "Failed to submit complaint. Please check your details.");
+      setError(
+        err.response?.data?.error || "Failed to submit complaint. Please check your internet connection."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#faf8ff] py-10">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        {/* Top Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <span className="text-xs font-bold text-orange-600 uppercase tracking-widest bg-orange-100/70 px-3 py-1 rounded-full">
-              Citizen Reporting Portal
-            </span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
-              Report Stray Dog Issue
-            </h1>
-            <p className="text-xs sm:text-sm text-slate-500 mt-1">
-              Provide incident details, photos, and location. Nearby rescue ambulances will be dispatched.
-            </p>
+    <div className="min-h-screen bg-[#faf8ff] py-8 sm:py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+        {/* Header Title */}
+        <div className="text-center space-y-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-bold uppercase tracking-wider">
+            <span className="material-symbols-outlined !text-sm">health_and_safety</span>
+            <span>Citizen Stray Animal Rescue Form</span>
           </div>
-          <button
-            onClick={onCancel}
-            className="text-xs font-semibold text-slate-500 hover:text-slate-800 bg-white border border-slate-200 px-3.5 py-2 rounded-xl shadow-sm hover:bg-slate-50 transition-colors"
-          >
-            Cancel
-          </button>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Report a Stray Dog in Distress
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 max-w-xl mx-auto">
+            Your sighting report will be instantly dispatched to verified local NGOs and nearby ambulance volunteers.
+          </p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-2xl text-red-700 text-xs flex items-center gap-2">
-            <span className="material-symbols-outlined !text-lg">error</span>
+          <div className="p-4 bg-red-50 text-red-700 text-xs rounded-2xl border border-red-200 flex items-start gap-2 shadow-sm animate-shake">
+            <span className="material-symbols-outlined !text-base shrink-0 text-red-600">
+              error
+            </span>
             <span>{error}</span>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-8">
-          {/* Section 1: Complaint Type Selection */}
-          <div className="bg-white p-6 rounded-2xl card-elevation-1 border border-slate-100 space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="font-bold text-slate-900 text-sm flex items-center gap-2">
-                <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
-                  1
-                </span>
-                Select Issue Category
-              </h2>
-              <span className="text-xs text-orange-600 font-semibold">Required</span>
-            </div>
+          {/* Section 1: Category Selection */}
+          <div className="bg-white p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
+            <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
+              <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
+                1
+              </span>
+              Select Complaint Category
+            </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {CATEGORIES.map((cat) => {
                 const isSelected = selectedCategory === cat.category;
                 return (
-                  <button
+                  <div
                     key={cat.category}
-                    type="button"
                     onClick={() => {
                       setSelectedCategory(cat.category);
-                      if (cat.isEmergency) setIsEmergency(true);
+                      if (cat.isUrgent) setIsEmergency(true);
                     }}
-                    className={`p-4 rounded-xl border text-left transition-all ${
+                    className={`p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                       isSelected
-                        ? "border-[#f97316] ring-2 ring-orange-500/20 bg-orange-50/60 shadow-sm"
-                        : "border-slate-200 hover:border-slate-300 hover:bg-slate-50/50 bg-white"
+                        ? "border-orange-500 bg-orange-50/40 shadow-sm"
+                        : "border-slate-100 hover:border-slate-200 bg-slate-50/50"
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-3">
                       <div
-                        className={`w-9 h-9 rounded-xl flex items-center justify-center ${cat.color}`}
+                        className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                          isSelected
+                            ? "bg-orange-500 text-white"
+                            : "bg-slate-200 text-slate-700"
+                        }`}
                       >
-                        <span className="material-symbols-outlined !text-xl">
-                          {cat.icon}
-                        </span>
+                        <span className="material-symbols-outlined !text-xl">{cat.icon}</span>
                       </div>
-                      {cat.isEmergency && (
-                        <span className="text-[10px] bg-red-100 text-red-700 font-bold px-1.5 py-0.5 rounded uppercase">
-                          CRITICAL
-                        </span>
-                      )}
+                      <div>
+                        <h3 className="font-bold text-xs text-slate-900">{cat.title}</h3>
+                        <p className="text-[10px] text-slate-500 line-clamp-2 mt-0.5">
+                          {cat.desc}
+                        </p>
+                      </div>
                     </div>
-                    <h3 className="font-bold text-xs text-slate-800">{cat.category}</h3>
-                    <p className="text-[11px] text-slate-500 mt-1 leading-snug">
-                      {cat.desc}
-                    </p>
-                  </button>
+                  </div>
                 );
               })}
             </div>
           </div>
 
-          {/* Section 2: Dog Condition & Observations */}
-          <div className="bg-white p-6 rounded-2xl card-elevation-1 border border-slate-100 space-y-4">
-            <h2 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+          {/* Section 2: Dog Condition Symptom Tags */}
+          <div className="bg-white p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
+            <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
                 2
               </span>
-              Visible Dog Symptoms / Condition
+              Observed Symptoms & Condition (Tap to select)
             </h2>
 
             <div className="flex flex-wrap gap-2">
-              {CONDITION_TAGS.map((tag) => {
-                const active = selectedConditions.includes(tag);
+              {DOG_CONDITION_TAGS.map((tag) => {
+                const isSelected = selectedConditions.includes(tag);
                 return (
                   <button
                     key={tag}
                     type="button"
                     onClick={() => handleToggleCondition(tag)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-all border ${
-                      active
-                        ? "bg-[#f97316] text-white border-[#f97316] shadow-sm"
-                        : "bg-slate-50 text-slate-700 border-slate-200 hover:border-slate-300"
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all ${
+                      isSelected
+                        ? "bg-orange-500 text-white border-orange-500 shadow-sm"
+                        : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
                     }`}
                   >
                     {tag}
@@ -323,30 +368,30 @@ export const ReportIssuePage: React.FC<Props> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                Detailed Description & Situation Notes *
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                Detailed Incident Description *
               </label>
               <textarea
                 required
                 rows={3}
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                placeholder="Describe the dog's appearance (color, collar, indie/breed), exact behavior, and severity of injuries..."
+                placeholder="Describe what happened, dog's color/breed, current posture, danger level..."
                 className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
               />
             </div>
           </div>
 
-          {/* Section 3: Photo Evidence Upload */}
-          <div className="bg-white p-6 rounded-2xl card-elevation-1 border border-slate-100 space-y-4">
+          {/* Section 3: Photo Upload */}
+          <div className="bg-white p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
             <div className="flex items-center justify-between">
-              <h2 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+              <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
                   3
                 </span>
-                Upload Dog Photos (Up to 5)
+                Photo Evidence
               </h2>
-              <span className="text-xs text-slate-400">JPG, PNG (Max 10MB)</span>
+              <span className="text-xs text-slate-400">Up to 5 images</span>
             </div>
 
             {/* Drag and Drop Zone */}
@@ -371,7 +416,7 @@ export const ReportIssuePage: React.FC<Props> = ({
                     Click to upload photos or drag & drop
                   </p>
                   <p className="text-[11px] text-slate-500 mt-0.5">
-                    Clear photos of the injury help veterinary triage teams prepare medicines
+                    Clear photos help veterinary triage teams dispatch the right medicines
                   </p>
                 </div>
               </label>
@@ -399,91 +444,138 @@ export const ReportIssuePage: React.FC<Props> = ({
             )}
           </div>
 
-          {/* Section 4: Location & GPS Pin */}
-          <div className="bg-white p-6 rounded-2xl card-elevation-1 border border-slate-100 space-y-4">
+          {/* Section 4: Blinkit-Style Auto Location & Spot Address */}
+          <div className="bg-white p-6 sm:p-8 rounded-3xl card-elevation-1 border border-slate-100 space-y-5">
             <div className="flex items-center justify-between">
-              <h2 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+              <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
                 <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
                   4
                 </span>
-                Incident Location & GPS Pin
+                Incident Location & Spot Details
               </h2>
-              <button
-                type="button"
-                onClick={handleFetchLocation}
-                disabled={gpsLoading}
-                className="text-xs font-bold text-orange-600 hover:text-orange-700 bg-orange-50 border border-orange-200 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors"
-              >
-                <span className="material-symbols-outlined !text-base">
-                  {gpsLoading ? "sync" : "my_location"}
-                </span>
-                <span>{gpsLoading ? "Detecting GPS..." : "Auto-Detect GPS"}</span>
-              </button>
+              <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100/70 px-2.5 py-1 rounded-full flex items-center gap-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>GPS Auto-Locator Active</span>
+              </span>
             </div>
 
-            {latitude && longitude && (
-              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined !text-base text-emerald-600">
-                    check_circle
-                  </span>
-                  <span>
-                    GPS Pin: <strong>{latitude.toFixed(4)}, {longitude.toFixed(4)}</strong>
-                  </span>
+            {/* Blinkit-Style Auto Detected Location Card */}
+            <div className="p-4 sm:p-5 bg-gradient-to-br from-emerald-50/80 via-emerald-50/40 to-slate-50 border-2 border-emerald-200/90 rounded-2xl space-y-3 shadow-sm">
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/20">
+                    <span className="material-symbols-outlined !text-2xl">location_on</span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-emerald-800 block">
+                      📍 Auto-Detected Area
+                    </span>
+                    <h3 className="text-sm font-extrabold text-slate-900 mt-0.5">
+                      {detectedArea || address || "Detecting your current location..."}
+                    </h3>
+                    <p className="text-xs text-slate-500 font-mono mt-0.5">
+                      {city} ({pincode}) {latitude && longitude ? `• GPS: ${latitude.toFixed(4)}, ${longitude.toFixed(4)}` : ""}
+                    </p>
+                  </div>
                 </div>
-                <span className="text-[11px] font-semibold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded">
-                  Active Coordinates
-                </span>
-              </div>
-            )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <button
+                  type="button"
+                  onClick={handleFetchLocation}
+                  disabled={gpsLoading}
+                  className="px-3 py-1.5 bg-white hover:bg-slate-50 border border-emerald-300 text-emerald-800 rounded-xl text-xs font-bold shadow-sm transition-all flex items-center gap-1 shrink-0"
+                >
+                  <span className={`material-symbols-outlined !text-base text-emerald-600 ${gpsLoading ? "animate-spin" : ""}`}>
+                    {gpsLoading ? "sync" : "my_location"}
+                  </span>
+                  <span>{gpsLoading ? "Locating..." : "Re-detect GPS"}</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Spot & Landmark Inputs (Just like Blinkit asks for Flat / Shop / Landmark) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-1">
               <div className="sm:col-span-2">
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Street Address / Spot Sighting *
+                  Exact Spot / Shop / Building / Street Details *
                 </label>
                 <input
                   type="text"
                   required
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="e.g. Near Shoppers Stop Bus Stop, SV Road"
-                  className="w-full px-3.5 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  value={spotDetails}
+                  onChange={(e) => setSpotDetails(e.target.value)}
+                  placeholder="e.g. Near Metro Pillar #48, Behind Chai Tapri, Outside Gate 2"
+                  className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-white"
                 />
+                <p className="text-[11px] text-slate-400 mt-1">
+                  Helps ambulance drivers locate the injured dog quickly upon arrival.
+                </p>
               </div>
 
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Prominent Landmark
+                  Prominent Landmark (Optional)
                 </label>
                 <input
                   type="text"
                   value={landmark}
                   onChange={(e) => setLandmark(e.target.value)}
-                  placeholder="e.g. Opposite Gate 2, beside Chai Stall"
-                  className="w-full px-3.5 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
+                  placeholder="e.g. Opposite HDFC Bank ATM / D-Mart"
+                  className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Area Pincode *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={pincode}
-                  onChange={(e) => setPincode(e.target.value)}
-                  placeholder="e.g. 400053"
-                  className="w-full px-3.5 py-2 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
-                />
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-xs font-semibold text-slate-700">
+                    City & Pincode
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowManualLocation(!showManualLocation)}
+                    className="text-[11px] text-orange-600 font-semibold hover:underline"
+                  >
+                    {showManualLocation ? "Hide Manual Edit" : "Edit Manually"}
+                  </button>
+                </div>
+                <div className="px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 font-medium">
+                  {city} - {pincode}
+                </div>
               </div>
             </div>
+
+            {/* Manual Location Override (if needed) */}
+            {showManualLocation && (
+              <div className="grid grid-cols-2 gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200 animate-fadeIn">
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                    City
+                  </label>
+                  <input
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-600 mb-1">
+                    Pincode
+                  </label>
+                  <input
+                    type="text"
+                    value={pincode}
+                    onChange={(e) => setPincode(e.target.value)}
+                    className="w-full px-3 py-1.5 text-xs border border-slate-300 rounded-lg bg-white"
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Section 5: Citizen Contact Info & Emergency Switch */}
-          <div className="bg-white p-6 rounded-2xl card-elevation-1 border border-slate-100 space-y-4">
-            <h2 className="font-bold text-slate-900 text-sm flex items-center gap-2">
+          <div className="bg-white p-6 sm:p-8 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
+            <h2 className="font-extrabold text-slate-900 text-sm flex items-center gap-2">
               <span className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs flex items-center justify-center font-bold">
                 5
               </span>
@@ -520,13 +612,13 @@ export const ReportIssuePage: React.FC<Props> = ({
             </div>
 
             {/* Emergency Priority Toggle */}
-            <div className="p-4 bg-orange-50/70 border border-orange-200 rounded-xl flex items-center justify-between">
+            <div className="p-4 bg-orange-50/70 border border-orange-200 rounded-2xl flex items-center justify-between">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-orange-500 text-white flex items-center justify-center shadow-md shadow-orange-500/20">
                   <span className="material-symbols-outlined">emergency</span>
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs text-orange-950">
+                  <h4 className="font-extrabold text-xs text-orange-950">
                     Mark as Immediate Life-Threatening Emergency
                   </h4>
                   <p className="text-[11px] text-orange-800/80">
