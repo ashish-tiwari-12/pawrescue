@@ -363,5 +363,16 @@ export const api = {
   async getGovernmentAnalytics(): Promise<any> {
     const res = await apiInstance.get("/gov-analytics/summary");
     return res.data;
+  },
+
+  // Geospatial Intelligence System
+  async getGeospatialLayerData(layer: string): Promise<any> {
+    const res = await apiInstance.get("/geospatial/layers", { params: { layer } });
+    return res.data;
+  },
+
+  async getGeospatialSummary(): Promise<any> {
+    const res = await apiInstance.get("/geospatial/summary");
+    return res.data;
   }
 };

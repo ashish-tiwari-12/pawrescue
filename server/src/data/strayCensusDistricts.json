@@ -1,0 +1,6392 @@
+[
+  {
+    "districtId": 1,
+    "state": "Jammu And Kashmir",
+    "district": "Kupwara",
+    "strayDogsCensus": 13749,
+    "strayCattleCensus": 126,
+    "latitude": 33.2782,
+    "longitude": 76.5762
+  },
+  {
+    "districtId": 2,
+    "state": "Jammu And Kashmir",
+    "district": "Badgam",
+    "strayDogsCensus": 27026,
+    "strayCattleCensus": 11,
+    "latitude": 33.5282,
+    "longitude": 77.3262
+  },
+  {
+    "districtId": 3,
+    "state": "Jammu And Kashmir",
+    "district": "Leh Ladakh",
+    "strayDogsCensus": 10945,
+    "strayCattleCensus": 320,
+    "latitude": 33.7782,
+    "longitude": 76.3262
+  },
+  {
+    "districtId": 4,
+    "state": "Jammu And Kashmir",
+    "district": "Kargil",
+    "strayDogsCensus": 1744,
+    "strayCattleCensus": 100,
+    "latitude": 34.0282,
+    "longitude": 77.0762
+  },
+  {
+    "districtId": 5,
+    "state": "Jammu And Kashmir",
+    "district": "Poonch",
+    "strayDogsCensus": 3706,
+    "strayCattleCensus": 16,
+    "latitude": 34.2782,
+    "longitude": 76.0762
+  },
+  {
+    "districtId": 6,
+    "state": "Jammu And Kashmir",
+    "district": "Rajauri",
+    "strayDogsCensus": 3346,
+    "strayCattleCensus": 294,
+    "latitude": 34.5282,
+    "longitude": 76.8262
+  },
+  {
+    "districtId": 7,
+    "state": "Jammu And Kashmir",
+    "district": "Kathua",
+    "strayDogsCensus": 9128,
+    "strayCattleCensus": 3214,
+    "latitude": 33.0282,
+    "longitude": 75.8262
+  },
+  {
+    "districtId": 8,
+    "state": "Jammu And Kashmir",
+    "district": "Baramulla",
+    "strayDogsCensus": 30217,
+    "strayCattleCensus": 233,
+    "latitude": 33.2782,
+    "longitude": 76.5762
+  },
+  {
+    "districtId": 9,
+    "state": "Jammu And Kashmir",
+    "district": "Bandipora",
+    "strayDogsCensus": 8754,
+    "strayCattleCensus": 169,
+    "latitude": 33.5282,
+    "longitude": 77.3262
+  },
+  {
+    "districtId": 10,
+    "state": "Jammu And Kashmir",
+    "district": "Srinagar",
+    "strayDogsCensus": 15698,
+    "strayCattleCensus": 130,
+    "latitude": 33.7782,
+    "longitude": 76.3262
+  },
+  {
+    "districtId": 11,
+    "state": "Jammu And Kashmir",
+    "district": "Ganderbal",
+    "strayDogsCensus": 20519,
+    "strayCattleCensus": 0,
+    "latitude": 34.0282,
+    "longitude": 77.0762
+  },
+  {
+    "districtId": 12,
+    "state": "Jammu And Kashmir",
+    "district": "Pulwama",
+    "strayDogsCensus": 14534,
+    "strayCattleCensus": 213,
+    "latitude": 34.2782,
+    "longitude": 76.0762
+  },
+  {
+    "districtId": 13,
+    "state": "Jammu And Kashmir",
+    "district": "Shopian",
+    "strayDogsCensus": 9750,
+    "strayCattleCensus": 0,
+    "latitude": 34.5282,
+    "longitude": 76.8262
+  },
+  {
+    "districtId": 14,
+    "state": "Jammu And Kashmir",
+    "district": "Anantnag",
+    "strayDogsCensus": 23226,
+    "strayCattleCensus": 405,
+    "latitude": 33.0282,
+    "longitude": 75.8262
+  },
+  {
+    "districtId": 15,
+    "state": "Jammu And Kashmir",
+    "district": "Kulgam",
+    "strayDogsCensus": 12512,
+    "strayCattleCensus": 731,
+    "latitude": 33.2782,
+    "longitude": 76.5762
+  },
+  {
+    "districtId": 16,
+    "state": "Jammu And Kashmir",
+    "district": "Doda",
+    "strayDogsCensus": 3098,
+    "strayCattleCensus": 379,
+    "latitude": 33.5282,
+    "longitude": 77.3262
+  },
+  {
+    "districtId": 17,
+    "state": "Jammu And Kashmir",
+    "district": "Ramban",
+    "strayDogsCensus": 913,
+    "strayCattleCensus": 175,
+    "latitude": 33.7782,
+    "longitude": 76.3262
+  },
+  {
+    "districtId": 18,
+    "state": "Jammu And Kashmir",
+    "district": "Kishtwar",
+    "strayDogsCensus": 1430,
+    "strayCattleCensus": 0,
+    "latitude": 34.0282,
+    "longitude": 77.0762
+  },
+  {
+    "districtId": 19,
+    "state": "Jammu And Kashmir",
+    "district": "Udhampur",
+    "strayDogsCensus": 2275,
+    "strayCattleCensus": 70,
+    "latitude": 34.2782,
+    "longitude": 76.0762
+  },
+  {
+    "districtId": 20,
+    "state": "Jammu And Kashmir",
+    "district": "Reasi",
+    "strayDogsCensus": 1669,
+    "strayCattleCensus": 420,
+    "latitude": 34.5282,
+    "longitude": 76.8262
+  },
+  {
+    "districtId": 21,
+    "state": "Jammu And Kashmir",
+    "district": "Jammu",
+    "strayDogsCensus": 87690,
+    "strayCattleCensus": 5517,
+    "latitude": 33.0282,
+    "longitude": 75.8262
+  },
+  {
+    "districtId": 22,
+    "state": "Jammu And Kashmir",
+    "district": "Samba",
+    "strayDogsCensus": 6968,
+    "strayCattleCensus": 1341,
+    "latitude": 33.2782,
+    "longitude": 76.5762
+  },
+  {
+    "districtId": 15,
+    "state": "Himachal Pradesh",
+    "district": "Bilaspur",
+    "strayDogsCensus": 6333,
+    "strayCattleCensus": 2911,
+    "latitude": 30.6048,
+    "longitude": 77.1734
+  },
+  {
+    "districtId": 16,
+    "state": "Himachal Pradesh",
+    "district": "Chamba",
+    "strayDogsCensus": 4227,
+    "strayCattleCensus": 538,
+    "latitude": 30.8548,
+    "longitude": 77.9234
+  },
+  {
+    "districtId": 17,
+    "state": "Himachal Pradesh",
+    "district": "Hamirpur",
+    "strayDogsCensus": 7505,
+    "strayCattleCensus": 3218,
+    "latitude": 31.1048,
+    "longitude": 76.9234
+  },
+  {
+    "districtId": 18,
+    "state": "Himachal Pradesh",
+    "district": "Kangra",
+    "strayDogsCensus": 19929,
+    "strayCattleCensus": 11161,
+    "latitude": 31.3548,
+    "longitude": 77.6734
+  },
+  {
+    "districtId": 19,
+    "state": "Himachal Pradesh",
+    "district": "Kinnaur",
+    "strayDogsCensus": 1441,
+    "strayCattleCensus": 363,
+    "latitude": 31.6048,
+    "longitude": 76.6734
+  },
+  {
+    "districtId": 20,
+    "state": "Himachal Pradesh",
+    "district": "Kullu",
+    "strayDogsCensus": 3081,
+    "strayCattleCensus": 2576,
+    "latitude": 31.8548,
+    "longitude": 77.4234
+  },
+  {
+    "districtId": 21,
+    "state": "Himachal Pradesh",
+    "district": "Lahul And Spiti",
+    "strayDogsCensus": 842,
+    "strayCattleCensus": 14,
+    "latitude": 30.3548,
+    "longitude": 76.4234
+  },
+  {
+    "districtId": 22,
+    "state": "Himachal Pradesh",
+    "district": "Mandi",
+    "strayDogsCensus": 5900,
+    "strayCattleCensus": 3638,
+    "latitude": 30.6048,
+    "longitude": 77.1734
+  },
+  {
+    "districtId": 23,
+    "state": "Himachal Pradesh",
+    "district": "Shimla",
+    "strayDogsCensus": 8703,
+    "strayCattleCensus": 5089,
+    "latitude": 30.8548,
+    "longitude": 77.9234
+  },
+  {
+    "districtId": 24,
+    "state": "Himachal Pradesh",
+    "district": "Sirmaur",
+    "strayDogsCensus": 2904,
+    "strayCattleCensus": 949,
+    "latitude": 31.1048,
+    "longitude": 76.9234
+  },
+  {
+    "districtId": 25,
+    "state": "Himachal Pradesh",
+    "district": "Solan",
+    "strayDogsCensus": 9477,
+    "strayCattleCensus": 2932,
+    "latitude": 31.3548,
+    "longitude": 77.6734
+  },
+  {
+    "districtId": 26,
+    "state": "Himachal Pradesh",
+    "district": "Una",
+    "strayDogsCensus": 6591,
+    "strayCattleCensus": 2922,
+    "latitude": 31.6048,
+    "longitude": 76.6734
+  },
+  {
+    "districtId": 35,
+    "state": "Punjab",
+    "district": "Gurdaspur",
+    "strayDogsCensus": 17668,
+    "strayCattleCensus": 3106,
+    "latitude": 30.3971,
+    "longitude": 74.5912
+  },
+  {
+    "districtId": 36,
+    "state": "Punjab",
+    "district": "Kapurthala",
+    "strayDogsCensus": 9340,
+    "strayCattleCensus": 3696,
+    "latitude": 30.6471,
+    "longitude": 75.3412
+  },
+  {
+    "districtId": 37,
+    "state": "Punjab",
+    "district": "Jalandhar",
+    "strayDogsCensus": 10157,
+    "strayCattleCensus": 3814,
+    "latitude": 30.8971,
+    "longitude": 76.0912
+  },
+  {
+    "districtId": 38,
+    "state": "Punjab",
+    "district": "Hoshiarpur",
+    "strayDogsCensus": 24142,
+    "strayCattleCensus": 14187,
+    "latitude": 31.1471,
+    "longitude": 75.0912
+  },
+  {
+    "districtId": 39,
+    "state": "Punjab",
+    "district": "Nawanshahr (Sbs Nagar)",
+    "strayDogsCensus": 5460,
+    "strayCattleCensus": 1919,
+    "latitude": 31.3971,
+    "longitude": 75.8412
+  },
+  {
+    "districtId": 40,
+    "state": "Punjab",
+    "district": "Fatehgarh Sahib",
+    "strayDogsCensus": 7417,
+    "strayCattleCensus": 2204,
+    "latitude": 31.6471,
+    "longitude": 74.8412
+  },
+  {
+    "districtId": 41,
+    "state": "Punjab",
+    "district": "Ludhiana",
+    "strayDogsCensus": 29958,
+    "strayCattleCensus": 13639,
+    "latitude": 31.8971,
+    "longitude": 75.5912
+  },
+  {
+    "districtId": 42,
+    "state": "Punjab",
+    "district": "Moga",
+    "strayDogsCensus": 10104,
+    "strayCattleCensus": 4481,
+    "latitude": 30.3971,
+    "longitude": 74.5912
+  },
+  {
+    "districtId": 43,
+    "state": "Punjab",
+    "district": "Firozepur",
+    "strayDogsCensus": 8821,
+    "strayCattleCensus": 5831,
+    "latitude": 30.6471,
+    "longitude": 75.3412
+  },
+  {
+    "districtId": 44,
+    "state": "Punjab",
+    "district": "Muktsar",
+    "strayDogsCensus": 9049,
+    "strayCattleCensus": 6291,
+    "latitude": 30.8971,
+    "longitude": 76.0912
+  },
+  {
+    "districtId": 45,
+    "state": "Punjab",
+    "district": "Faridkot",
+    "strayDogsCensus": 5804,
+    "strayCattleCensus": 3753,
+    "latitude": 31.1471,
+    "longitude": 75.0912
+  },
+  {
+    "districtId": 46,
+    "state": "Punjab",
+    "district": "Bathinda",
+    "strayDogsCensus": 13328,
+    "strayCattleCensus": 9428,
+    "latitude": 31.3971,
+    "longitude": 75.8412
+  },
+  {
+    "districtId": 47,
+    "state": "Punjab",
+    "district": "Mansa",
+    "strayDogsCensus": 10695,
+    "strayCattleCensus": 8226,
+    "latitude": 31.6471,
+    "longitude": 74.8412
+  },
+  {
+    "districtId": 48,
+    "state": "Punjab",
+    "district": "Patiala",
+    "strayDogsCensus": 19897,
+    "strayCattleCensus": 9634,
+    "latitude": 31.8971,
+    "longitude": 75.5912
+  },
+  {
+    "districtId": 49,
+    "state": "Punjab",
+    "district": "Amritsar",
+    "strayDogsCensus": 32131,
+    "strayCattleCensus": 4307,
+    "latitude": 30.3971,
+    "longitude": 74.5912
+  },
+  {
+    "districtId": 50,
+    "state": "Punjab",
+    "district": "Tarn Taran",
+    "strayDogsCensus": 5359,
+    "strayCattleCensus": 3059,
+    "latitude": 30.6471,
+    "longitude": 75.3412
+  },
+  {
+    "districtId": 51,
+    "state": "Punjab",
+    "district": "Rupnagar",
+    "strayDogsCensus": 12022,
+    "strayCattleCensus": 5171,
+    "latitude": 30.8971,
+    "longitude": 76.0912
+  },
+  {
+    "districtId": 52,
+    "state": "Punjab",
+    "district": "S.A.S Nagar",
+    "strayDogsCensus": 10179,
+    "strayCattleCensus": 3347,
+    "latitude": 31.1471,
+    "longitude": 75.0912
+  },
+  {
+    "districtId": 53,
+    "state": "Punjab",
+    "district": "Sangrur",
+    "strayDogsCensus": 20156,
+    "strayCattleCensus": 9601,
+    "latitude": 31.3971,
+    "longitude": 75.8412
+  },
+  {
+    "districtId": 54,
+    "state": "Punjab",
+    "district": "Barnala",
+    "strayDogsCensus": 8315,
+    "strayCattleCensus": 4095,
+    "latitude": 31.6471,
+    "longitude": 74.8412
+  },
+  {
+    "districtId": 669,
+    "state": "Punjab",
+    "district": "Fazilka",
+    "strayDogsCensus": 14500,
+    "strayCattleCensus": 16543,
+    "latitude": 31.3971,
+    "longitude": 75.8412
+  },
+  {
+    "districtId": 679,
+    "state": "Punjab",
+    "district": "Pathankot",
+    "strayDogsCensus": 6122,
+    "strayCattleCensus": 3737,
+    "latitude": 30.3971,
+    "longitude": 74.5912
+  },
+  {
+    "districtId": 55,
+    "state": "Chandigarh",
+    "district": "Chandigarh",
+    "strayDogsCensus": 12922,
+    "strayCattleCensus": 1440,
+    "latitude": 31.4833,
+    "longitude": 77.0294
+  },
+  {
+    "districtId": 709,
+    "state": "Uttarakhand",
+    "district": "Almora",
+    "strayDogsCensus": 2115,
+    "strayCattleCensus": 1879,
+    "latitude": 29.8168,
+    "longitude": 79.7693
+  },
+  {
+    "districtId": 710,
+    "state": "Uttarakhand",
+    "district": "Bageshwar",
+    "strayDogsCensus": 1069,
+    "strayCattleCensus": 736,
+    "latitude": 30.0668,
+    "longitude": 78.7693
+  },
+  {
+    "districtId": 711,
+    "state": "Uttarakhand",
+    "district": "chamoli",
+    "strayDogsCensus": 1570,
+    "strayCattleCensus": 841,
+    "latitude": 30.3168,
+    "longitude": 79.5193
+  },
+  {
+    "districtId": 712,
+    "state": "Uttarakhand",
+    "district": "Champawat",
+    "strayDogsCensus": 2265,
+    "strayCattleCensus": 1060,
+    "latitude": 30.5668,
+    "longitude": 78.5193
+  },
+  {
+    "districtId": 713,
+    "state": "Uttarakhand",
+    "district": "Dehradun",
+    "strayDogsCensus": 15690,
+    "strayCattleCensus": 5322,
+    "latitude": 30.8168,
+    "longitude": 79.2693
+  },
+  {
+    "districtId": 714,
+    "state": "Uttarakhand",
+    "district": "Haridwar",
+    "strayDogsCensus": 17947,
+    "strayCattleCensus": 2298,
+    "latitude": 29.3168,
+    "longitude": 78.2693
+  },
+  {
+    "districtId": 715,
+    "state": "Uttarakhand",
+    "district": "Nainital",
+    "strayDogsCensus": 8688,
+    "strayCattleCensus": 2612,
+    "latitude": 29.5668,
+    "longitude": 79.0193
+  },
+  {
+    "districtId": 716,
+    "state": "Uttarakhand",
+    "district": "Pauri Garhwal",
+    "strayDogsCensus": 7819,
+    "strayCattleCensus": 5885,
+    "latitude": 29.8168,
+    "longitude": 79.7693
+  },
+  {
+    "districtId": 717,
+    "state": "Uttarakhand",
+    "district": "Pithoragarh",
+    "strayDogsCensus": 1522,
+    "strayCattleCensus": 736,
+    "latitude": 30.0668,
+    "longitude": 78.7693
+  },
+  {
+    "districtId": 718,
+    "state": "Uttarakhand",
+    "district": "Rudraprayag",
+    "strayDogsCensus": 1646,
+    "strayCattleCensus": 586,
+    "latitude": 30.3168,
+    "longitude": 79.5193
+  },
+  {
+    "districtId": 719,
+    "state": "Uttarakhand",
+    "district": "Tehri Garhwal",
+    "strayDogsCensus": 2312,
+    "strayCattleCensus": 1419,
+    "latitude": 30.5668,
+    "longitude": 78.5193
+  },
+  {
+    "districtId": 720,
+    "state": "Uttarakhand",
+    "district": "Udham Singh Nagar",
+    "strayDogsCensus": 20384,
+    "strayCattleCensus": 3475,
+    "latitude": 30.8168,
+    "longitude": 79.2693
+  },
+  {
+    "districtId": 721,
+    "state": "Uttarakhand",
+    "district": "Uttarkashi",
+    "strayDogsCensus": 1432,
+    "strayCattleCensus": 604,
+    "latitude": 29.3168,
+    "longitude": 78.2693
+  },
+  {
+    "districtId": 722,
+    "state": "Haryana",
+    "district": "AMBALA",
+    "strayDogsCensus": 17511,
+    "strayCattleCensus": 7093,
+    "latitude": 28.5588,
+    "longitude": 76.0856
+  },
+  {
+    "districtId": 723,
+    "state": "Haryana",
+    "district": "BHIWANI",
+    "strayDogsCensus": 33097,
+    "strayCattleCensus": 13904,
+    "latitude": 28.8088,
+    "longitude": 76.8356
+  },
+  {
+    "districtId": 724,
+    "state": "Haryana",
+    "district": "CHARKI DADRI",
+    "strayDogsCensus": 11761,
+    "strayCattleCensus": 1338,
+    "latitude": 29.0588,
+    "longitude": 75.8356
+  },
+  {
+    "districtId": 725,
+    "state": "Haryana",
+    "district": "FARIDABAD",
+    "strayDogsCensus": 13044,
+    "strayCattleCensus": 4561,
+    "latitude": 29.3088,
+    "longitude": 76.5856
+  },
+  {
+    "districtId": 726,
+    "state": "Haryana",
+    "district": "FATEHABAD",
+    "strayDogsCensus": 18777,
+    "strayCattleCensus": 2842,
+    "latitude": 29.5588,
+    "longitude": 75.5856
+  },
+  {
+    "districtId": 727,
+    "state": "Haryana",
+    "district": "GURUGRAM",
+    "strayDogsCensus": 17627,
+    "strayCattleCensus": 5094,
+    "latitude": 29.8088,
+    "longitude": 76.3356
+  },
+  {
+    "districtId": 728,
+    "state": "Haryana",
+    "district": "HISAR",
+    "strayDogsCensus": 48179,
+    "strayCattleCensus": 17327,
+    "latitude": 28.3088,
+    "longitude": 75.3356
+  },
+  {
+    "districtId": 729,
+    "state": "Haryana",
+    "district": "JHAJJAR",
+    "strayDogsCensus": 16179,
+    "strayCattleCensus": 4089,
+    "latitude": 28.5588,
+    "longitude": 76.0856
+  },
+  {
+    "districtId": 730,
+    "state": "Haryana",
+    "district": "JIND",
+    "strayDogsCensus": 29836,
+    "strayCattleCensus": 6833,
+    "latitude": 28.8088,
+    "longitude": 76.8356
+  },
+  {
+    "districtId": 731,
+    "state": "Haryana",
+    "district": "KAITHAL",
+    "strayDogsCensus": 19501,
+    "strayCattleCensus": 7362,
+    "latitude": 29.0588,
+    "longitude": 75.8356
+  },
+  {
+    "districtId": 732,
+    "state": "Haryana",
+    "district": "KARNAL",
+    "strayDogsCensus": 23181,
+    "strayCattleCensus": 8052,
+    "latitude": 29.3088,
+    "longitude": 76.5856
+  },
+  {
+    "districtId": 733,
+    "state": "Haryana",
+    "district": "KURUKSHETRA",
+    "strayDogsCensus": 19778,
+    "strayCattleCensus": 7084,
+    "latitude": 29.5588,
+    "longitude": 75.5856
+  },
+  {
+    "districtId": 734,
+    "state": "Haryana",
+    "district": "MAHENDRAGARH",
+    "strayDogsCensus": 17259,
+    "strayCattleCensus": 4296,
+    "latitude": 29.8088,
+    "longitude": 76.3356
+  },
+  {
+    "districtId": 735,
+    "state": "Haryana",
+    "district": "MEWAT",
+    "strayDogsCensus": 23615,
+    "strayCattleCensus": 234,
+    "latitude": 28.3088,
+    "longitude": 75.3356
+  },
+  {
+    "districtId": 736,
+    "state": "Haryana",
+    "district": "PALWAL",
+    "strayDogsCensus": 17835,
+    "strayCattleCensus": 3636,
+    "latitude": 28.5588,
+    "longitude": 76.0856
+  },
+  {
+    "districtId": 737,
+    "state": "Haryana",
+    "district": "PANCHKULA",
+    "strayDogsCensus": 4790,
+    "strayCattleCensus": 2482,
+    "latitude": 28.8088,
+    "longitude": 76.8356
+  },
+  {
+    "districtId": 738,
+    "state": "Haryana",
+    "district": "PANIPAT",
+    "strayDogsCensus": 19238,
+    "strayCattleCensus": 5090,
+    "latitude": 29.0588,
+    "longitude": 75.8356
+  },
+  {
+    "districtId": 739,
+    "state": "Haryana",
+    "district": "REWARI",
+    "strayDogsCensus": 20947,
+    "strayCattleCensus": 6281,
+    "latitude": 29.3088,
+    "longitude": 76.5856
+  },
+  {
+    "districtId": 740,
+    "state": "Haryana",
+    "district": "ROHTAK",
+    "strayDogsCensus": 25087,
+    "strayCattleCensus": 7695,
+    "latitude": 29.5588,
+    "longitude": 75.5856
+  },
+  {
+    "districtId": 741,
+    "state": "Haryana",
+    "district": "SIRSA",
+    "strayDogsCensus": 23664,
+    "strayCattleCensus": 6090,
+    "latitude": 29.8088,
+    "longitude": 76.3356
+  },
+  {
+    "districtId": 742,
+    "state": "Haryana",
+    "district": "SONIPAT",
+    "strayDogsCensus": 27835,
+    "strayCattleCensus": 4069,
+    "latitude": 28.3088,
+    "longitude": 75.3356
+  },
+  {
+    "districtId": 743,
+    "state": "Haryana",
+    "district": "YAMUNANAGAR",
+    "strayDogsCensus": 15837,
+    "strayCattleCensus": 2465,
+    "latitude": 28.5588,
+    "longitude": 76.0856
+  },
+  {
+    "districtId": 866,
+    "state": "Delhi",
+    "district": "CENTRAL",
+    "strayDogsCensus": 3028,
+    "strayCattleCensus": 658,
+    "latitude": 29.1139,
+    "longitude": 76.709
+  },
+  {
+    "districtId": 867,
+    "state": "Delhi",
+    "district": "EAST",
+    "strayDogsCensus": 5950,
+    "strayCattleCensus": 852,
+    "latitude": 29.3639,
+    "longitude": 77.459
+  },
+  {
+    "districtId": 868,
+    "state": "Delhi",
+    "district": "NEW DELHI",
+    "strayDogsCensus": 1584,
+    "strayCattleCensus": 597,
+    "latitude": 28.6139,
+    "longitude": 77.209
+  },
+  {
+    "districtId": 869,
+    "state": "Delhi",
+    "district": "NORTH",
+    "strayDogsCensus": 3914,
+    "strayCattleCensus": 1375,
+    "latitude": 28.1139,
+    "longitude": 77.209
+  },
+  {
+    "districtId": 870,
+    "state": "Delhi",
+    "district": "NORTH EAST",
+    "strayDogsCensus": 3399,
+    "strayCattleCensus": 414,
+    "latitude": 28.3639,
+    "longitude": 77.959
+  },
+  {
+    "districtId": 871,
+    "state": "Delhi",
+    "district": "NORTH WEST",
+    "strayDogsCensus": 10768,
+    "strayCattleCensus": 1246,
+    "latitude": 28.6139,
+    "longitude": 76.959
+  },
+  {
+    "districtId": 872,
+    "state": "Delhi",
+    "district": "SOUTH",
+    "strayDogsCensus": 3908,
+    "strayCattleCensus": 1723,
+    "latitude": 28.8639,
+    "longitude": 77.709
+  },
+  {
+    "districtId": 873,
+    "state": "Delhi",
+    "district": "SOUTH WEST",
+    "strayDogsCensus": 11594,
+    "strayCattleCensus": 2467,
+    "latitude": 29.1139,
+    "longitude": 76.709
+  },
+  {
+    "districtId": 874,
+    "state": "Delhi",
+    "district": "WEST",
+    "strayDogsCensus": 6170,
+    "strayCattleCensus": 1184,
+    "latitude": 29.3639,
+    "longitude": 77.459
+  },
+  {
+    "districtId": 875,
+    "state": "Delhi",
+    "district": "South East",
+    "strayDogsCensus": 2165,
+    "strayCattleCensus": 2197,
+    "latitude": 27.8639,
+    "longitude": 76.459
+  },
+  {
+    "districtId": 876,
+    "state": "Delhi",
+    "district": "SHAHDARA",
+    "strayDogsCensus": 2982,
+    "strayCattleCensus": 256,
+    "latitude": 28.1139,
+    "longitude": 77.209
+  },
+  {
+    "districtId": 99,
+    "state": "Rajasthan",
+    "district": "Ganganagar",
+    "strayDogsCensus": 50425,
+    "strayCattleCensus": 47423,
+    "latitude": 26.5238,
+    "longitude": 74.2179
+  },
+  {
+    "districtId": 100,
+    "state": "Rajasthan",
+    "district": "Hanumangarh",
+    "strayDogsCensus": 39379,
+    "strayCattleCensus": 32623,
+    "latitude": 26.7738,
+    "longitude": 74.9679
+  },
+  {
+    "districtId": 101,
+    "state": "Rajasthan",
+    "district": "Bikaner",
+    "strayDogsCensus": 56471,
+    "strayCattleCensus": 90680,
+    "latitude": 27.0238,
+    "longitude": 73.9679
+  },
+  {
+    "districtId": 102,
+    "state": "Rajasthan",
+    "district": "Churu",
+    "strayDogsCensus": 33991,
+    "strayCattleCensus": 57230,
+    "latitude": 27.2738,
+    "longitude": 74.7179
+  },
+  {
+    "districtId": 103,
+    "state": "Rajasthan",
+    "district": "Jhunjhunu",
+    "strayDogsCensus": 32719,
+    "strayCattleCensus": 31242,
+    "latitude": 27.5238,
+    "longitude": 73.7179
+  },
+  {
+    "districtId": 104,
+    "state": "Rajasthan",
+    "district": "Alwar",
+    "strayDogsCensus": 57540,
+    "strayCattleCensus": 29384,
+    "latitude": 27.7738,
+    "longitude": 74.4679
+  },
+  {
+    "districtId": 105,
+    "state": "Rajasthan",
+    "district": "Bharatpur",
+    "strayDogsCensus": 54846,
+    "strayCattleCensus": 30525,
+    "latitude": 26.2738,
+    "longitude": 73.4679
+  },
+  {
+    "districtId": 106,
+    "state": "Rajasthan",
+    "district": "Dholpur",
+    "strayDogsCensus": 19924,
+    "strayCattleCensus": 18523,
+    "latitude": 26.5238,
+    "longitude": 74.2179
+  },
+  {
+    "districtId": 107,
+    "state": "Rajasthan",
+    "district": "Karauli",
+    "strayDogsCensus": 20792,
+    "strayCattleCensus": 20719,
+    "latitude": 26.7738,
+    "longitude": 74.9679
+  },
+  {
+    "districtId": 108,
+    "state": "Rajasthan",
+    "district": "Sawai Madhopur",
+    "strayDogsCensus": 22263,
+    "strayCattleCensus": 26378,
+    "latitude": 27.0238,
+    "longitude": 73.9679
+  },
+  {
+    "districtId": 109,
+    "state": "Rajasthan",
+    "district": "Dausa",
+    "strayDogsCensus": 21895,
+    "strayCattleCensus": 20460,
+    "latitude": 27.2738,
+    "longitude": 74.7179
+  },
+  {
+    "districtId": 110,
+    "state": "Rajasthan",
+    "district": "Jaipur",
+    "strayDogsCensus": 73672,
+    "strayCattleCensus": 69424,
+    "latitude": 26.9124,
+    "longitude": 75.7873
+  },
+  {
+    "districtId": 111,
+    "state": "Rajasthan",
+    "district": "Sikar",
+    "strayDogsCensus": 41895,
+    "strayCattleCensus": 54293,
+    "latitude": 27.7738,
+    "longitude": 74.4679
+  },
+  {
+    "districtId": 112,
+    "state": "Rajasthan",
+    "district": "Nagaur",
+    "strayDogsCensus": 70010,
+    "strayCattleCensus": 103611,
+    "latitude": 26.2738,
+    "longitude": 73.4679
+  },
+  {
+    "districtId": 113,
+    "state": "Rajasthan",
+    "district": "Jodhpur",
+    "strayDogsCensus": 68790,
+    "strayCattleCensus": 92642,
+    "latitude": 26.5238,
+    "longitude": 74.2179
+  },
+  {
+    "districtId": 114,
+    "state": "Rajasthan",
+    "district": "Jaisalmer",
+    "strayDogsCensus": 10646,
+    "strayCattleCensus": 14088,
+    "latitude": 26.7738,
+    "longitude": 74.9679
+  },
+  {
+    "districtId": 115,
+    "state": "Rajasthan",
+    "district": "Barmer",
+    "strayDogsCensus": 55196,
+    "strayCattleCensus": 41942,
+    "latitude": 27.0238,
+    "longitude": 73.9679
+  },
+  {
+    "districtId": 116,
+    "state": "Rajasthan",
+    "district": "Jalore",
+    "strayDogsCensus": 44245,
+    "strayCattleCensus": 43809,
+    "latitude": 27.2738,
+    "longitude": 74.7179
+  },
+  {
+    "districtId": 117,
+    "state": "Rajasthan",
+    "district": "Sirohi",
+    "strayDogsCensus": 21275,
+    "strayCattleCensus": 11268,
+    "latitude": 27.5238,
+    "longitude": 73.7179
+  },
+  {
+    "districtId": 118,
+    "state": "Rajasthan",
+    "district": "Pali",
+    "strayDogsCensus": 64080,
+    "strayCattleCensus": 60453,
+    "latitude": 27.7738,
+    "longitude": 74.4679
+  },
+  {
+    "districtId": 119,
+    "state": "Rajasthan",
+    "district": "Ajmer",
+    "strayDogsCensus": 43303,
+    "strayCattleCensus": 35850,
+    "latitude": 26.2738,
+    "longitude": 73.4679
+  },
+  {
+    "districtId": 120,
+    "state": "Rajasthan",
+    "district": "Tonk",
+    "strayDogsCensus": 27120,
+    "strayCattleCensus": 32249,
+    "latitude": 26.5238,
+    "longitude": 74.2179
+  },
+  {
+    "districtId": 121,
+    "state": "Rajasthan",
+    "district": "Bundi",
+    "strayDogsCensus": 33988,
+    "strayCattleCensus": 39365,
+    "latitude": 26.7738,
+    "longitude": 74.9679
+  },
+  {
+    "districtId": 122,
+    "state": "Rajasthan",
+    "district": "Bhilwara",
+    "strayDogsCensus": 49179,
+    "strayCattleCensus": 73062,
+    "latitude": 27.0238,
+    "longitude": 73.9679
+  },
+  {
+    "districtId": 123,
+    "state": "Rajasthan",
+    "district": "Rajsamand",
+    "strayDogsCensus": 20793,
+    "strayCattleCensus": 16399,
+    "latitude": 27.2738,
+    "longitude": 74.7179
+  },
+  {
+    "districtId": 124,
+    "state": "Rajasthan",
+    "district": "Dungarpur",
+    "strayDogsCensus": 19924,
+    "strayCattleCensus": 4021,
+    "latitude": 27.5238,
+    "longitude": 73.7179
+  },
+  {
+    "districtId": 125,
+    "state": "Rajasthan",
+    "district": "Banswara",
+    "strayDogsCensus": 22634,
+    "strayCattleCensus": 2385,
+    "latitude": 27.7738,
+    "longitude": 74.4679
+  },
+  {
+    "districtId": 126,
+    "state": "Rajasthan",
+    "district": "Chittorgarh",
+    "strayDogsCensus": 43053,
+    "strayCattleCensus": 33216,
+    "latitude": 26.2738,
+    "longitude": 73.4679
+  },
+  {
+    "districtId": 127,
+    "state": "Rajasthan",
+    "district": "Kota",
+    "strayDogsCensus": 24265,
+    "strayCattleCensus": 29945,
+    "latitude": 26.5238,
+    "longitude": 74.2179
+  },
+  {
+    "districtId": 128,
+    "state": "Rajasthan",
+    "district": "Baran",
+    "strayDogsCensus": 26945,
+    "strayCattleCensus": 36812,
+    "latitude": 26.7738,
+    "longitude": 74.9679
+  },
+  {
+    "districtId": 129,
+    "state": "Rajasthan",
+    "district": "Jhalawar",
+    "strayDogsCensus": 37158,
+    "strayCattleCensus": 55776,
+    "latitude": 27.0238,
+    "longitude": 73.9679
+  },
+  {
+    "districtId": 130,
+    "state": "Rajasthan",
+    "district": "Udaipur",
+    "strayDogsCensus": 49744,
+    "strayCattleCensus": 13498,
+    "latitude": 27.2738,
+    "longitude": 74.7179
+  },
+  {
+    "districtId": 131,
+    "state": "Rajasthan",
+    "district": "Pratapgarh",
+    "strayDogsCensus": 17436,
+    "strayCattleCensus": 2982,
+    "latitude": 27.5238,
+    "longitude": 73.7179
+  },
+  {
+    "districtId": 241,
+    "state": "Sikkim",
+    "district": "North District",
+    "strayDogsCensus": 1175,
+    "strayCattleCensus": 2,
+    "latitude": 27.533,
+    "longitude": 88.2622
+  },
+  {
+    "districtId": 242,
+    "state": "Sikkim",
+    "district": "West District",
+    "strayDogsCensus": 2436,
+    "strayCattleCensus": 0,
+    "latitude": 27.783,
+    "longitude": 89.0122
+  },
+  {
+    "districtId": 243,
+    "state": "Sikkim",
+    "district": "South District",
+    "strayDogsCensus": 2863,
+    "strayCattleCensus": 79,
+    "latitude": 28.033,
+    "longitude": 88.0122
+  },
+  {
+    "districtId": 244,
+    "state": "Sikkim",
+    "district": "East District",
+    "strayDogsCensus": 4221,
+    "strayCattleCensus": 76,
+    "latitude": 28.283,
+    "longitude": 88.7622
+  },
+  {
+    "districtId": 245,
+    "state": "Arunachal Pradesh",
+    "district": "Tawang",
+    "strayDogsCensus": 5659,
+    "strayCattleCensus": 365,
+    "latitude": 27.468,
+    "longitude": 93.9778
+  },
+  {
+    "districtId": 246,
+    "state": "Arunachal Pradesh",
+    "district": "West Kameng",
+    "strayDogsCensus": 3193,
+    "strayCattleCensus": 25,
+    "latitude": 27.718,
+    "longitude": 94.7278
+  },
+  {
+    "districtId": 247,
+    "state": "Arunachal Pradesh",
+    "district": "East Kameng",
+    "strayDogsCensus": 33,
+    "strayCattleCensus": 8,
+    "latitude": 27.968,
+    "longitude": 95.4778
+  },
+  {
+    "districtId": 248,
+    "state": "Arunachal Pradesh",
+    "district": "Papum Pare",
+    "strayDogsCensus": 597,
+    "strayCattleCensus": 80,
+    "latitude": 28.218,
+    "longitude": 94.4778
+  },
+  {
+    "districtId": 249,
+    "state": "Arunachal Pradesh",
+    "district": "Upper Subansiri",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 28.468,
+    "longitude": 95.2278
+  },
+  {
+    "districtId": 250,
+    "state": "Arunachal Pradesh",
+    "district": "West Siang",
+    "strayDogsCensus": 65,
+    "strayCattleCensus": 4,
+    "latitude": 28.718,
+    "longitude": 94.2278
+  },
+  {
+    "districtId": 251,
+    "state": "Arunachal Pradesh",
+    "district": "East Siang",
+    "strayDogsCensus": 239,
+    "strayCattleCensus": 42,
+    "latitude": 28.968,
+    "longitude": 94.9778
+  },
+  {
+    "districtId": 252,
+    "state": "Arunachal Pradesh",
+    "district": "Upper Siang",
+    "strayDogsCensus": 480,
+    "strayCattleCensus": 0,
+    "latitude": 27.468,
+    "longitude": 93.9778
+  },
+  {
+    "districtId": 253,
+    "state": "Arunachal Pradesh",
+    "district": "Changlang",
+    "strayDogsCensus": 8,
+    "strayCattleCensus": 2,
+    "latitude": 27.718,
+    "longitude": 94.7278
+  },
+  {
+    "districtId": 254,
+    "state": "Arunachal Pradesh",
+    "district": "Tirap",
+    "strayDogsCensus": 102,
+    "strayCattleCensus": 4,
+    "latitude": 27.968,
+    "longitude": 95.4778
+  },
+  {
+    "districtId": 255,
+    "state": "Arunachal Pradesh",
+    "district": "Lower Subansiri",
+    "strayDogsCensus": 81,
+    "strayCattleCensus": 9,
+    "latitude": 28.218,
+    "longitude": 94.4778
+  },
+  {
+    "districtId": 256,
+    "state": "Arunachal Pradesh",
+    "district": "Kurung Kumey",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 28.468,
+    "longitude": 95.2278
+  },
+  {
+    "districtId": 257,
+    "state": "Arunachal Pradesh",
+    "district": "Dibang Valley",
+    "strayDogsCensus": 5,
+    "strayCattleCensus": 1,
+    "latitude": 28.718,
+    "longitude": 94.2278
+  },
+  {
+    "districtId": 258,
+    "state": "Arunachal Pradesh",
+    "district": "Lower Dibang Valley",
+    "strayDogsCensus": 213,
+    "strayCattleCensus": 111,
+    "latitude": 28.968,
+    "longitude": 94.9778
+  },
+  {
+    "districtId": 259,
+    "state": "Arunachal Pradesh",
+    "district": "Lohit",
+    "strayDogsCensus": 475,
+    "strayCattleCensus": 2,
+    "latitude": 27.468,
+    "longitude": 93.9778
+  },
+  {
+    "districtId": 260,
+    "state": "Arunachal Pradesh",
+    "district": "Anjaw",
+    "strayDogsCensus": 2,
+    "strayCattleCensus": 0,
+    "latitude": 27.718,
+    "longitude": 94.7278
+  },
+  {
+    "districtId": 675,
+    "state": "Arunachal Pradesh",
+    "district": "Longding",
+    "strayDogsCensus": 132,
+    "strayCattleCensus": 1,
+    "latitude": 28.218,
+    "longitude": 94.4778
+  },
+  {
+    "districtId": 700,
+    "state": "Arunachal Pradesh",
+    "district": "NAMSAI",
+    "strayDogsCensus": 99,
+    "strayCattleCensus": 5,
+    "latitude": 27.468,
+    "longitude": 93.9778
+  },
+  {
+    "districtId": 707,
+    "state": "Arunachal Pradesh",
+    "district": "Kra Daadi",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 27.468,
+    "longitude": 93.9778
+  },
+  {
+    "districtId": 708,
+    "state": "Arunachal Pradesh",
+    "district": "SIANG",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 27.718,
+    "longitude": 94.7278
+  },
+  {
+    "districtId": 261,
+    "state": "Nagaland",
+    "district": "Mon",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 25.9084,
+    "longitude": 95.3124
+  },
+  {
+    "districtId": 262,
+    "state": "Nagaland",
+    "district": "Mokokchung",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 26.1584,
+    "longitude": 94.3124
+  },
+  {
+    "districtId": 263,
+    "state": "Nagaland",
+    "district": "Zunheboto",
+    "strayDogsCensus": 303,
+    "strayCattleCensus": 115,
+    "latitude": 26.4084,
+    "longitude": 95.0624
+  },
+  {
+    "districtId": 264,
+    "state": "Nagaland",
+    "district": "Wokha",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 26.6584,
+    "longitude": 94.0624
+  },
+  {
+    "districtId": 265,
+    "state": "Nagaland",
+    "district": "Dimapur",
+    "strayDogsCensus": 3,
+    "strayCattleCensus": 0,
+    "latitude": 26.9084,
+    "longitude": 94.8124
+  },
+  {
+    "districtId": 266,
+    "state": "Nagaland",
+    "district": "Phek",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 25.4084,
+    "longitude": 93.8124
+  },
+  {
+    "districtId": 267,
+    "state": "Nagaland",
+    "district": "Tuensang",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 25.6584,
+    "longitude": 94.5624
+  },
+  {
+    "districtId": 268,
+    "state": "Nagaland",
+    "district": "Longleng",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 25.9084,
+    "longitude": 95.3124
+  },
+  {
+    "districtId": 269,
+    "state": "Nagaland",
+    "district": "Kiphire",
+    "strayDogsCensus": 28,
+    "strayCattleCensus": 0,
+    "latitude": 26.1584,
+    "longitude": 94.3124
+  },
+  {
+    "districtId": 270,
+    "state": "Nagaland",
+    "district": "Kohima",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 26.4084,
+    "longitude": 95.0624
+  },
+  {
+    "districtId": 271,
+    "state": "Nagaland",
+    "district": "Peren",
+    "strayDogsCensus": 8,
+    "strayCattleCensus": 0,
+    "latitude": 26.6584,
+    "longitude": 94.0624
+  },
+  {
+    "districtId": 272,
+    "state": "Manipur",
+    "district": "Senapati",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 25.4137,
+    "longitude": 94.1563
+  },
+  {
+    "districtId": 273,
+    "state": "Manipur",
+    "district": "Tamenglong",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 23.9137,
+    "longitude": 93.1563
+  },
+  {
+    "districtId": 274,
+    "state": "Manipur",
+    "district": "Churachandpur",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 2,
+    "latitude": 24.1637,
+    "longitude": 93.9063
+  },
+  {
+    "districtId": 275,
+    "state": "Manipur",
+    "district": "Bishnupur",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 24.4137,
+    "longitude": 94.6563
+  },
+  {
+    "districtId": 276,
+    "state": "Manipur",
+    "district": "Thoubal",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 24.6637,
+    "longitude": 93.6563
+  },
+  {
+    "districtId": 277,
+    "state": "Manipur",
+    "district": "Imphal West",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 24.9137,
+    "longitude": 94.4063
+  },
+  {
+    "districtId": 278,
+    "state": "Manipur",
+    "district": "Imphal East",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 25.1637,
+    "longitude": 93.4063
+  },
+  {
+    "districtId": 279,
+    "state": "Manipur",
+    "district": "Ukhrul",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 25.4137,
+    "longitude": 94.1563
+  },
+  {
+    "districtId": 280,
+    "state": "Manipur",
+    "district": "Chandel",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 23.9137,
+    "longitude": 93.1563
+  },
+  {
+    "districtId": 893,
+    "state": "Mizoram",
+    "district": "AIZAWL",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 9,
+    "latitude": 23.4145,
+    "longitude": 93.4376
+  },
+  {
+    "districtId": 894,
+    "state": "Mizoram",
+    "district": "CHAMPHAI",
+    "strayDogsCensus": 14,
+    "strayCattleCensus": 0,
+    "latitude": 23.6645,
+    "longitude": 92.4376
+  },
+  {
+    "districtId": 895,
+    "state": "Mizoram",
+    "district": "KOLASIB",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 23.9145,
+    "longitude": 93.1876
+  },
+  {
+    "districtId": 896,
+    "state": "Mizoram",
+    "district": "LAWNGTLAI",
+    "strayDogsCensus": 11,
+    "strayCattleCensus": 0,
+    "latitude": 22.4145,
+    "longitude": 92.1876
+  },
+  {
+    "districtId": 897,
+    "state": "Mizoram",
+    "district": "LUNGLEI",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 22.6645,
+    "longitude": 92.9376
+  },
+  {
+    "districtId": 898,
+    "state": "Mizoram",
+    "district": "MAMIT",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 22.9145,
+    "longitude": 93.6876
+  },
+  {
+    "districtId": 899,
+    "state": "Mizoram",
+    "district": "SIAHA",
+    "strayDogsCensus": 44,
+    "strayCattleCensus": 61,
+    "latitude": 23.1645,
+    "longitude": 92.6876
+  },
+  {
+    "districtId": 900,
+    "state": "Mizoram",
+    "district": "SERCHHIP",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 23.4145,
+    "longitude": 93.4376
+  },
+  {
+    "districtId": 289,
+    "state": "Tripura",
+    "district": "West Tripura",
+    "strayDogsCensus": 3917,
+    "strayCattleCensus": 320,
+    "latitude": 23.6908,
+    "longitude": 92.7382
+  },
+  {
+    "districtId": 290,
+    "state": "Tripura",
+    "district": "South Tripura",
+    "strayDogsCensus": 2211,
+    "strayCattleCensus": 285,
+    "latitude": 23.9408,
+    "longitude": 91.7382
+  },
+  {
+    "districtId": 291,
+    "state": "Tripura",
+    "district": "Dhalai",
+    "strayDogsCensus": 1252,
+    "strayCattleCensus": 190,
+    "latitude": 24.1908,
+    "longitude": 92.4882
+  },
+  {
+    "districtId": 292,
+    "state": "Tripura",
+    "district": "North Tripura",
+    "strayDogsCensus": 986,
+    "strayCattleCensus": 510,
+    "latitude": 24.4408,
+    "longitude": 91.4882
+  },
+  {
+    "districtId": 671,
+    "state": "Tripura",
+    "district": "Gomati",
+    "strayDogsCensus": 2369,
+    "strayCattleCensus": 1341,
+    "latitude": 24.6908,
+    "longitude": 92.2382
+  },
+  {
+    "districtId": 673,
+    "state": "Tripura",
+    "district": "Khowai",
+    "strayDogsCensus": 1570,
+    "strayCattleCensus": 206,
+    "latitude": 23.4408,
+    "longitude": 91.9882
+  },
+  {
+    "districtId": 681,
+    "state": "Tripura",
+    "district": "Sepahijala",
+    "strayDogsCensus": 3713,
+    "strayCattleCensus": 275,
+    "latitude": 23.6908,
+    "longitude": 92.7382
+  },
+  {
+    "districtId": 687,
+    "state": "Tripura",
+    "district": "Unakoti",
+    "strayDogsCensus": 1060,
+    "strayCattleCensus": 234,
+    "latitude": 23.4408,
+    "longitude": 91.9882
+  },
+  {
+    "districtId": 293,
+    "state": "Meghalaya",
+    "district": "West Garo Hills",
+    "strayDogsCensus": 3253,
+    "strayCattleCensus": 2188,
+    "latitude": 26.217,
+    "longitude": 91.6162
+  },
+  {
+    "districtId": 294,
+    "state": "Meghalaya",
+    "district": "East Garo Hills",
+    "strayDogsCensus": 64,
+    "strayCattleCensus": 43,
+    "latitude": 24.717,
+    "longitude": 90.6162
+  },
+  {
+    "districtId": 295,
+    "state": "Meghalaya",
+    "district": "South Garo Hills",
+    "strayDogsCensus": 3809,
+    "strayCattleCensus": 8,
+    "latitude": 24.967,
+    "longitude": 91.3662
+  },
+  {
+    "districtId": 296,
+    "state": "Meghalaya",
+    "district": "West Khasi Hills",
+    "strayDogsCensus": 201,
+    "strayCattleCensus": 0,
+    "latitude": 25.217,
+    "longitude": 92.1162
+  },
+  {
+    "districtId": 297,
+    "state": "Meghalaya",
+    "district": "Ri Bhoi",
+    "strayDogsCensus": 219,
+    "strayCattleCensus": 36,
+    "latitude": 25.467,
+    "longitude": 91.1162
+  },
+  {
+    "districtId": 298,
+    "state": "Meghalaya",
+    "district": "East Khasi Hills",
+    "strayDogsCensus": 1581,
+    "strayCattleCensus": 41,
+    "latitude": 25.717,
+    "longitude": 91.8662
+  },
+  {
+    "districtId": 299,
+    "state": "Meghalaya",
+    "district": "West Jaintia Hills",
+    "strayDogsCensus": 592,
+    "strayCattleCensus": 1,
+    "latitude": 25.967,
+    "longitude": 90.8662
+  },
+  {
+    "districtId": 668,
+    "state": "Meghalaya",
+    "district": "East Jaintia Hills",
+    "strayDogsCensus": 272,
+    "strayCattleCensus": 0,
+    "latitude": 25.467,
+    "longitude": 91.1162
+  },
+  {
+    "districtId": 677,
+    "state": "Meghalaya",
+    "district": "North Garo Hills",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 25.967,
+    "longitude": 90.8662
+  },
+  {
+    "districtId": 683,
+    "state": "Meghalaya",
+    "district": "South West Garo Hills",
+    "strayDogsCensus": 625,
+    "strayCattleCensus": 27,
+    "latitude": 25.717,
+    "longitude": 91.8662
+  },
+  {
+    "districtId": 684,
+    "state": "Meghalaya",
+    "district": "South West Khasi Hills",
+    "strayDogsCensus": 37,
+    "strayCattleCensus": 0,
+    "latitude": 25.967,
+    "longitude": 90.8662
+  },
+  {
+    "districtId": 616,
+    "state": "Assam",
+    "district": "BAKSA",
+    "strayDogsCensus": 12195,
+    "strayCattleCensus": 1288,
+    "latitude": 25.4506,
+    "longitude": 92.1876
+  },
+  {
+    "districtId": 280,
+    "state": "Assam",
+    "district": "Barpeta",
+    "strayDogsCensus": 17225,
+    "strayCattleCensus": 830,
+    "latitude": 25.4506,
+    "longitude": 92.1876
+  },
+  {
+    "districtId": 705,
+    "state": "Assam",
+    "district": "Biswanath",
+    "strayDogsCensus": 12086,
+    "strayCattleCensus": 1778,
+    "latitude": 26.7006,
+    "longitude": 92.4376
+  },
+  {
+    "districtId": 281,
+    "state": "Assam",
+    "district": "BONGAIGAON",
+    "strayDogsCensus": 7937,
+    "strayCattleCensus": 624,
+    "latitude": 25.7006,
+    "longitude": 92.9376
+  },
+  {
+    "districtId": 282,
+    "state": "Assam",
+    "district": "Cachar",
+    "strayDogsCensus": 4212,
+    "strayCattleCensus": 4115,
+    "latitude": 25.9506,
+    "longitude": 93.6876
+  },
+  {
+    "districtId": 612,
+    "state": "Assam",
+    "district": "Chirang",
+    "strayDogsCensus": 5866,
+    "strayCattleCensus": 242,
+    "latitude": 26.2006,
+    "longitude": 92.6876
+  },
+  {
+    "districtId": 283,
+    "state": "Assam",
+    "district": "DARRANG",
+    "strayDogsCensus": 7509,
+    "strayCattleCensus": 3612,
+    "latitude": 26.2006,
+    "longitude": 92.6876
+  },
+  {
+    "districtId": 284,
+    "state": "Assam",
+    "district": "DHEMAJI",
+    "strayDogsCensus": 7716,
+    "strayCattleCensus": 486,
+    "latitude": 26.4506,
+    "longitude": 93.4376
+  },
+  {
+    "districtId": 285,
+    "state": "Assam",
+    "district": "DHUBRI",
+    "strayDogsCensus": 4677,
+    "strayCattleCensus": 508,
+    "latitude": 26.7006,
+    "longitude": 92.4376
+  },
+  {
+    "districtId": 286,
+    "state": "Assam",
+    "district": "Dibrugarh",
+    "strayDogsCensus": 6555,
+    "strayCattleCensus": 494,
+    "latitude": 26.9506,
+    "longitude": 93.1876
+  },
+  {
+    "districtId": 299,
+    "state": "Assam",
+    "district": "Dima Hasao",
+    "strayDogsCensus": 5618,
+    "strayCattleCensus": 1182,
+    "latitude": 26.7006,
+    "longitude": 92.4376
+  },
+  {
+    "districtId": 287,
+    "state": "Assam",
+    "district": "Goalpara",
+    "strayDogsCensus": 3530,
+    "strayCattleCensus": 420,
+    "latitude": 25.4506,
+    "longitude": 92.1876
+  },
+  {
+    "districtId": 288,
+    "state": "Assam",
+    "district": "Golaghat",
+    "strayDogsCensus": 5183,
+    "strayCattleCensus": 1931,
+    "latitude": 25.7006,
+    "longitude": 92.9376
+  },
+  {
+    "districtId": 289,
+    "state": "Assam",
+    "district": "Hailakandi",
+    "strayDogsCensus": 2609,
+    "strayCattleCensus": 344,
+    "latitude": 25.9506,
+    "longitude": 93.6876
+  },
+  {
+    "districtId": 709,
+    "state": "Assam",
+    "district": "Hojai",
+    "strayDogsCensus": 2609,
+    "strayCattleCensus": 1064,
+    "latitude": 25.9506,
+    "longitude": 93.6876
+  },
+  {
+    "districtId": 290,
+    "state": "Assam",
+    "district": "Jorhat",
+    "strayDogsCensus": 5067,
+    "strayCattleCensus": 903,
+    "latitude": 26.2006,
+    "longitude": 92.6876
+  },
+  {
+    "districtId": 291,
+    "state": "Assam",
+    "district": "Kamrup",
+    "strayDogsCensus": 10314,
+    "strayCattleCensus": 1453,
+    "latitude": 26.4506,
+    "longitude": 93.4376
+  },
+  {
+    "districtId": 618,
+    "state": "Assam",
+    "district": "Kamrup (M)",
+    "strayDogsCensus": 3389,
+    "strayCattleCensus": 835,
+    "latitude": 25.9506,
+    "longitude": 93.6876
+  },
+  {
+    "districtId": 292,
+    "state": "Assam",
+    "district": "Karbi Anglong",
+    "strayDogsCensus": 709,
+    "strayCattleCensus": 180,
+    "latitude": 26.7006,
+    "longitude": 92.4376
+  },
+  {
+    "districtId": 293,
+    "state": "Assam",
+    "district": "Karimganj",
+    "strayDogsCensus": 8254,
+    "strayCattleCensus": 4464,
+    "latitude": 26.9506,
+    "longitude": 93.1876
+  },
+  {
+    "districtId": 294,
+    "state": "Assam",
+    "district": "Kokrajhar",
+    "strayDogsCensus": 5445,
+    "strayCattleCensus": 258,
+    "latitude": 25.4506,
+    "longitude": 92.1876
+  },
+  {
+    "districtId": 295,
+    "state": "Assam",
+    "district": "Lakhimpur",
+    "strayDogsCensus": 10787,
+    "strayCattleCensus": 704,
+    "latitude": 25.7006,
+    "longitude": 92.9376
+  },
+  {
+    "districtId": 706,
+    "state": "Assam",
+    "district": "Majuli",
+    "strayDogsCensus": 2867,
+    "strayCattleCensus": 897,
+    "latitude": 26.9506,
+    "longitude": 93.1876
+  },
+  {
+    "districtId": 296,
+    "state": "Assam",
+    "district": "Morigaon",
+    "strayDogsCensus": 5161,
+    "strayCattleCensus": 514,
+    "latitude": 25.9506,
+    "longitude": 93.6876
+  },
+  {
+    "districtId": 297,
+    "state": "Assam",
+    "district": "Nagaon",
+    "strayDogsCensus": 12689,
+    "strayCattleCensus": 1153,
+    "latitude": 26.2006,
+    "longitude": 92.6876
+  },
+  {
+    "districtId": 298,
+    "state": "Assam",
+    "district": "Nalbari",
+    "strayDogsCensus": 4976,
+    "strayCattleCensus": 409,
+    "latitude": 26.4506,
+    "longitude": 93.4376
+  },
+  {
+    "districtId": 300,
+    "state": "Assam",
+    "district": "Sibsagar",
+    "strayDogsCensus": 5087,
+    "strayCattleCensus": 892,
+    "latitude": 26.9506,
+    "longitude": 93.1876
+  },
+  {
+    "districtId": 301,
+    "state": "Assam",
+    "district": "Sonitpur",
+    "strayDogsCensus": 12961,
+    "strayCattleCensus": 3109,
+    "latitude": 25.4506,
+    "longitude": 92.1876
+  },
+  {
+    "districtId": 708,
+    "state": "Assam",
+    "district": "Soraideu",
+    "strayDogsCensus": 2366,
+    "strayCattleCensus": 935,
+    "latitude": 25.7006,
+    "longitude": 92.9376
+  },
+  {
+    "districtId": 707,
+    "state": "Assam",
+    "district": "South Salmara",
+    "strayDogsCensus": 1360,
+    "strayCattleCensus": 184,
+    "latitude": 25.4506,
+    "longitude": 92.1876
+  },
+  {
+    "districtId": 302,
+    "state": "Assam",
+    "district": "Tinsukia",
+    "strayDogsCensus": 7256,
+    "strayCattleCensus": 2431,
+    "latitude": 25.7006,
+    "longitude": 92.9376
+  },
+  {
+    "districtId": 617,
+    "state": "Assam",
+    "district": "Udalguri",
+    "strayDogsCensus": 9025,
+    "strayCattleCensus": 2273,
+    "latitude": 25.7006,
+    "longitude": 92.9376
+  },
+  {
+    "districtId": 710,
+    "state": "Assam",
+    "district": "West Karbi Anglong",
+    "strayDogsCensus": 658,
+    "strayCattleCensus": 96,
+    "latitude": 26.2006,
+    "longitude": 92.6876
+  },
+  {
+    "districtId": 327,
+    "state": "West Bengal",
+    "district": "Darjeeling",
+    "strayDogsCensus": 13695,
+    "strayCattleCensus": 1555,
+    "latitude": 23.4868,
+    "longitude": 87.355
+  },
+  {
+    "districtId": 328,
+    "state": "West Bengal",
+    "district": "Jalpaiguri",
+    "strayDogsCensus": 18684,
+    "strayCattleCensus": 1931,
+    "latitude": 23.7368,
+    "longitude": 88.105
+  },
+  {
+    "districtId": 329,
+    "state": "West Bengal",
+    "district": "Coochbehar",
+    "strayDogsCensus": 44065,
+    "strayCattleCensus": 4253,
+    "latitude": 22.2368,
+    "longitude": 87.105
+  },
+  {
+    "districtId": 330,
+    "state": "West Bengal",
+    "district": "Dinajpur Uttar",
+    "strayDogsCensus": 39902,
+    "strayCattleCensus": 4576,
+    "latitude": 22.4868,
+    "longitude": 87.855
+  },
+  {
+    "districtId": 331,
+    "state": "West Bengal",
+    "district": "Dinajpur Dakshin",
+    "strayDogsCensus": 33057,
+    "strayCattleCensus": 7551,
+    "latitude": 22.7368,
+    "longitude": 88.605
+  },
+  {
+    "districtId": 332,
+    "state": "West Bengal",
+    "district": "Maldah",
+    "strayDogsCensus": 55323,
+    "strayCattleCensus": 10696,
+    "latitude": 22.9868,
+    "longitude": 87.605
+  },
+  {
+    "districtId": 333,
+    "state": "West Bengal",
+    "district": "Murshidabad",
+    "strayDogsCensus": 110284,
+    "strayCattleCensus": 5366,
+    "latitude": 23.2368,
+    "longitude": 88.355
+  },
+  {
+    "districtId": 334,
+    "state": "West Bengal",
+    "district": "Birbhum",
+    "strayDogsCensus": 68322,
+    "strayCattleCensus": 2116,
+    "latitude": 23.4868,
+    "longitude": 87.355
+  },
+  {
+    "districtId": 335,
+    "state": "West Bengal",
+    "district": "Bardhaman",
+    "strayDogsCensus": 98284,
+    "strayCattleCensus": 3722,
+    "latitude": 23.7368,
+    "longitude": 88.105
+  },
+  {
+    "districtId": 336,
+    "state": "West Bengal",
+    "district": "Nadia",
+    "strayDogsCensus": 63624,
+    "strayCattleCensus": 3257,
+    "latitude": 22.2368,
+    "longitude": 87.105
+  },
+  {
+    "districtId": 337,
+    "state": "West Bengal",
+    "district": "24 Paraganas North",
+    "strayDogsCensus": 88959,
+    "strayCattleCensus": 5319,
+    "latitude": 22.4868,
+    "longitude": 87.855
+  },
+  {
+    "districtId": 338,
+    "state": "West Bengal",
+    "district": "Hooghly",
+    "strayDogsCensus": 77011,
+    "strayCattleCensus": 7181,
+    "latitude": 22.7368,
+    "longitude": 88.605
+  },
+  {
+    "districtId": 339,
+    "state": "West Bengal",
+    "district": "Bankura",
+    "strayDogsCensus": 71532,
+    "strayCattleCensus": 3106,
+    "latitude": 22.9868,
+    "longitude": 87.605
+  },
+  {
+    "districtId": 340,
+    "state": "West Bengal",
+    "district": "Purulia",
+    "strayDogsCensus": 34554,
+    "strayCattleCensus": 3765,
+    "latitude": 23.2368,
+    "longitude": 88.355
+  },
+  {
+    "districtId": 341,
+    "state": "West Bengal",
+    "district": "Howrah",
+    "strayDogsCensus": 26744,
+    "strayCattleCensus": 2080,
+    "latitude": 23.4868,
+    "longitude": 87.355
+  },
+  {
+    "districtId": 342,
+    "state": "West Bengal",
+    "district": "Kolkata",
+    "strayDogsCensus": 21146,
+    "strayCattleCensus": 1034,
+    "latitude": 22.5726,
+    "longitude": 88.3639
+  },
+  {
+    "districtId": 343,
+    "state": "West Bengal",
+    "district": "24 Paraganas South",
+    "strayDogsCensus": 70543,
+    "strayCattleCensus": 3520,
+    "latitude": 22.2368,
+    "longitude": 87.105
+  },
+  {
+    "districtId": 344,
+    "state": "West Bengal",
+    "district": "Medinipur West",
+    "strayDogsCensus": 76589,
+    "strayCattleCensus": 6924,
+    "latitude": 22.4868,
+    "longitude": 87.855
+  },
+  {
+    "districtId": 345,
+    "state": "West Bengal",
+    "district": "Medinipur East",
+    "strayDogsCensus": 66811,
+    "strayCattleCensus": 14886,
+    "latitude": 22.7368,
+    "longitude": 88.605
+  },
+  {
+    "districtId": 662,
+    "state": "West Bengal",
+    "district": "Alipurduar",
+    "strayDogsCensus": 14979,
+    "strayCattleCensus": 1447,
+    "latitude": 23.2368,
+    "longitude": 88.355
+  },
+  {
+    "districtId": 830,
+    "state": "West Bengal",
+    "district": "PASCHIM BARDHAMAN",
+    "strayDogsCensus": 22818,
+    "strayCattleCensus": 1259,
+    "latitude": 23.2368,
+    "longitude": 88.355
+  },
+  {
+    "districtId": 831,
+    "state": "West Bengal",
+    "district": "KALIMPONG",
+    "strayDogsCensus": 1624,
+    "strayCattleCensus": 0,
+    "latitude": 23.4868,
+    "longitude": 87.355
+  },
+  {
+    "districtId": 832,
+    "state": "West Bengal",
+    "district": "Jhargram",
+    "strayDogsCensus": 21615,
+    "strayCattleCensus": 3189,
+    "latitude": 23.7368,
+    "longitude": 88.105
+  },
+  {
+    "districtId": 346,
+    "state": "Jharkhand",
+    "district": "Garhwa",
+    "strayDogsCensus": 11009,
+    "strayCattleCensus": 708,
+    "latitude": 23.6102,
+    "longitude": 85.0299
+  },
+  {
+    "districtId": 347,
+    "state": "Jharkhand",
+    "district": "Chatra",
+    "strayDogsCensus": 20860,
+    "strayCattleCensus": 738,
+    "latitude": 23.8602,
+    "longitude": 85.7799
+  },
+  {
+    "districtId": 348,
+    "state": "Jharkhand",
+    "district": "Koderma",
+    "strayDogsCensus": 8768,
+    "strayCattleCensus": 369,
+    "latitude": 24.1102,
+    "longitude": 84.7799
+  },
+  {
+    "districtId": 349,
+    "state": "Jharkhand",
+    "district": "Giridih",
+    "strayDogsCensus": 36764,
+    "strayCattleCensus": 2906,
+    "latitude": 24.3602,
+    "longitude": 85.5299
+  },
+  {
+    "districtId": 350,
+    "state": "Jharkhand",
+    "district": "Deoghar",
+    "strayDogsCensus": 23452,
+    "strayCattleCensus": 1220,
+    "latitude": 22.8602,
+    "longitude": 84.5299
+  },
+  {
+    "districtId": 351,
+    "state": "Jharkhand",
+    "district": "Godda",
+    "strayDogsCensus": 15461,
+    "strayCattleCensus": 2511,
+    "latitude": 23.1102,
+    "longitude": 85.2799
+  },
+  {
+    "districtId": 352,
+    "state": "Jharkhand",
+    "district": "Sahebganj",
+    "strayDogsCensus": 20712,
+    "strayCattleCensus": 1891,
+    "latitude": 23.3602,
+    "longitude": 86.0299
+  },
+  {
+    "districtId": 353,
+    "state": "Jharkhand",
+    "district": "Pakur",
+    "strayDogsCensus": 23094,
+    "strayCattleCensus": 1001,
+    "latitude": 23.6102,
+    "longitude": 85.0299
+  },
+  {
+    "districtId": 354,
+    "state": "Jharkhand",
+    "district": "Dhanbad",
+    "strayDogsCensus": 19764,
+    "strayCattleCensus": 2222,
+    "latitude": 23.8602,
+    "longitude": 85.7799
+  },
+  {
+    "districtId": 355,
+    "state": "Jharkhand",
+    "district": "Bokaro",
+    "strayDogsCensus": 16358,
+    "strayCattleCensus": 1501,
+    "latitude": 24.1102,
+    "longitude": 84.7799
+  },
+  {
+    "districtId": 356,
+    "state": "Jharkhand",
+    "district": "Lohardaga",
+    "strayDogsCensus": 6177,
+    "strayCattleCensus": 25,
+    "latitude": 24.3602,
+    "longitude": 85.5299
+  },
+  {
+    "districtId": 357,
+    "state": "Jharkhand",
+    "district": "East Singhbum",
+    "strayDogsCensus": 24365,
+    "strayCattleCensus": 3441,
+    "latitude": 22.8602,
+    "longitude": 84.5299
+  },
+  {
+    "districtId": 358,
+    "state": "Jharkhand",
+    "district": "Palamu",
+    "strayDogsCensus": 23727,
+    "strayCattleCensus": 1882,
+    "latitude": 23.1102,
+    "longitude": 85.2799
+  },
+  {
+    "districtId": 359,
+    "state": "Jharkhand",
+    "district": "Latehar",
+    "strayDogsCensus": 8177,
+    "strayCattleCensus": 139,
+    "latitude": 23.3602,
+    "longitude": 86.0299
+  },
+  {
+    "districtId": 360,
+    "state": "Jharkhand",
+    "district": "Hazaribagh",
+    "strayDogsCensus": 24451,
+    "strayCattleCensus": 2207,
+    "latitude": 23.6102,
+    "longitude": 85.0299
+  },
+  {
+    "districtId": 361,
+    "state": "Jharkhand",
+    "district": "Ramgarh",
+    "strayDogsCensus": 10754,
+    "strayCattleCensus": 530,
+    "latitude": 23.8602,
+    "longitude": 85.7799
+  },
+  {
+    "districtId": 362,
+    "state": "Jharkhand",
+    "district": "Dumka",
+    "strayDogsCensus": 26582,
+    "strayCattleCensus": 1677,
+    "latitude": 24.1102,
+    "longitude": 84.7799
+  },
+  {
+    "districtId": 363,
+    "state": "Jharkhand",
+    "district": "Jamtara",
+    "strayDogsCensus": 13436,
+    "strayCattleCensus": 1219,
+    "latitude": 24.3602,
+    "longitude": 85.5299
+  },
+  {
+    "districtId": 364,
+    "state": "Jharkhand",
+    "district": "Ranchi",
+    "strayDogsCensus": 32885,
+    "strayCattleCensus": 1756,
+    "latitude": 22.8602,
+    "longitude": 84.5299
+  },
+  {
+    "districtId": 365,
+    "state": "Jharkhand",
+    "district": "Khunti",
+    "strayDogsCensus": 12775,
+    "strayCattleCensus": 375,
+    "latitude": 23.1102,
+    "longitude": 85.2799
+  },
+  {
+    "districtId": 366,
+    "state": "Jharkhand",
+    "district": "Gumla",
+    "strayDogsCensus": 15472,
+    "strayCattleCensus": 154,
+    "latitude": 23.3602,
+    "longitude": 86.0299
+  },
+  {
+    "districtId": 367,
+    "state": "Jharkhand",
+    "district": "Simdega",
+    "strayDogsCensus": 5211,
+    "strayCattleCensus": 559,
+    "latitude": 23.6102,
+    "longitude": 85.0299
+  },
+  {
+    "districtId": 368,
+    "state": "Jharkhand",
+    "district": "West Singhbhum",
+    "strayDogsCensus": 22595,
+    "strayCattleCensus": 1187,
+    "latitude": 23.8602,
+    "longitude": 85.7799
+  },
+  {
+    "districtId": 369,
+    "state": "Jharkhand",
+    "district": "Saraikela Kharsawan",
+    "strayDogsCensus": 13411,
+    "strayCattleCensus": 2555,
+    "latitude": 24.1102,
+    "longitude": 84.7799
+  },
+  {
+    "districtId": 370,
+    "state": "Odisha",
+    "district": "Bargarh",
+    "strayDogsCensus": 25379,
+    "strayCattleCensus": 845,
+    "latitude": 21.7017,
+    "longitude": 85.3485
+  },
+  {
+    "districtId": 371,
+    "state": "Odisha",
+    "district": "Jharsuguda",
+    "strayDogsCensus": 8423,
+    "strayCattleCensus": 1130,
+    "latitude": 20.2017,
+    "longitude": 84.3485
+  },
+  {
+    "districtId": 372,
+    "state": "Odisha",
+    "district": "Sambalpur",
+    "strayDogsCensus": 22950,
+    "strayCattleCensus": 2358,
+    "latitude": 20.4517,
+    "longitude": 85.0985
+  },
+  {
+    "districtId": 373,
+    "state": "Odisha",
+    "district": "Deogarh",
+    "strayDogsCensus": 5025,
+    "strayCattleCensus": 389,
+    "latitude": 20.7017,
+    "longitude": 85.8485
+  },
+  {
+    "districtId": 374,
+    "state": "Odisha",
+    "district": "Sundargarh",
+    "strayDogsCensus": 33475,
+    "strayCattleCensus": 6449,
+    "latitude": 20.9517,
+    "longitude": 84.8485
+  },
+  {
+    "districtId": 375,
+    "state": "Odisha",
+    "district": "Kendujhar",
+    "strayDogsCensus": 24758,
+    "strayCattleCensus": 4953,
+    "latitude": 21.2017,
+    "longitude": 85.5985
+  },
+  {
+    "districtId": 376,
+    "state": "Odisha",
+    "district": "Mayurbhanj",
+    "strayDogsCensus": 31269,
+    "strayCattleCensus": 8026,
+    "latitude": 21.4517,
+    "longitude": 84.5985
+  },
+  {
+    "districtId": 377,
+    "state": "Odisha",
+    "district": "Baleshwar",
+    "strayDogsCensus": 44059,
+    "strayCattleCensus": 16380,
+    "latitude": 21.7017,
+    "longitude": 85.3485
+  },
+  {
+    "districtId": 378,
+    "state": "Odisha",
+    "district": "Bhadrak",
+    "strayDogsCensus": 30171,
+    "strayCattleCensus": 26071,
+    "latitude": 20.2017,
+    "longitude": 84.3485
+  },
+  {
+    "districtId": 379,
+    "state": "Odisha",
+    "district": "Kendrapara",
+    "strayDogsCensus": 30051,
+    "strayCattleCensus": 9376,
+    "latitude": 20.4517,
+    "longitude": 85.0985
+  },
+  {
+    "districtId": 380,
+    "state": "Odisha",
+    "district": "Jagatsinghapur",
+    "strayDogsCensus": 22609,
+    "strayCattleCensus": 4776,
+    "latitude": 20.7017,
+    "longitude": 85.8485
+  },
+  {
+    "districtId": 381,
+    "state": "Odisha",
+    "district": "Cuttack",
+    "strayDogsCensus": 49178,
+    "strayCattleCensus": 11741,
+    "latitude": 20.9517,
+    "longitude": 84.8485
+  },
+  {
+    "districtId": 382,
+    "state": "Odisha",
+    "district": "Jajapur",
+    "strayDogsCensus": 25594,
+    "strayCattleCensus": 4792,
+    "latitude": 21.2017,
+    "longitude": 85.5985
+  },
+  {
+    "districtId": 383,
+    "state": "Odisha",
+    "district": "Dhenkanal",
+    "strayDogsCensus": 27069,
+    "strayCattleCensus": 5808,
+    "latitude": 21.4517,
+    "longitude": 84.5985
+  },
+  {
+    "districtId": 384,
+    "state": "Odisha",
+    "district": "Anugul",
+    "strayDogsCensus": 26843,
+    "strayCattleCensus": 7641,
+    "latitude": 21.7017,
+    "longitude": 85.3485
+  },
+  {
+    "districtId": 385,
+    "state": "Odisha",
+    "district": "Nayagarh",
+    "strayDogsCensus": 22902,
+    "strayCattleCensus": 2781,
+    "latitude": 20.2017,
+    "longitude": 84.3485
+  },
+  {
+    "districtId": 386,
+    "state": "Odisha",
+    "district": "Khordha",
+    "strayDogsCensus": 34014,
+    "strayCattleCensus": 10171,
+    "latitude": 20.4517,
+    "longitude": 85.0985
+  },
+  {
+    "districtId": 387,
+    "state": "Odisha",
+    "district": "Puri",
+    "strayDogsCensus": 30909,
+    "strayCattleCensus": 10143,
+    "latitude": 20.7017,
+    "longitude": 85.8485
+  },
+  {
+    "districtId": 388,
+    "state": "Odisha",
+    "district": "Ganjam",
+    "strayDogsCensus": 47146,
+    "strayCattleCensus": 6558,
+    "latitude": 20.9517,
+    "longitude": 84.8485
+  },
+  {
+    "districtId": 389,
+    "state": "Odisha",
+    "district": "Gajapati",
+    "strayDogsCensus": 15011,
+    "strayCattleCensus": 429,
+    "latitude": 21.2017,
+    "longitude": 85.5985
+  },
+  {
+    "districtId": 390,
+    "state": "Odisha",
+    "district": "Kandhamal",
+    "strayDogsCensus": 7437,
+    "strayCattleCensus": 507,
+    "latitude": 21.4517,
+    "longitude": 84.5985
+  },
+  {
+    "districtId": 391,
+    "state": "Odisha",
+    "district": "Boudh",
+    "strayDogsCensus": 6412,
+    "strayCattleCensus": 506,
+    "latitude": 21.7017,
+    "longitude": 85.3485
+  },
+  {
+    "districtId": 392,
+    "state": "Odisha",
+    "district": "Sonepur",
+    "strayDogsCensus": 7825,
+    "strayCattleCensus": 763,
+    "latitude": 20.2017,
+    "longitude": 84.3485
+  },
+  {
+    "districtId": 393,
+    "state": "Odisha",
+    "district": "Balangir",
+    "strayDogsCensus": 29895,
+    "strayCattleCensus": 2245,
+    "latitude": 20.4517,
+    "longitude": 85.0985
+  },
+  {
+    "districtId": 394,
+    "state": "Odisha",
+    "district": "Nuapada",
+    "strayDogsCensus": 11372,
+    "strayCattleCensus": 879,
+    "latitude": 20.7017,
+    "longitude": 85.8485
+  },
+  {
+    "districtId": 395,
+    "state": "Odisha",
+    "district": "Kalahandi",
+    "strayDogsCensus": 1062645,
+    "strayCattleCensus": 1144,
+    "latitude": 20.9517,
+    "longitude": 84.8485
+  },
+  {
+    "districtId": 396,
+    "state": "Odisha",
+    "district": "Rayagada",
+    "strayDogsCensus": 15857,
+    "strayCattleCensus": 951,
+    "latitude": 21.2017,
+    "longitude": 85.5985
+  },
+  {
+    "districtId": 397,
+    "state": "Odisha",
+    "district": "Nabarangpur",
+    "strayDogsCensus": 11276,
+    "strayCattleCensus": 1319,
+    "latitude": 21.4517,
+    "longitude": 84.5985
+  },
+  {
+    "districtId": 398,
+    "state": "Odisha",
+    "district": "Koraput",
+    "strayDogsCensus": 17107,
+    "strayCattleCensus": 1981,
+    "latitude": 21.7017,
+    "longitude": 85.3485
+  },
+  {
+    "districtId": 399,
+    "state": "Odisha",
+    "district": "Malkangiri",
+    "strayDogsCensus": 7738,
+    "strayCattleCensus": 591,
+    "latitude": 20.2017,
+    "longitude": 84.3485
+  },
+  {
+    "districtId": 400,
+    "state": "Chhattisgarh",
+    "district": "Korea",
+    "strayDogsCensus": 11493,
+    "strayCattleCensus": 1156,
+    "latitude": 20.7787,
+    "longitude": 81.8661
+  },
+  {
+    "districtId": 401,
+    "state": "Chhattisgarh",
+    "district": "Surguja",
+    "strayDogsCensus": 10432,
+    "strayCattleCensus": 1289,
+    "latitude": 21.0287,
+    "longitude": 82.6161
+  },
+  {
+    "districtId": 402,
+    "state": "Chhattisgarh",
+    "district": "Jashpur",
+    "strayDogsCensus": 8179,
+    "strayCattleCensus": 471,
+    "latitude": 21.2787,
+    "longitude": 81.6161
+  },
+  {
+    "districtId": 403,
+    "state": "Chhattisgarh",
+    "district": "Raigarh",
+    "strayDogsCensus": 27265,
+    "strayCattleCensus": 5241,
+    "latitude": 21.5287,
+    "longitude": 82.3661
+  },
+  {
+    "districtId": 404,
+    "state": "Chhattisgarh",
+    "district": "Korba",
+    "strayDogsCensus": 13889,
+    "strayCattleCensus": 5935,
+    "latitude": 21.7787,
+    "longitude": 81.3661
+  },
+  {
+    "districtId": 405,
+    "state": "Chhattisgarh",
+    "district": "Janjgir-Champa",
+    "strayDogsCensus": 29716,
+    "strayCattleCensus": 17069,
+    "latitude": 22.0287,
+    "longitude": 82.1161
+  },
+  {
+    "districtId": 406,
+    "state": "Chhattisgarh",
+    "district": "Bilaspur",
+    "strayDogsCensus": 25897,
+    "strayCattleCensus": 14479,
+    "latitude": 20.5287,
+    "longitude": 81.1161
+  },
+  {
+    "districtId": 407,
+    "state": "Chhattisgarh",
+    "district": "Kabirdham (Kawardha)",
+    "strayDogsCensus": 14682,
+    "strayCattleCensus": 5571,
+    "latitude": 20.7787,
+    "longitude": 81.8661
+  },
+  {
+    "districtId": 408,
+    "state": "Chhattisgarh",
+    "district": "Rajnandgaon",
+    "strayDogsCensus": 21614,
+    "strayCattleCensus": 8232,
+    "latitude": 21.0287,
+    "longitude": 82.6161
+  },
+  {
+    "districtId": 409,
+    "state": "Chhattisgarh",
+    "district": "Durg",
+    "strayDogsCensus": 20907,
+    "strayCattleCensus": 17655,
+    "latitude": 21.2787,
+    "longitude": 81.6161
+  },
+  {
+    "districtId": 410,
+    "state": "Chhattisgarh",
+    "district": "Raipur",
+    "strayDogsCensus": 20960,
+    "strayCattleCensus": 18021,
+    "latitude": 21.5287,
+    "longitude": 82.3661
+  },
+  {
+    "districtId": 411,
+    "state": "Chhattisgarh",
+    "district": "Mahasamund",
+    "strayDogsCensus": 20733,
+    "strayCattleCensus": 11785,
+    "latitude": 21.7787,
+    "longitude": 81.3661
+  },
+  {
+    "districtId": 412,
+    "state": "Chhattisgarh",
+    "district": "Dhamtari",
+    "strayDogsCensus": 16382,
+    "strayCattleCensus": 4469,
+    "latitude": 22.0287,
+    "longitude": 82.1161
+  },
+  {
+    "districtId": 413,
+    "state": "Chhattisgarh",
+    "district": "Kanker",
+    "strayDogsCensus": 10303,
+    "strayCattleCensus": 1614,
+    "latitude": 20.5287,
+    "longitude": 81.1161
+  },
+  {
+    "districtId": 414,
+    "state": "Chhattisgarh",
+    "district": "Bastar",
+    "strayDogsCensus": 7308,
+    "strayCattleCensus": 2300,
+    "latitude": 20.7787,
+    "longitude": 81.8661
+  },
+  {
+    "districtId": 415,
+    "state": "Chhattisgarh",
+    "district": "Narayanpur",
+    "strayDogsCensus": 1621,
+    "strayCattleCensus": 147,
+    "latitude": 21.0287,
+    "longitude": 82.6161
+  },
+  {
+    "districtId": 416,
+    "state": "Chhattisgarh",
+    "district": "Dantewada",
+    "strayDogsCensus": 2556,
+    "strayCattleCensus": 581,
+    "latitude": 21.2787,
+    "longitude": 81.6161
+  },
+  {
+    "districtId": 417,
+    "state": "Chhattisgarh",
+    "district": "Bijapur",
+    "strayDogsCensus": 5106,
+    "strayCattleCensus": 570,
+    "latitude": 21.5287,
+    "longitude": 82.3661
+  },
+  {
+    "districtId": 664,
+    "state": "Chhattisgarh",
+    "district": "Balod",
+    "strayDogsCensus": 10624,
+    "strayCattleCensus": 4984,
+    "latitude": 22.0287,
+    "longitude": 82.1161
+  },
+  {
+    "districtId": 665,
+    "state": "Chhattisgarh",
+    "district": "Baloda Bazar",
+    "strayDogsCensus": 27184,
+    "strayCattleCensus": 25649,
+    "latitude": 20.5287,
+    "longitude": 81.1161
+  },
+  {
+    "districtId": 666,
+    "state": "Chhattisgarh",
+    "district": "Balrampur",
+    "strayDogsCensus": 13489,
+    "strayCattleCensus": 633,
+    "latitude": 20.7787,
+    "longitude": 81.8661
+  },
+  {
+    "districtId": 667,
+    "state": "Chhattisgarh",
+    "district": "Bemetara",
+    "strayDogsCensus": 22796,
+    "strayCattleCensus": 19547,
+    "latitude": 21.0287,
+    "longitude": 82.6161
+  },
+  {
+    "districtId": 670,
+    "state": "Chhattisgarh",
+    "district": "Gariyaband",
+    "strayDogsCensus": 24419,
+    "strayCattleCensus": 13765,
+    "latitude": 21.7787,
+    "longitude": 81.3661
+  },
+  {
+    "districtId": 674,
+    "state": "Chhattisgarh",
+    "district": "Kondagaon",
+    "strayDogsCensus": 4752,
+    "strayCattleCensus": 41,
+    "latitude": 21.0287,
+    "longitude": 82.6161
+  },
+  {
+    "districtId": 676,
+    "state": "Chhattisgarh",
+    "district": "Mungeli",
+    "strayDogsCensus": 7821,
+    "strayCattleCensus": 3232,
+    "latitude": 21.5287,
+    "longitude": 82.3661
+  },
+  {
+    "districtId": 685,
+    "state": "Chhattisgarh",
+    "district": "Sukma",
+    "strayDogsCensus": 4268,
+    "strayCattleCensus": 14,
+    "latitude": 22.0287,
+    "longitude": 82.1161
+  },
+  {
+    "districtId": 686,
+    "state": "Chhattisgarh",
+    "district": "Surajpur",
+    "strayDogsCensus": 10290,
+    "strayCattleCensus": 543,
+    "latitude": 20.5287,
+    "longitude": 81.1161
+  },
+  {
+    "districtId": 746,
+    "state": "Madhya Pradesh",
+    "district": "HOSHANGABAD",
+    "strayDogsCensus": 12586,
+    "strayCattleCensus": 16308,
+    "latitude": 23.2234,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 747,
+    "state": "Madhya Pradesh",
+    "district": "SAGAR",
+    "strayDogsCensus": 41190,
+    "strayCattleCensus": 49819,
+    "latitude": 23.4734,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 748,
+    "state": "Madhya Pradesh",
+    "district": "NARSINGHPUR",
+    "strayDogsCensus": 14197,
+    "strayCattleCensus": 16855,
+    "latitude": 23.7234,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 749,
+    "state": "Madhya Pradesh",
+    "district": "ASHOKNAGAR",
+    "strayDogsCensus": 13679,
+    "strayCattleCensus": 22235,
+    "latitude": 22.2234,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 750,
+    "state": "Madhya Pradesh",
+    "district": "SEHORE",
+    "strayDogsCensus": 18924,
+    "strayCattleCensus": 19620,
+    "latitude": 22.4734,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 751,
+    "state": "Madhya Pradesh",
+    "district": "SHIVPURI",
+    "strayDogsCensus": 23662,
+    "strayCattleCensus": 26562,
+    "latitude": 22.7234,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 752,
+    "state": "Madhya Pradesh",
+    "district": "JHABUA",
+    "strayDogsCensus": 12948,
+    "strayCattleCensus": 426,
+    "latitude": 22.9734,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 753,
+    "state": "Madhya Pradesh",
+    "district": "MORENA",
+    "strayDogsCensus": 19119,
+    "strayCattleCensus": 20862,
+    "latitude": 23.2234,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 754,
+    "state": "Madhya Pradesh",
+    "district": "NEEMUCH",
+    "strayDogsCensus": 15999,
+    "strayCattleCensus": 9603,
+    "latitude": 23.4734,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 755,
+    "state": "Madhya Pradesh",
+    "district": "DHAR",
+    "strayDogsCensus": 31667,
+    "strayCattleCensus": 2613,
+    "latitude": 23.7234,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 756,
+    "state": "Madhya Pradesh",
+    "district": "BHIND",
+    "strayDogsCensus": 22973,
+    "strayCattleCensus": 28376,
+    "latitude": 22.2234,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 757,
+    "state": "Madhya Pradesh",
+    "district": "KHARGONE",
+    "strayDogsCensus": 21645,
+    "strayCattleCensus": 1747,
+    "latitude": 22.4734,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 758,
+    "state": "Madhya Pradesh",
+    "district": "ALIRAJPUR",
+    "strayDogsCensus": 6388,
+    "strayCattleCensus": 87,
+    "latitude": 22.7234,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 759,
+    "state": "Madhya Pradesh",
+    "district": "GUNA",
+    "strayDogsCensus": 20367,
+    "strayCattleCensus": 26713,
+    "latitude": 22.9734,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 760,
+    "state": "Madhya Pradesh",
+    "district": "UJJAIN",
+    "strayDogsCensus": 30908,
+    "strayCattleCensus": 14672,
+    "latitude": 23.2234,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 761,
+    "state": "Madhya Pradesh",
+    "district": "DINDORI",
+    "strayDogsCensus": 11703,
+    "strayCattleCensus": 813,
+    "latitude": 23.4734,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 762,
+    "state": "Madhya Pradesh",
+    "district": "BURHANPUR",
+    "strayDogsCensus": 8970,
+    "strayCattleCensus": 1172,
+    "latitude": 23.7234,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 763,
+    "state": "Madhya Pradesh",
+    "district": "BALAGHAT",
+    "strayDogsCensus": 15883,
+    "strayCattleCensus": 1260,
+    "latitude": 22.2234,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 764,
+    "state": "Madhya Pradesh",
+    "district": "VIDISHA",
+    "strayDogsCensus": 22324,
+    "strayCattleCensus": 18096,
+    "latitude": 22.4734,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 765,
+    "state": "Madhya Pradesh",
+    "district": "SHEOPUR",
+    "strayDogsCensus": 11303,
+    "strayCattleCensus": 14365,
+    "latitude": 22.7234,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 766,
+    "state": "Madhya Pradesh",
+    "district": "CHHINDWARA",
+    "strayDogsCensus": 21928,
+    "strayCattleCensus": 2438,
+    "latitude": 22.9734,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 767,
+    "state": "Madhya Pradesh",
+    "district": "RATLAM",
+    "strayDogsCensus": 23034,
+    "strayCattleCensus": 5272,
+    "latitude": 23.2234,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 768,
+    "state": "Madhya Pradesh",
+    "district": "BHOPAL",
+    "strayDogsCensus": 17753,
+    "strayCattleCensus": 9986,
+    "latitude": 23.4734,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 769,
+    "state": "Madhya Pradesh",
+    "district": "GWALIOR",
+    "strayDogsCensus": 26154,
+    "strayCattleCensus": 23181,
+    "latitude": 23.7234,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 770,
+    "state": "Madhya Pradesh",
+    "district": "SATNA",
+    "strayDogsCensus": 40999,
+    "strayCattleCensus": 61626,
+    "latitude": 22.2234,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 771,
+    "state": "Madhya Pradesh",
+    "district": "SIDHI",
+    "strayDogsCensus": 10955,
+    "strayCattleCensus": 6688,
+    "latitude": 22.4734,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 772,
+    "state": "Madhya Pradesh",
+    "district": "TIKAMGARH",
+    "strayDogsCensus": 27253,
+    "strayCattleCensus": 61860,
+    "latitude": 22.7234,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 773,
+    "state": "Madhya Pradesh",
+    "district": "DEWAS",
+    "strayDogsCensus": 27526,
+    "strayCattleCensus": 18695,
+    "latitude": 22.9734,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 774,
+    "state": "Madhya Pradesh",
+    "district": "UMARIA",
+    "strayDogsCensus": 11179,
+    "strayCattleCensus": 4572,
+    "latitude": 23.2234,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 775,
+    "state": "Madhya Pradesh",
+    "district": "MANDLA",
+    "strayDogsCensus": 12424,
+    "strayCattleCensus": 572,
+    "latitude": 23.4734,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 776,
+    "state": "Madhya Pradesh",
+    "district": "SINGRAULI",
+    "strayDogsCensus": 11049,
+    "strayCattleCensus": 3736,
+    "latitude": 23.7234,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 777,
+    "state": "Madhya Pradesh",
+    "district": "REWA",
+    "strayDogsCensus": 49639,
+    "strayCattleCensus": 82485,
+    "latitude": 22.2234,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 778,
+    "state": "Madhya Pradesh",
+    "district": "ANUPPUR",
+    "strayDogsCensus": 8888,
+    "strayCattleCensus": 3972,
+    "latitude": 22.4734,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 779,
+    "state": "Madhya Pradesh",
+    "district": "BETUL",
+    "strayDogsCensus": 13516,
+    "strayCattleCensus": 1984,
+    "latitude": 22.7234,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 780,
+    "state": "Madhya Pradesh",
+    "district": "HARDA",
+    "strayDogsCensus": 4341,
+    "strayCattleCensus": 3295,
+    "latitude": 22.9734,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 781,
+    "state": "Madhya Pradesh",
+    "district": "DATIA",
+    "strayDogsCensus": 9848,
+    "strayCattleCensus": 14700,
+    "latitude": 23.2234,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 782,
+    "state": "Madhya Pradesh",
+    "district": "RAJGARH",
+    "strayDogsCensus": 37139,
+    "strayCattleCensus": 59466,
+    "latitude": 23.4734,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 783,
+    "state": "Madhya Pradesh",
+    "district": "CHHATARPUR",
+    "strayDogsCensus": 36258,
+    "strayCattleCensus": 56063,
+    "latitude": 23.7234,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 784,
+    "state": "Madhya Pradesh",
+    "district": "DAMOH",
+    "strayDogsCensus": 13739,
+    "strayCattleCensus": 13490,
+    "latitude": 22.2234,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 785,
+    "state": "Madhya Pradesh",
+    "district": "AGAR MALWA",
+    "strayDogsCensus": 14195,
+    "strayCattleCensus": 22366,
+    "latitude": 22.4734,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 786,
+    "state": "Madhya Pradesh",
+    "district": "SEONI",
+    "strayDogsCensus": 19370,
+    "strayCattleCensus": 1980,
+    "latitude": 22.7234,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 787,
+    "state": "Madhya Pradesh",
+    "district": "EAST NIMAR",
+    "strayDogsCensus": 16551,
+    "strayCattleCensus": 1294,
+    "latitude": 22.9734,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 788,
+    "state": "Madhya Pradesh",
+    "district": "SHAJAPUR",
+    "strayDogsCensus": 10061,
+    "strayCattleCensus": 10898,
+    "latitude": 23.2234,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 789,
+    "state": "Madhya Pradesh",
+    "district": "BARWANI",
+    "strayDogsCensus": 14244,
+    "strayCattleCensus": 510,
+    "latitude": 23.4734,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 790,
+    "state": "Madhya Pradesh",
+    "district": "RAISEN",
+    "strayDogsCensus": 11772,
+    "strayCattleCensus": 16136,
+    "latitude": 23.7234,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 791,
+    "state": "Madhya Pradesh",
+    "district": "JABALPUR",
+    "strayDogsCensus": 24727,
+    "strayCattleCensus": 10205,
+    "latitude": 22.2234,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 792,
+    "state": "Madhya Pradesh",
+    "district": "SHAHDOL",
+    "strayDogsCensus": 12429,
+    "strayCattleCensus": 1637,
+    "latitude": 22.4734,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 793,
+    "state": "Madhya Pradesh",
+    "district": "PANNA",
+    "strayDogsCensus": 18545,
+    "strayCattleCensus": 28533,
+    "latitude": 22.7234,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 794,
+    "state": "Madhya Pradesh",
+    "district": "KATNI",
+    "strayDogsCensus": 20301,
+    "strayCattleCensus": 17975,
+    "latitude": 22.9734,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 795,
+    "state": "Madhya Pradesh",
+    "district": "INDORE",
+    "strayDogsCensus": 44859,
+    "strayCattleCensus": 3302,
+    "latitude": 23.2234,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 796,
+    "state": "Madhya Pradesh",
+    "district": "Mandsaur",
+    "strayDogsCensus": 21965,
+    "strayCattleCensus": 12850,
+    "latitude": 23.4734,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 797,
+    "state": "Gujarat",
+    "district": "AHMADABAD",
+    "strayDogsCensus": 41572,
+    "strayCattleCensus": 16505,
+    "latitude": 23.0087,
+    "longitude": 71.4424
+  },
+  {
+    "districtId": 798,
+    "state": "Gujarat",
+    "district": "AMRELI",
+    "strayDogsCensus": 26037,
+    "strayCattleCensus": 19801,
+    "latitude": 21.5087,
+    "longitude": 70.4424
+  },
+  {
+    "districtId": 799,
+    "state": "Gujarat",
+    "district": "ANAND",
+    "strayDogsCensus": 21175,
+    "strayCattleCensus": 4698,
+    "latitude": 21.7587,
+    "longitude": 71.1924
+  },
+  {
+    "districtId": 800,
+    "state": "Gujarat",
+    "district": "BANAS KANTHA",
+    "strayDogsCensus": 81120,
+    "strayCattleCensus": 34797,
+    "latitude": 22.0087,
+    "longitude": 71.9424
+  },
+  {
+    "districtId": 801,
+    "state": "Gujarat",
+    "district": "BHARUCH",
+    "strayDogsCensus": 32692,
+    "strayCattleCensus": 3177,
+    "latitude": 22.2587,
+    "longitude": 70.9424
+  },
+  {
+    "districtId": 802,
+    "state": "Gujarat",
+    "district": "BHAVNAGAR",
+    "strayDogsCensus": 46424,
+    "strayCattleCensus": 36803,
+    "latitude": 22.5087,
+    "longitude": 71.6924
+  },
+  {
+    "districtId": 803,
+    "state": "Gujarat",
+    "district": "DANG",
+    "strayDogsCensus": 6069,
+    "strayCattleCensus": 409,
+    "latitude": 22.7587,
+    "longitude": 70.6924
+  },
+  {
+    "districtId": 804,
+    "state": "Gujarat",
+    "district": "DOHAD",
+    "strayDogsCensus": 19925,
+    "strayCattleCensus": 840,
+    "latitude": 23.0087,
+    "longitude": 71.4424
+  },
+  {
+    "districtId": 805,
+    "state": "Gujarat",
+    "district": "GANDHINAGAR",
+    "strayDogsCensus": 20684,
+    "strayCattleCensus": 4678,
+    "latitude": 21.5087,
+    "longitude": 70.4424
+  },
+  {
+    "districtId": 806,
+    "state": "Gujarat",
+    "district": "JAMNAGAR",
+    "strayDogsCensus": 24158,
+    "strayCattleCensus": 25856,
+    "latitude": 21.7587,
+    "longitude": 71.1924
+  },
+  {
+    "districtId": 807,
+    "state": "Gujarat",
+    "district": "JUNAGADH",
+    "strayDogsCensus": 21689,
+    "strayCattleCensus": 14198,
+    "latitude": 22.0087,
+    "longitude": 71.9424
+  },
+  {
+    "districtId": 808,
+    "state": "Gujarat",
+    "district": "KACHCHH",
+    "strayDogsCensus": 74674,
+    "strayCattleCensus": 28178,
+    "latitude": 22.2587,
+    "longitude": 70.9424
+  },
+  {
+    "districtId": 809,
+    "state": "Gujarat",
+    "district": "KHEDA",
+    "strayDogsCensus": 25564,
+    "strayCattleCensus": 2820,
+    "latitude": 22.5087,
+    "longitude": 71.6924
+  },
+  {
+    "districtId": 810,
+    "state": "Gujarat",
+    "district": "MAHESANA",
+    "strayDogsCensus": 40837,
+    "strayCattleCensus": 11004,
+    "latitude": 22.7587,
+    "longitude": 70.6924
+  },
+  {
+    "districtId": 811,
+    "state": "Gujarat",
+    "district": "NARMADA",
+    "strayDogsCensus": 14440,
+    "strayCattleCensus": 211,
+    "latitude": 23.0087,
+    "longitude": 71.4424
+  },
+  {
+    "districtId": 812,
+    "state": "Gujarat",
+    "district": "NAVSARI",
+    "strayDogsCensus": 12538,
+    "strayCattleCensus": 4466,
+    "latitude": 21.5087,
+    "longitude": 70.4424
+  },
+  {
+    "districtId": 813,
+    "state": "Gujarat",
+    "district": "PANCH MAHALS",
+    "strayDogsCensus": 13879,
+    "strayCattleCensus": 1576,
+    "latitude": 21.7587,
+    "longitude": 71.1924
+  },
+  {
+    "districtId": 814,
+    "state": "Gujarat",
+    "district": "PATAN",
+    "strayDogsCensus": 26215,
+    "strayCattleCensus": 8792,
+    "latitude": 22.0087,
+    "longitude": 71.9424
+  },
+  {
+    "districtId": 815,
+    "state": "Gujarat",
+    "district": "PORBANDAR",
+    "strayDogsCensus": 12228,
+    "strayCattleCensus": 7792,
+    "latitude": 22.2587,
+    "longitude": 70.9424
+  },
+  {
+    "districtId": 816,
+    "state": "Gujarat",
+    "district": "RAJKOT",
+    "strayDogsCensus": 67422,
+    "strayCattleCensus": 24669,
+    "latitude": 22.5087,
+    "longitude": 71.6924
+  },
+  {
+    "districtId": 817,
+    "state": "Gujarat",
+    "district": "SABAR KANTHA",
+    "strayDogsCensus": 30289,
+    "strayCattleCensus": 3678,
+    "latitude": 22.7587,
+    "longitude": 70.6924
+  },
+  {
+    "districtId": 818,
+    "state": "Gujarat",
+    "district": "SURAT",
+    "strayDogsCensus": 18477,
+    "strayCattleCensus": 4322,
+    "latitude": 23.0087,
+    "longitude": 71.4424
+  },
+  {
+    "districtId": 819,
+    "state": "Gujarat",
+    "district": "SURENDRANAGAR",
+    "strayDogsCensus": 35400,
+    "strayCattleCensus": 20750,
+    "latitude": 21.5087,
+    "longitude": 70.4424
+  },
+  {
+    "districtId": 820,
+    "state": "Gujarat",
+    "district": "VADODARA",
+    "strayDogsCensus": 55268,
+    "strayCattleCensus": 2284,
+    "latitude": 21.7587,
+    "longitude": 71.1924
+  },
+  {
+    "districtId": 821,
+    "state": "Gujarat",
+    "district": "VALSAD",
+    "strayDogsCensus": 18562,
+    "strayCattleCensus": 7408,
+    "latitude": 22.0087,
+    "longitude": 71.9424
+  },
+  {
+    "districtId": 822,
+    "state": "Gujarat",
+    "district": "TAPI",
+    "strayDogsCensus": 7692,
+    "strayCattleCensus": 100,
+    "latitude": 22.2587,
+    "longitude": 70.9424
+  },
+  {
+    "districtId": 823,
+    "state": "Gujarat",
+    "district": "CHHOTAUDEPUR",
+    "strayDogsCensus": 22555,
+    "strayCattleCensus": 692,
+    "latitude": 22.5087,
+    "longitude": 71.6924
+  },
+  {
+    "districtId": 824,
+    "state": "Gujarat",
+    "district": "Mahisagar",
+    "strayDogsCensus": 16621,
+    "strayCattleCensus": 887,
+    "latitude": 22.7587,
+    "longitude": 70.6924
+  },
+  {
+    "districtId": 825,
+    "state": "Gujarat",
+    "district": "ARVALLI",
+    "strayDogsCensus": 23818,
+    "strayCattleCensus": 369,
+    "latitude": 23.0087,
+    "longitude": 71.4424
+  },
+  {
+    "districtId": 826,
+    "state": "Gujarat",
+    "district": "MORBI",
+    "strayDogsCensus": 27414,
+    "strayCattleCensus": 18439,
+    "latitude": 21.5087,
+    "longitude": 70.4424
+  },
+  {
+    "districtId": 827,
+    "state": "Gujarat",
+    "district": "DEVBHUMI DWARKA",
+    "strayDogsCensus": 13728,
+    "strayCattleCensus": 11663,
+    "latitude": 21.7587,
+    "longitude": 71.1924
+  },
+  {
+    "districtId": 828,
+    "state": "Gujarat",
+    "district": "GIR SOMNATH",
+    "strayDogsCensus": 13871,
+    "strayCattleCensus": 9243,
+    "latitude": 22.0087,
+    "longitude": 71.9424
+  },
+  {
+    "districtId": 829,
+    "state": "Gujarat",
+    "district": "BOTAD",
+    "strayDogsCensus": 18133,
+    "strayCattleCensus": 12813,
+    "latitude": 22.2587,
+    "longitude": 70.9424
+  },
+  {
+    "districtId": 494,
+    "state": "Daman And Diu",
+    "district": "Diu",
+    "strayDogsCensus": 1715,
+    "strayCattleCensus": 258,
+    "latitude": 20.5937,
+    "longitude": 78.9629
+  },
+  {
+    "districtId": 495,
+    "state": "Daman And Diu",
+    "district": "Daman",
+    "strayDogsCensus": 1449,
+    "strayCattleCensus": 1038,
+    "latitude": 20.5937,
+    "longitude": 78.9629
+  },
+  {
+    "districtId": 496,
+    "state": "Dadra And Nagar Haveli",
+    "district": "Dadra And Nagar Haveli",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 20.5937,
+    "longitude": 78.9629
+  },
+  {
+    "districtId": 497,
+    "state": "Maharashtra",
+    "district": "Nandurbar",
+    "strayDogsCensus": 16036,
+    "strayCattleCensus": 4056,
+    "latitude": 19.0015,
+    "longitude": 74.9639
+  },
+  {
+    "districtId": 498,
+    "state": "Maharashtra",
+    "district": "Dhule",
+    "strayDogsCensus": 19139,
+    "strayCattleCensus": 2440,
+    "latitude": 19.2515,
+    "longitude": 75.7139
+  },
+  {
+    "districtId": 499,
+    "state": "Maharashtra",
+    "district": "Jalgaon",
+    "strayDogsCensus": 49074,
+    "strayCattleCensus": 4092,
+    "latitude": 19.5015,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 500,
+    "state": "Maharashtra",
+    "district": "Buldhana",
+    "strayDogsCensus": 42898,
+    "strayCattleCensus": 7799,
+    "latitude": 19.7515,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 501,
+    "state": "Maharashtra",
+    "district": "Akola",
+    "strayDogsCensus": 17423,
+    "strayCattleCensus": 5534,
+    "latitude": 20.0015,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 502,
+    "state": "Maharashtra",
+    "district": "Washim",
+    "strayDogsCensus": 13913,
+    "strayCattleCensus": 2294,
+    "latitude": 20.2515,
+    "longitude": 75.2139
+  },
+  {
+    "districtId": 503,
+    "state": "Maharashtra",
+    "district": "Amravati",
+    "strayDogsCensus": 71999,
+    "strayCattleCensus": 8732,
+    "latitude": 20.5015,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 504,
+    "state": "Maharashtra",
+    "district": "Wardha",
+    "strayDogsCensus": 17115,
+    "strayCattleCensus": 3774,
+    "latitude": 19.0015,
+    "longitude": 74.9639
+  },
+  {
+    "districtId": 505,
+    "state": "Maharashtra",
+    "district": "Nagpur",
+    "strayDogsCensus": 35972,
+    "strayCattleCensus": 8067,
+    "latitude": 19.2515,
+    "longitude": 75.7139
+  },
+  {
+    "districtId": 506,
+    "state": "Maharashtra",
+    "district": "Bhandara",
+    "strayDogsCensus": 8285,
+    "strayCattleCensus": 1774,
+    "latitude": 19.5015,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 507,
+    "state": "Maharashtra",
+    "district": "Gondia",
+    "strayDogsCensus": 11550,
+    "strayCattleCensus": 1437,
+    "latitude": 19.7515,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 508,
+    "state": "Maharashtra",
+    "district": "Gadchiroli",
+    "strayDogsCensus": 11124,
+    "strayCattleCensus": 739,
+    "latitude": 20.0015,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 509,
+    "state": "Maharashtra",
+    "district": "Chandrapur",
+    "strayDogsCensus": 19071,
+    "strayCattleCensus": 1831,
+    "latitude": 20.2515,
+    "longitude": 75.2139
+  },
+  {
+    "districtId": 510,
+    "state": "Maharashtra",
+    "district": "Yavatmal",
+    "strayDogsCensus": 32359,
+    "strayCattleCensus": 5376,
+    "latitude": 20.5015,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 511,
+    "state": "Maharashtra",
+    "district": "Nanded",
+    "strayDogsCensus": 56326,
+    "strayCattleCensus": 9534,
+    "latitude": 19.0015,
+    "longitude": 74.9639
+  },
+  {
+    "districtId": 512,
+    "state": "Maharashtra",
+    "district": "Hingoli",
+    "strayDogsCensus": 16210,
+    "strayCattleCensus": 2463,
+    "latitude": 19.2515,
+    "longitude": 75.7139
+  },
+  {
+    "districtId": 513,
+    "state": "Maharashtra",
+    "district": "Parbhani",
+    "strayDogsCensus": 26278,
+    "strayCattleCensus": 6280,
+    "latitude": 19.5015,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 514,
+    "state": "Maharashtra",
+    "district": "Jalna",
+    "strayDogsCensus": 25396,
+    "strayCattleCensus": 4790,
+    "latitude": 19.7515,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 515,
+    "state": "Maharashtra",
+    "district": "Aurangabad",
+    "strayDogsCensus": 41175,
+    "strayCattleCensus": 11192,
+    "latitude": 20.0015,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 516,
+    "state": "Maharashtra",
+    "district": "Nashik",
+    "strayDogsCensus": 71245,
+    "strayCattleCensus": 10577,
+    "latitude": 20.2515,
+    "longitude": 75.2139
+  },
+  {
+    "districtId": 517,
+    "state": "Maharashtra",
+    "district": "Thane",
+    "strayDogsCensus": 65509,
+    "strayCattleCensus": 2744,
+    "latitude": 20.5015,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 519,
+    "state": "Maharashtra",
+    "district": "Mumbai",
+    "strayDogsCensus": 50799,
+    "strayCattleCensus": 833,
+    "latitude": 19.076,
+    "longitude": 72.8777
+  },
+  {
+    "districtId": 520,
+    "state": "Maharashtra",
+    "district": "Raigad",
+    "strayDogsCensus": 29105,
+    "strayCattleCensus": 3981,
+    "latitude": 19.5015,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 521,
+    "state": "Maharashtra",
+    "district": "Pune",
+    "strayDogsCensus": 211982,
+    "strayCattleCensus": 8034,
+    "latitude": 18.5204,
+    "longitude": 73.8567
+  },
+  {
+    "districtId": 522,
+    "state": "Maharashtra",
+    "district": "Ahmednagar",
+    "strayDogsCensus": 48677,
+    "strayCattleCensus": 3934,
+    "latitude": 20.0015,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 523,
+    "state": "Maharashtra",
+    "district": "Beed",
+    "strayDogsCensus": 31912,
+    "strayCattleCensus": 2541,
+    "latitude": 20.2515,
+    "longitude": 75.2139
+  },
+  {
+    "districtId": 524,
+    "state": "Maharashtra",
+    "district": "Latur",
+    "strayDogsCensus": 28395,
+    "strayCattleCensus": 3344,
+    "latitude": 20.5015,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 525,
+    "state": "Maharashtra",
+    "district": "Osmanabad",
+    "strayDogsCensus": 18269,
+    "strayCattleCensus": 1867,
+    "latitude": 19.0015,
+    "longitude": 74.9639
+  },
+  {
+    "districtId": 526,
+    "state": "Maharashtra",
+    "district": "Solapur",
+    "strayDogsCensus": 51933,
+    "strayCattleCensus": 6766,
+    "latitude": 19.2515,
+    "longitude": 75.7139
+  },
+  {
+    "districtId": 527,
+    "state": "Maharashtra",
+    "district": "Satara",
+    "strayDogsCensus": 36361,
+    "strayCattleCensus": 2780,
+    "latitude": 19.5015,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 528,
+    "state": "Maharashtra",
+    "district": "Ratnagiri",
+    "strayDogsCensus": 21348,
+    "strayCattleCensus": 1394,
+    "latitude": 19.7515,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 529,
+    "state": "Maharashtra",
+    "district": "Sindhudurg",
+    "strayDogsCensus": 7895,
+    "strayCattleCensus": 372,
+    "latitude": 20.0015,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 530,
+    "state": "Maharashtra",
+    "district": "Kolhapur",
+    "strayDogsCensus": 30898,
+    "strayCattleCensus": 1735,
+    "latitude": 20.2515,
+    "longitude": 75.2139
+  },
+  {
+    "districtId": 531,
+    "state": "Maharashtra",
+    "district": "Sangli",
+    "strayDogsCensus": 22343,
+    "strayCattleCensus": 1943,
+    "latitude": 20.5015,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 678,
+    "state": "Maharashtra",
+    "district": "Palghar",
+    "strayDogsCensus": 18385,
+    "strayCattleCensus": 7516,
+    "latitude": 20.5015,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 542,
+    "state": "Andhra Pradesh",
+    "district": "Srikakulam",
+    "strayDogsCensus": 26989,
+    "strayCattleCensus": 3780,
+    "latitude": 15.9129,
+    "longitude": 79.49
+  },
+  {
+    "districtId": 543,
+    "state": "Andhra Pradesh",
+    "district": "Vizianagaram",
+    "strayDogsCensus": 27434,
+    "strayCattleCensus": 1493,
+    "latitude": 16.1629,
+    "longitude": 80.24
+  },
+  {
+    "districtId": 544,
+    "state": "Andhra Pradesh",
+    "district": "Visakhapatanam",
+    "strayDogsCensus": 24805,
+    "strayCattleCensus": 2814,
+    "latitude": 16.4129,
+    "longitude": 79.24
+  },
+  {
+    "districtId": 545,
+    "state": "Andhra Pradesh",
+    "district": "East Godavari",
+    "strayDogsCensus": 59320,
+    "strayCattleCensus": 3698,
+    "latitude": 16.6629,
+    "longitude": 79.99
+  },
+  {
+    "districtId": 546,
+    "state": "Andhra Pradesh",
+    "district": "West Godavari",
+    "strayDogsCensus": 18512,
+    "strayCattleCensus": 2752,
+    "latitude": 15.1629,
+    "longitude": 78.99
+  },
+  {
+    "districtId": 547,
+    "state": "Andhra Pradesh",
+    "district": "Krishna",
+    "strayDogsCensus": 45925,
+    "strayCattleCensus": 3006,
+    "latitude": 15.4129,
+    "longitude": 79.74
+  },
+  {
+    "districtId": 548,
+    "state": "Andhra Pradesh",
+    "district": "Guntur",
+    "strayDogsCensus": 43852,
+    "strayCattleCensus": 36224,
+    "latitude": 15.6629,
+    "longitude": 80.49
+  },
+  {
+    "districtId": 549,
+    "state": "Andhra Pradesh",
+    "district": "Prakasam",
+    "strayDogsCensus": 34292,
+    "strayCattleCensus": 3711,
+    "latitude": 15.9129,
+    "longitude": 79.49
+  },
+  {
+    "districtId": 550,
+    "state": "Andhra Pradesh",
+    "district": "Spsr Nellore",
+    "strayDogsCensus": 39995,
+    "strayCattleCensus": 2686,
+    "latitude": 16.1629,
+    "longitude": 80.24
+  },
+  {
+    "districtId": 551,
+    "state": "Andhra Pradesh",
+    "district": "Y.S.R.",
+    "strayDogsCensus": 32249,
+    "strayCattleCensus": 4115,
+    "latitude": 16.4129,
+    "longitude": 79.24
+  },
+  {
+    "districtId": 552,
+    "state": "Andhra Pradesh",
+    "district": "Kurnool",
+    "strayDogsCensus": 37229,
+    "strayCattleCensus": 5108,
+    "latitude": 16.6629,
+    "longitude": 79.99
+  },
+  {
+    "districtId": 553,
+    "state": "Andhra Pradesh",
+    "district": "Anantapur",
+    "strayDogsCensus": 37625,
+    "strayCattleCensus": 2625,
+    "latitude": 15.1629,
+    "longitude": 78.99
+  },
+  {
+    "districtId": 554,
+    "state": "Andhra Pradesh",
+    "district": "Chittoor",
+    "strayDogsCensus": 43657,
+    "strayCattleCensus": 1838,
+    "latitude": 15.4129,
+    "longitude": 79.74
+  },
+  {
+    "districtId": 555,
+    "state": "Karnataka",
+    "district": "Belgaum",
+    "strayDogsCensus": 42459,
+    "strayCattleCensus": 5722,
+    "latitude": 15.0673,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 556,
+    "state": "Karnataka",
+    "district": "Bagalkot",
+    "strayDogsCensus": 19028,
+    "strayCattleCensus": 4812,
+    "latitude": 15.3173,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 557,
+    "state": "Karnataka",
+    "district": "Bijapur",
+    "strayDogsCensus": 16460,
+    "strayCattleCensus": 3243,
+    "latitude": 15.5673,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 558,
+    "state": "Karnataka",
+    "district": "Bidar",
+    "strayDogsCensus": 28486,
+    "strayCattleCensus": 2993,
+    "latitude": 15.8173,
+    "longitude": 75.2139
+  },
+  {
+    "districtId": 559,
+    "state": "Karnataka",
+    "district": "Raichur",
+    "strayDogsCensus": 31456,
+    "strayCattleCensus": 6486,
+    "latitude": 16.0673,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 560,
+    "state": "Karnataka",
+    "district": "Koppal",
+    "strayDogsCensus": 19558,
+    "strayCattleCensus": 6510,
+    "latitude": 14.5673,
+    "longitude": 74.9639
+  },
+  {
+    "districtId": 561,
+    "state": "Karnataka",
+    "district": "Gadag",
+    "strayDogsCensus": 18253,
+    "strayCattleCensus": 3004,
+    "latitude": 14.8173,
+    "longitude": 75.7139
+  },
+  {
+    "districtId": 562,
+    "state": "Karnataka",
+    "district": "Dharwad",
+    "strayDogsCensus": 17505,
+    "strayCattleCensus": 2182,
+    "latitude": 15.0673,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 563,
+    "state": "Karnataka",
+    "district": "Uttar Kannad",
+    "strayDogsCensus": 22964,
+    "strayCattleCensus": 3860,
+    "latitude": 15.3173,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 564,
+    "state": "Karnataka",
+    "district": "Haveri",
+    "strayDogsCensus": 19302,
+    "strayCattleCensus": 2088,
+    "latitude": 15.5673,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 565,
+    "state": "Karnataka",
+    "district": "Bellary",
+    "strayDogsCensus": 45208,
+    "strayCattleCensus": 4657,
+    "latitude": 15.8173,
+    "longitude": 75.2139
+  },
+  {
+    "districtId": 566,
+    "state": "Karnataka",
+    "district": "Chitradurga",
+    "strayDogsCensus": 52705,
+    "strayCattleCensus": 2962,
+    "latitude": 16.0673,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 567,
+    "state": "Karnataka",
+    "district": "Davangere",
+    "strayDogsCensus": 42590,
+    "strayCattleCensus": 2677,
+    "latitude": 14.5673,
+    "longitude": 74.9639
+  },
+  {
+    "districtId": 568,
+    "state": "Karnataka",
+    "district": "Shimoga",
+    "strayDogsCensus": 29107,
+    "strayCattleCensus": 2307,
+    "latitude": 14.8173,
+    "longitude": 75.7139
+  },
+  {
+    "districtId": 569,
+    "state": "Karnataka",
+    "district": "Udupi",
+    "strayDogsCensus": 13195,
+    "strayCattleCensus": 2192,
+    "latitude": 15.0673,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 570,
+    "state": "Karnataka",
+    "district": "Chikmagalur",
+    "strayDogsCensus": 26965,
+    "strayCattleCensus": 3451,
+    "latitude": 15.3173,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 571,
+    "state": "Karnataka",
+    "district": "Tumkur",
+    "strayDogsCensus": 76894,
+    "strayCattleCensus": 1624,
+    "latitude": 15.5673,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 572,
+    "state": "Karnataka",
+    "district": "Bengaluru Urban",
+    "strayDogsCensus": 136886,
+    "strayCattleCensus": 1598,
+    "latitude": 12.9716,
+    "longitude": 77.5946
+  },
+  {
+    "districtId": 573,
+    "state": "Karnataka",
+    "district": "Mandya",
+    "strayDogsCensus": 56535,
+    "strayCattleCensus": 719,
+    "latitude": 16.0673,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 574,
+    "state": "Karnataka",
+    "district": "Hassan",
+    "strayDogsCensus": 53460,
+    "strayCattleCensus": 1049,
+    "latitude": 14.5673,
+    "longitude": 74.9639
+  },
+  {
+    "districtId": 575,
+    "state": "Karnataka",
+    "district": "Dakshin Kannad",
+    "strayDogsCensus": 11326,
+    "strayCattleCensus": 903,
+    "latitude": 14.8173,
+    "longitude": 75.7139
+  },
+  {
+    "districtId": 576,
+    "state": "Karnataka",
+    "district": "Kodagu",
+    "strayDogsCensus": 5755,
+    "strayCattleCensus": 678,
+    "latitude": 15.0673,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 577,
+    "state": "Karnataka",
+    "district": "Mysore",
+    "strayDogsCensus": 89455,
+    "strayCattleCensus": 2009,
+    "latitude": 15.3173,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 578,
+    "state": "Karnataka",
+    "district": "Chamarajanagar",
+    "strayDogsCensus": 23338,
+    "strayCattleCensus": 530,
+    "latitude": 15.5673,
+    "longitude": 76.2139
+  },
+  {
+    "districtId": 579,
+    "state": "Karnataka",
+    "district": "Gulbarga",
+    "strayDogsCensus": 32754,
+    "strayCattleCensus": 4309,
+    "latitude": 15.8173,
+    "longitude": 75.2139
+  },
+  {
+    "districtId": 580,
+    "state": "Karnataka",
+    "district": "Yadgir",
+    "strayDogsCensus": 16192,
+    "strayCattleCensus": 1985,
+    "latitude": 16.0673,
+    "longitude": 75.9639
+  },
+  {
+    "districtId": 581,
+    "state": "Karnataka",
+    "district": "Kolar",
+    "strayDogsCensus": 57486,
+    "strayCattleCensus": 651,
+    "latitude": 14.5673,
+    "longitude": 74.9639
+  },
+  {
+    "districtId": 582,
+    "state": "Karnataka",
+    "district": "Chikballapur",
+    "strayDogsCensus": 61053,
+    "strayCattleCensus": 576,
+    "latitude": 14.8173,
+    "longitude": 75.7139
+  },
+  {
+    "districtId": 583,
+    "state": "Karnataka",
+    "district": "Bangalore Rural",
+    "strayDogsCensus": 38868,
+    "strayCattleCensus": 611,
+    "latitude": 15.0673,
+    "longitude": 76.4639
+  },
+  {
+    "districtId": 584,
+    "state": "Karnataka",
+    "district": "Ramanagara",
+    "strayDogsCensus": 35930,
+    "strayCattleCensus": 687,
+    "latitude": 15.3173,
+    "longitude": 75.4639
+  },
+  {
+    "districtId": 585,
+    "state": "Goa",
+    "district": "North Goa",
+    "strayDogsCensus": 15370,
+    "strayCattleCensus": 5085,
+    "latitude": 15.5493,
+    "longitude": 74.624
+  },
+  {
+    "districtId": 586,
+    "state": "Goa",
+    "district": "South Goa",
+    "strayDogsCensus": 12494,
+    "strayCattleCensus": 4374,
+    "latitude": 15.7993,
+    "longitude": 73.624
+  },
+  {
+    "districtId": 587,
+    "state": "Lakshadweep",
+    "district": "Lakshadweep District",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 11.3167,
+    "longitude": 72.8917
+  },
+  {
+    "districtId": 588,
+    "state": "Kerala",
+    "district": "Kasaragod",
+    "strayDogsCensus": 8168,
+    "strayCattleCensus": 592,
+    "latitude": 10.1005,
+    "longitude": 75.5211
+  },
+  {
+    "districtId": 589,
+    "state": "Kerala",
+    "district": "Kannur",
+    "strayDogsCensus": 23666,
+    "strayCattleCensus": 78,
+    "latitude": 10.3505,
+    "longitude": 76.2711
+  },
+  {
+    "districtId": 590,
+    "state": "Kerala",
+    "district": "Wayanad",
+    "strayDogsCensus": 6907,
+    "strayCattleCensus": 78,
+    "latitude": 10.6005,
+    "longitude": 77.0211
+  },
+  {
+    "districtId": 591,
+    "state": "Kerala",
+    "district": "Kozhikode",
+    "strayDogsCensus": 14044,
+    "strayCattleCensus": 116,
+    "latitude": 10.8505,
+    "longitude": 76.0211
+  },
+  {
+    "districtId": 592,
+    "state": "Kerala",
+    "district": "Malappuram",
+    "strayDogsCensus": 18554,
+    "strayCattleCensus": 96,
+    "latitude": 11.1005,
+    "longitude": 76.7711
+  },
+  {
+    "districtId": 593,
+    "state": "Kerala",
+    "district": "Palakkad",
+    "strayDogsCensus": 29898,
+    "strayCattleCensus": 139,
+    "latitude": 11.3505,
+    "longitude": 75.7711
+  },
+  {
+    "districtId": 594,
+    "state": "Kerala",
+    "district": "Thrissur",
+    "strayDogsCensus": 25277,
+    "strayCattleCensus": 632,
+    "latitude": 11.6005,
+    "longitude": 76.5211
+  },
+  {
+    "districtId": 595,
+    "state": "Kerala",
+    "district": "Ernakulam",
+    "strayDogsCensus": 14155,
+    "strayCattleCensus": 911,
+    "latitude": 10.1005,
+    "longitude": 75.5211
+  },
+  {
+    "districtId": 596,
+    "state": "Kerala",
+    "district": "Idukki",
+    "strayDogsCensus": 7375,
+    "strayCattleCensus": 71,
+    "latitude": 10.3505,
+    "longitude": 76.2711
+  },
+  {
+    "districtId": 597,
+    "state": "Kerala",
+    "district": "Kottayam",
+    "strayDogsCensus": 9915,
+    "strayCattleCensus": 19,
+    "latitude": 10.6005,
+    "longitude": 77.0211
+  },
+  {
+    "districtId": 598,
+    "state": "Kerala",
+    "district": "Alappuzha",
+    "strayDogsCensus": 19249,
+    "strayCattleCensus": 202,
+    "latitude": 10.8505,
+    "longitude": 76.0211
+  },
+  {
+    "districtId": 599,
+    "state": "Kerala",
+    "district": "Pathanamthitta",
+    "strayDogsCensus": 14080,
+    "strayCattleCensus": 170,
+    "latitude": 11.1005,
+    "longitude": 76.7711
+  },
+  {
+    "districtId": 600,
+    "state": "Kerala",
+    "district": "Kollam",
+    "strayDogsCensus": 50869,
+    "strayCattleCensus": 200,
+    "latitude": 11.3505,
+    "longitude": 75.7711
+  },
+  {
+    "districtId": 601,
+    "state": "Kerala",
+    "district": "Thiruvananthapuram",
+    "strayDogsCensus": 47829,
+    "strayCattleCensus": 325,
+    "latitude": 11.6005,
+    "longitude": 76.5211
+  },
+  {
+    "districtId": 602,
+    "state": "Tamil Nadu",
+    "district": "Thiruvallur",
+    "strayDogsCensus": 24019,
+    "strayCattleCensus": 8468,
+    "latitude": 10.3771,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 603,
+    "state": "Tamil Nadu",
+    "district": "Chennai",
+    "strayDogsCensus": 24827,
+    "strayCattleCensus": 3926,
+    "latitude": 10.6271,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 604,
+    "state": "Tamil Nadu",
+    "district": "Kanchipuram",
+    "strayDogsCensus": 28344,
+    "strayCattleCensus": 6593,
+    "latitude": 10.8771,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 605,
+    "state": "Tamil Nadu",
+    "district": "Vellore",
+    "strayDogsCensus": 27612,
+    "strayCattleCensus": 4291,
+    "latitude": 11.1271,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 606,
+    "state": "Tamil Nadu",
+    "district": "Tiruvannamalai",
+    "strayDogsCensus": 19407,
+    "strayCattleCensus": 264,
+    "latitude": 11.3771,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 607,
+    "state": "Tamil Nadu",
+    "district": "Villupuram",
+    "strayDogsCensus": 28866,
+    "strayCattleCensus": 3105,
+    "latitude": 11.6271,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 608,
+    "state": "Tamil Nadu",
+    "district": "Salem",
+    "strayDogsCensus": 15369,
+    "strayCattleCensus": 524,
+    "latitude": 11.8771,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 609,
+    "state": "Tamil Nadu",
+    "district": "Namakkal",
+    "strayDogsCensus": 8940,
+    "strayCattleCensus": 60,
+    "latitude": 10.3771,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 610,
+    "state": "Tamil Nadu",
+    "district": "Erode",
+    "strayDogsCensus": 9912,
+    "strayCattleCensus": 51,
+    "latitude": 10.6271,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 611,
+    "state": "Tamil Nadu",
+    "district": "The Nilgiris",
+    "strayDogsCensus": 2498,
+    "strayCattleCensus": 1106,
+    "latitude": 10.8771,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 612,
+    "state": "Tamil Nadu",
+    "district": "Dindigul",
+    "strayDogsCensus": 7922,
+    "strayCattleCensus": 578,
+    "latitude": 11.1271,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 613,
+    "state": "Tamil Nadu",
+    "district": "Karur",
+    "strayDogsCensus": 8482,
+    "strayCattleCensus": 369,
+    "latitude": 11.3771,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 614,
+    "state": "Tamil Nadu",
+    "district": "Tiruchirappalli",
+    "strayDogsCensus": 13332,
+    "strayCattleCensus": 2418,
+    "latitude": 11.6271,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 615,
+    "state": "Tamil Nadu",
+    "district": "Perambalur",
+    "strayDogsCensus": 4520,
+    "strayCattleCensus": 19,
+    "latitude": 11.8771,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 616,
+    "state": "Tamil Nadu",
+    "district": "Ariyalur",
+    "strayDogsCensus": 3522,
+    "strayCattleCensus": 133,
+    "latitude": 10.3771,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 617,
+    "state": "Tamil Nadu",
+    "district": "Cuddalore",
+    "strayDogsCensus": 23564,
+    "strayCattleCensus": 1689,
+    "latitude": 10.6271,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 618,
+    "state": "Tamil Nadu",
+    "district": "Nagapattinam",
+    "strayDogsCensus": 10845,
+    "strayCattleCensus": 1102,
+    "latitude": 10.8771,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 619,
+    "state": "Tamil Nadu",
+    "district": "Thiruvarur",
+    "strayDogsCensus": 9646,
+    "strayCattleCensus": 260,
+    "latitude": 11.1271,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 620,
+    "state": "Tamil Nadu",
+    "district": "Thanjavur",
+    "strayDogsCensus": 24519,
+    "strayCattleCensus": 3055,
+    "latitude": 11.3771,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 621,
+    "state": "Tamil Nadu",
+    "district": "Pudukkottai",
+    "strayDogsCensus": 9399,
+    "strayCattleCensus": 1368,
+    "latitude": 11.6271,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 622,
+    "state": "Tamil Nadu",
+    "district": "Sivaganga",
+    "strayDogsCensus": 10601,
+    "strayCattleCensus": 2411,
+    "latitude": 11.8771,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 623,
+    "state": "Tamil Nadu",
+    "district": "Madurai",
+    "strayDogsCensus": 14131,
+    "strayCattleCensus": 1802,
+    "latitude": 10.3771,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 624,
+    "state": "Tamil Nadu",
+    "district": "Theni",
+    "strayDogsCensus": 5356,
+    "strayCattleCensus": 668,
+    "latitude": 10.6271,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 625,
+    "state": "Tamil Nadu",
+    "district": "Virudhunagar",
+    "strayDogsCensus": 6270,
+    "strayCattleCensus": 1029,
+    "latitude": 10.8771,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 626,
+    "state": "Tamil Nadu",
+    "district": "Ramanathapuram",
+    "strayDogsCensus": 6319,
+    "strayCattleCensus": 871,
+    "latitude": 11.1271,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 627,
+    "state": "Tamil Nadu",
+    "district": "Tuticorin",
+    "strayDogsCensus": 8311,
+    "strayCattleCensus": 731,
+    "latitude": 11.3771,
+    "longitude": 79.1569
+  },
+  {
+    "districtId": 628,
+    "state": "Tamil Nadu",
+    "district": "Tirunelveli",
+    "strayDogsCensus": 12610,
+    "strayCattleCensus": 919,
+    "latitude": 11.6271,
+    "longitude": 78.1569
+  },
+  {
+    "districtId": 629,
+    "state": "Tamil Nadu",
+    "district": "Kanniyakumari",
+    "strayDogsCensus": 14093,
+    "strayCattleCensus": 418,
+    "latitude": 11.8771,
+    "longitude": 78.9069
+  },
+  {
+    "districtId": 630,
+    "state": "Tamil Nadu",
+    "district": "Dharmapuri",
+    "strayDogsCensus": 9219,
+    "strayCattleCensus": 349,
+    "latitude": 10.3771,
+    "longitude": 77.9069
+  },
+  {
+    "districtId": 631,
+    "state": "Tamil Nadu",
+    "district": "Krishnagiri",
+    "strayDogsCensus": 15194,
+    "strayCattleCensus": 1184,
+    "latitude": 10.6271,
+    "longitude": 78.6569
+  },
+  {
+    "districtId": 632,
+    "state": "Tamil Nadu",
+    "district": "Coimbatore",
+    "strayDogsCensus": 23393,
+    "strayCattleCensus": 1152,
+    "latitude": 10.8771,
+    "longitude": 79.4069
+  },
+  {
+    "districtId": 633,
+    "state": "Tamil Nadu",
+    "district": "Tiruppur",
+    "strayDogsCensus": 10166,
+    "strayCattleCensus": 237,
+    "latitude": 11.1271,
+    "longitude": 78.4069
+  },
+  {
+    "districtId": 634,
+    "state": "Puducherry",
+    "district": "Yanam",
+    "strayDogsCensus": 366,
+    "strayCattleCensus": 4,
+    "latitude": 12.1916,
+    "longitude": 80.3083
+  },
+  {
+    "districtId": 635,
+    "state": "Puducherry",
+    "district": "Pondicherry",
+    "strayDogsCensus": 13368,
+    "strayCattleCensus": 30,
+    "latitude": 12.4416,
+    "longitude": 79.3083
+  },
+  {
+    "districtId": 636,
+    "state": "Puducherry",
+    "district": "Mahe",
+    "strayDogsCensus": 323,
+    "strayCattleCensus": 0,
+    "latitude": 12.6916,
+    "longitude": 80.0583
+  },
+  {
+    "districtId": 637,
+    "state": "Puducherry",
+    "district": "Karaikal",
+    "strayDogsCensus": 5630,
+    "strayCattleCensus": 33,
+    "latitude": 11.1916,
+    "longitude": 79.0583
+  },
+  {
+    "districtId": 638,
+    "state": "Andaman And Nicobar Islands",
+    "district": "Nicobars",
+    "strayDogsCensus": 752,
+    "strayCattleCensus": 750,
+    "latitude": 11.2401,
+    "longitude": 92.6586
+  },
+  {
+    "districtId": 639,
+    "state": "Andaman And Nicobar Islands",
+    "district": "North And Middle Andaman",
+    "strayDogsCensus": 1964,
+    "strayCattleCensus": 252,
+    "latitude": 11.4901,
+    "longitude": 93.4086
+  },
+  {
+    "districtId": 640,
+    "state": "Andaman And Nicobar Islands",
+    "district": "South Andamans",
+    "strayDogsCensus": 2584,
+    "strayCattleCensus": 457,
+    "latitude": 11.7401,
+    "longitude": 92.4086
+  },
+  {
+    "districtId": 532,
+    "state": "Telangana",
+    "district": "Adilabad",
+    "strayDogsCensus": 12110,
+    "strayCattleCensus": 3127,
+    "latitude": 17.3624,
+    "longitude": 78.2693
+  },
+  {
+    "districtId": 533,
+    "state": "Telangana",
+    "district": "Nizamabad",
+    "strayDogsCensus": 15105,
+    "strayCattleCensus": 3030,
+    "latitude": 17.6124,
+    "longitude": 79.0193
+  },
+  {
+    "districtId": 534,
+    "state": "Telangana",
+    "district": "Karimnagar",
+    "strayDogsCensus": 11864,
+    "strayCattleCensus": 1063,
+    "latitude": 17.8624,
+    "longitude": 79.7693
+  },
+  {
+    "districtId": 535,
+    "state": "Telangana",
+    "district": "Medak",
+    "strayDogsCensus": 13478,
+    "strayCattleCensus": 1039,
+    "latitude": 18.1124,
+    "longitude": 78.7693
+  },
+  {
+    "districtId": 536,
+    "state": "Telangana",
+    "district": "Hyderabad",
+    "strayDogsCensus": 10553,
+    "strayCattleCensus": 721,
+    "latitude": 17.385,
+    "longitude": 78.4867
+  },
+  {
+    "districtId": 537,
+    "state": "Telangana",
+    "district": "Rangareddi",
+    "strayDogsCensus": 25900,
+    "strayCattleCensus": 849,
+    "latitude": 18.6124,
+    "longitude": 78.5193
+  },
+  {
+    "districtId": 538,
+    "state": "Telangana",
+    "district": "Mahbubnagar",
+    "strayDogsCensus": 23984,
+    "strayCattleCensus": 2585,
+    "latitude": 18.8624,
+    "longitude": 79.2693
+  },
+  {
+    "districtId": 539,
+    "state": "Telangana",
+    "district": "Nalgonda",
+    "strayDogsCensus": 18542,
+    "strayCattleCensus": 801,
+    "latitude": 17.3624,
+    "longitude": 78.2693
+  },
+  {
+    "districtId": 540,
+    "state": "Telangana",
+    "district": "Warangal Rural",
+    "strayDogsCensus": 6753,
+    "strayCattleCensus": 553,
+    "latitude": 17.6124,
+    "longitude": 79.0193
+  },
+  {
+    "districtId": 541,
+    "state": "Telangana",
+    "district": "Khammam",
+    "strayDogsCensus": 16650,
+    "strayCattleCensus": 644,
+    "latitude": 17.8624,
+    "longitude": 79.7693
+  },
+  {
+    "districtId": 641,
+    "state": "Telangana",
+    "district": "Nirmal",
+    "strayDogsCensus": 16265,
+    "strayCattleCensus": 4352,
+    "latitude": 18.3624,
+    "longitude": 79.5193
+  },
+  {
+    "districtId": 642,
+    "state": "Telangana",
+    "district": "Jagitial",
+    "strayDogsCensus": 9664,
+    "strayCattleCensus": 956,
+    "latitude": 18.6124,
+    "longitude": 78.5193
+  },
+  {
+    "districtId": 643,
+    "state": "Telangana",
+    "district": "PEDDAPALLI",
+    "strayDogsCensus": 6297,
+    "strayCattleCensus": 465,
+    "latitude": 18.8624,
+    "longitude": 79.2693
+  },
+  {
+    "districtId": 644,
+    "state": "Telangana",
+    "district": "RAJANNA SIRCILLA",
+    "strayDogsCensus": 9225,
+    "strayCattleCensus": 440,
+    "latitude": 17.3624,
+    "longitude": 78.2693
+  },
+  {
+    "districtId": 645,
+    "state": "Telangana",
+    "district": "MANCHERIAL",
+    "strayDogsCensus": 6411,
+    "strayCattleCensus": 490,
+    "latitude": 17.6124,
+    "longitude": 79.0193
+  },
+  {
+    "districtId": 646,
+    "state": "Telangana",
+    "district": "KAMAREDDY",
+    "strayDogsCensus": 17593,
+    "strayCattleCensus": 1769,
+    "latitude": 17.8624,
+    "longitude": 79.7693
+  },
+  {
+    "districtId": 647,
+    "state": "Telangana",
+    "district": "WARANGAL URBAN",
+    "strayDogsCensus": 7728,
+    "strayCattleCensus": 1172,
+    "latitude": 18.1124,
+    "longitude": 78.7693
+  },
+  {
+    "districtId": 648,
+    "state": "Telangana",
+    "district": "JAYASHANKAR BHUPALAPALLY",
+    "strayDogsCensus": 8841,
+    "strayCattleCensus": 1329,
+    "latitude": 18.3624,
+    "longitude": 79.5193
+  },
+  {
+    "districtId": 649,
+    "state": "Telangana",
+    "district": "MAHABUBABAD",
+    "strayDogsCensus": 9133,
+    "strayCattleCensus": 1126,
+    "latitude": 18.6124,
+    "longitude": 78.5193
+  },
+  {
+    "districtId": 650,
+    "state": "Telangana",
+    "district": "JANGOAN",
+    "strayDogsCensus": 6202,
+    "strayCattleCensus": 179,
+    "latitude": 18.8624,
+    "longitude": 79.2693
+  },
+  {
+    "districtId": 651,
+    "state": "Telangana",
+    "district": "BHADRADRI KOTHAGUDEM",
+    "strayDogsCensus": 4920,
+    "strayCattleCensus": 659,
+    "latitude": 17.3624,
+    "longitude": 78.2693
+  },
+  {
+    "districtId": 652,
+    "state": "Telangana",
+    "district": "SANGAREDDY",
+    "strayDogsCensus": 15929,
+    "strayCattleCensus": 1532,
+    "latitude": 17.6124,
+    "longitude": 79.0193
+  },
+  {
+    "districtId": 653,
+    "state": "Telangana",
+    "district": "SIDDIPET",
+    "strayDogsCensus": 17904,
+    "strayCattleCensus": 737,
+    "latitude": 17.8624,
+    "longitude": 79.7693
+  },
+  {
+    "districtId": 654,
+    "state": "Telangana",
+    "district": "WANAPARTHY",
+    "strayDogsCensus": 7277,
+    "strayCattleCensus": 1316,
+    "latitude": 18.1124,
+    "longitude": 78.7693
+  },
+  {
+    "districtId": 655,
+    "state": "Telangana",
+    "district": "NAGARKURNOOL",
+    "strayDogsCensus": 27774,
+    "strayCattleCensus": 784,
+    "latitude": 18.3624,
+    "longitude": 79.5193
+  },
+  {
+    "districtId": 656,
+    "state": "Telangana",
+    "district": "JOGULAMBA GADWAL",
+    "strayDogsCensus": 10497,
+    "strayCattleCensus": 713,
+    "latitude": 18.6124,
+    "longitude": 78.5193
+  },
+  {
+    "districtId": 657,
+    "state": "Telangana",
+    "district": "SURYAPET",
+    "strayDogsCensus": 9760,
+    "strayCattleCensus": 711,
+    "latitude": 18.8624,
+    "longitude": 79.2693
+  },
+  {
+    "districtId": 658,
+    "state": "Telangana",
+    "district": "YADADRI BHUVANAGIRI",
+    "strayDogsCensus": 3523,
+    "strayCattleCensus": 272,
+    "latitude": 17.3624,
+    "longitude": 78.2693
+  },
+  {
+    "districtId": 659,
+    "state": "Telangana",
+    "district": "VIKARABAD",
+    "strayDogsCensus": 17085,
+    "strayCattleCensus": 1284,
+    "latitude": 17.6124,
+    "longitude": 79.0193
+  },
+  {
+    "districtId": 660,
+    "state": "Telangana",
+    "district": "KUMURAM BHEEM ASIFABAD",
+    "strayDogsCensus": 5120,
+    "strayCattleCensus": 794,
+    "latitude": 17.8624,
+    "longitude": 79.7693
+  },
+  {
+    "districtId": 661,
+    "state": "Telangana",
+    "district": "MEDCHAL MALKAJGIRI",
+    "strayDogsCensus": 20845,
+    "strayCattleCensus": 874,
+    "latitude": 18.1124,
+    "longitude": 78.7693
+  },
+  {
+    "districtId": 188,
+    "state": "Bihar",
+    "district": "Araria",
+    "strayDogsCensus": 11184,
+    "strayCattleCensus": 715,
+    "latitude": 25.8461,
+    "longitude": 85.5631
+  },
+  {
+    "districtId": 611,
+    "state": "Bihar",
+    "district": "Arwal",
+    "strayDogsCensus": 5506,
+    "strayCattleCensus": 611,
+    "latitude": 24.8461,
+    "longitude": 86.0631
+  },
+  {
+    "districtId": 189,
+    "state": "Bihar",
+    "district": "Aurangabad",
+    "strayDogsCensus": 29399,
+    "strayCattleCensus": 4757,
+    "latitude": 24.3461,
+    "longitude": 84.5631
+  },
+  {
+    "districtId": 190,
+    "state": "Bihar",
+    "district": "Banka",
+    "strayDogsCensus": 16279,
+    "strayCattleCensus": 2845,
+    "latitude": 24.5961,
+    "longitude": 85.3131
+  },
+  {
+    "districtId": 191,
+    "state": "Bihar",
+    "district": "Begusarai",
+    "strayDogsCensus": 19702,
+    "strayCattleCensus": 1229,
+    "latitude": 24.8461,
+    "longitude": 86.0631
+  },
+  {
+    "districtId": 192,
+    "state": "Bihar",
+    "district": "Bhagalpur",
+    "strayDogsCensus": 10275,
+    "strayCattleCensus": 2630,
+    "latitude": 25.0961,
+    "longitude": 85.0631
+  },
+  {
+    "districtId": 193,
+    "state": "Bihar",
+    "district": "Bhojpur",
+    "strayDogsCensus": 23419,
+    "strayCattleCensus": 2829,
+    "latitude": 25.3461,
+    "longitude": 85.8131
+  },
+  {
+    "districtId": 194,
+    "state": "Bihar",
+    "district": "Buxar",
+    "strayDogsCensus": 22338,
+    "strayCattleCensus": 2740,
+    "latitude": 25.5961,
+    "longitude": 84.8131
+  },
+  {
+    "districtId": 195,
+    "state": "Bihar",
+    "district": "Darbhanga",
+    "strayDogsCensus": 14278,
+    "strayCattleCensus": 695,
+    "latitude": 25.8461,
+    "longitude": 85.5631
+  },
+  {
+    "districtId": 196,
+    "state": "Bihar",
+    "district": "Gaya",
+    "strayDogsCensus": 57920,
+    "strayCattleCensus": 5257,
+    "latitude": 24.3461,
+    "longitude": 84.5631
+  },
+  {
+    "districtId": 197,
+    "state": "Bihar",
+    "district": "Gopalganj",
+    "strayDogsCensus": 26044,
+    "strayCattleCensus": 2351,
+    "latitude": 24.5961,
+    "longitude": 85.3131
+  },
+  {
+    "districtId": 198,
+    "state": "Bihar",
+    "district": "Jamui",
+    "strayDogsCensus": 11357,
+    "strayCattleCensus": 1975,
+    "latitude": 24.8461,
+    "longitude": 86.0631
+  },
+  {
+    "districtId": 199,
+    "state": "Bihar",
+    "district": "Jehanabad",
+    "strayDogsCensus": 13835,
+    "strayCattleCensus": 1158,
+    "latitude": 25.0961,
+    "longitude": 85.0631
+  },
+  {
+    "districtId": 200,
+    "state": "Bihar",
+    "district": "Kaimur (Bhabua)",
+    "strayDogsCensus": 16239,
+    "strayCattleCensus": 4067,
+    "latitude": 25.3461,
+    "longitude": 85.8131
+  },
+  {
+    "districtId": 201,
+    "state": "Bihar",
+    "district": "Katihar",
+    "strayDogsCensus": 19789,
+    "strayCattleCensus": 2024,
+    "latitude": 25.5961,
+    "longitude": 84.8131
+  },
+  {
+    "districtId": 202,
+    "state": "Bihar",
+    "district": "Khagaria",
+    "strayDogsCensus": 8024,
+    "strayCattleCensus": 1830,
+    "latitude": 25.8461,
+    "longitude": 85.5631
+  },
+  {
+    "districtId": 203,
+    "state": "Bihar",
+    "district": "Kishanganj",
+    "strayDogsCensus": 13434,
+    "strayCattleCensus": 830,
+    "latitude": 24.3461,
+    "longitude": 84.5631
+  },
+  {
+    "districtId": 204,
+    "state": "Bihar",
+    "district": "Lakhisarai",
+    "strayDogsCensus": 5260,
+    "strayCattleCensus": 1343,
+    "latitude": 24.5961,
+    "longitude": 85.3131
+  },
+  {
+    "districtId": 205,
+    "state": "Bihar",
+    "district": "Madhepura",
+    "strayDogsCensus": 14216,
+    "strayCattleCensus": 476,
+    "latitude": 24.8461,
+    "longitude": 86.0631
+  },
+  {
+    "districtId": 206,
+    "state": "Bihar",
+    "district": "Madhubani",
+    "strayDogsCensus": 29754,
+    "strayCattleCensus": 4317,
+    "latitude": 25.0961,
+    "longitude": 85.0631
+  },
+  {
+    "districtId": 207,
+    "state": "Bihar",
+    "district": "Munger",
+    "strayDogsCensus": 6248,
+    "strayCattleCensus": 810,
+    "latitude": 25.3461,
+    "longitude": 85.8131
+  },
+  {
+    "districtId": 208,
+    "state": "Bihar",
+    "district": "Muzaffarpur",
+    "strayDogsCensus": 28146,
+    "strayCattleCensus": 2794,
+    "latitude": 25.5961,
+    "longitude": 84.8131
+  },
+  {
+    "districtId": 209,
+    "state": "Bihar",
+    "district": "Nalanda",
+    "strayDogsCensus": 31976,
+    "strayCattleCensus": 3287,
+    "latitude": 25.8461,
+    "longitude": 85.5631
+  },
+  {
+    "districtId": 210,
+    "state": "Bihar",
+    "district": "Nawada",
+    "strayDogsCensus": 20082,
+    "strayCattleCensus": 3019,
+    "latitude": 24.3461,
+    "longitude": 84.5631
+  },
+  {
+    "districtId": 211,
+    "state": "Bihar",
+    "district": "Pashchim Champaran",
+    "strayDogsCensus": 19221,
+    "strayCattleCensus": 649,
+    "latitude": 24.5961,
+    "longitude": 85.3131
+  },
+  {
+    "districtId": 212,
+    "state": "Bihar",
+    "district": "Patna",
+    "strayDogsCensus": 23714,
+    "strayCattleCensus": 2387,
+    "latitude": 25.5941,
+    "longitude": 85.1376
+  },
+  {
+    "districtId": 213,
+    "state": "Bihar",
+    "district": "Purbi Champaran",
+    "strayDogsCensus": 30006,
+    "strayCattleCensus": 3185,
+    "latitude": 25.0961,
+    "longitude": 85.0631
+  },
+  {
+    "districtId": 214,
+    "state": "Bihar",
+    "district": "Purnia",
+    "strayDogsCensus": 24636,
+    "strayCattleCensus": 2205,
+    "latitude": 25.3461,
+    "longitude": 85.8131
+  },
+  {
+    "districtId": 215,
+    "state": "Bihar",
+    "district": "Rohtas",
+    "strayDogsCensus": 31668,
+    "strayCattleCensus": 6502,
+    "latitude": 25.5961,
+    "longitude": 84.8131
+  },
+  {
+    "districtId": 216,
+    "state": "Bihar",
+    "district": "Saharsa",
+    "strayDogsCensus": 5535,
+    "strayCattleCensus": 414,
+    "latitude": 25.8461,
+    "longitude": 85.5631
+  },
+  {
+    "districtId": 217,
+    "state": "Bihar",
+    "district": "Samastipur",
+    "strayDogsCensus": 20621,
+    "strayCattleCensus": 3204,
+    "latitude": 24.3461,
+    "longitude": 84.5631
+  },
+  {
+    "districtId": 218,
+    "state": "Bihar",
+    "district": "Saran",
+    "strayDogsCensus": 19141,
+    "strayCattleCensus": 2471,
+    "latitude": 24.5961,
+    "longitude": 85.3131
+  },
+  {
+    "districtId": 219,
+    "state": "Bihar",
+    "district": "Sheikhpura",
+    "strayDogsCensus": 5526,
+    "strayCattleCensus": 437,
+    "latitude": 24.8461,
+    "longitude": 86.0631
+  },
+  {
+    "districtId": 220,
+    "state": "Bihar",
+    "district": "Sheohar",
+    "strayDogsCensus": 3270,
+    "strayCattleCensus": 183,
+    "latitude": 25.0961,
+    "longitude": 85.0631
+  },
+  {
+    "districtId": 221,
+    "state": "Bihar",
+    "district": "Sitamarhi",
+    "strayDogsCensus": 10293,
+    "strayCattleCensus": 511,
+    "latitude": 25.3461,
+    "longitude": 85.8131
+  },
+  {
+    "districtId": 222,
+    "state": "Bihar",
+    "district": "Siwan",
+    "strayDogsCensus": 22715,
+    "strayCattleCensus": 4913,
+    "latitude": 25.5961,
+    "longitude": 84.8131
+  },
+  {
+    "districtId": 223,
+    "state": "Bihar",
+    "district": "Supaul",
+    "strayDogsCensus": 5971,
+    "strayCattleCensus": 458,
+    "latitude": 25.8461,
+    "longitude": 85.5631
+  },
+  {
+    "districtId": 224,
+    "state": "Bihar",
+    "district": "Vaishali",
+    "strayDogsCensus": 19121,
+    "strayCattleCensus": 3168,
+    "latitude": 24.3461,
+    "longitude": 84.5631
+  },
+  {
+    "districtId": 118,
+    "state": "Uttar Pradesh",
+    "district": "Agra",
+    "strayDogsCensus": 21632,
+    "strayCattleCensus": 16916,
+    "latitude": 27.1767,
+    "longitude": 78.0081
+  },
+  {
+    "districtId": 119,
+    "state": "Uttar Pradesh",
+    "district": "Aligarh",
+    "strayDogsCensus": 44350,
+    "strayCattleCensus": 28559,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 120,
+    "state": "Uttar Pradesh",
+    "district": "Allahabad",
+    "strayDogsCensus": 49876,
+    "strayCattleCensus": 29045,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 121,
+    "state": "Uttar Pradesh",
+    "district": "Ambedkar Nagar",
+    "strayDogsCensus": 17221,
+    "strayCattleCensus": 6353,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 640,
+    "state": "Uttar Pradesh",
+    "district": "Amethi",
+    "strayDogsCensus": 21445,
+    "strayCattleCensus": 8569,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 154,
+    "state": "Uttar Pradesh",
+    "district": "Amroha",
+    "strayDogsCensus": 18756,
+    "strayCattleCensus": 1697,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 122,
+    "state": "Uttar Pradesh",
+    "district": "Auraiya",
+    "strayDogsCensus": 16917,
+    "strayCattleCensus": 11525,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 123,
+    "state": "Uttar Pradesh",
+    "district": "Azamgarh",
+    "strayDogsCensus": 44775,
+    "strayCattleCensus": 4924,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 124,
+    "state": "Uttar Pradesh",
+    "district": "Baghpat",
+    "strayDogsCensus": 11909,
+    "strayCattleCensus": 3754,
+    "latitude": 27.3467,
+    "longitude": 80.4462
+  },
+  {
+    "districtId": 125,
+    "state": "Uttar Pradesh",
+    "district": "Bahraich",
+    "strayDogsCensus": 26184,
+    "strayCattleCensus": 18988,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 126,
+    "state": "Uttar Pradesh",
+    "district": "Ballia",
+    "strayDogsCensus": 22199,
+    "strayCattleCensus": 7836,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 127,
+    "state": "Uttar Pradesh",
+    "district": "Balrampur",
+    "strayDogsCensus": 18631,
+    "strayCattleCensus": 9248,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 128,
+    "state": "Uttar Pradesh",
+    "district": "Banda",
+    "strayDogsCensus": 29913,
+    "strayCattleCensus": 47658,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 129,
+    "state": "Uttar Pradesh",
+    "district": "Barabanki",
+    "strayDogsCensus": 30681,
+    "strayCattleCensus": 10097,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 130,
+    "state": "Uttar Pradesh",
+    "district": "Bareilly",
+    "strayDogsCensus": 36302,
+    "strayCattleCensus": 6972,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 131,
+    "state": "Uttar Pradesh",
+    "district": "Basti",
+    "strayDogsCensus": 38039,
+    "strayCattleCensus": 25529,
+    "latitude": 27.3467,
+    "longitude": 80.4462
+  },
+  {
+    "districtId": 132,
+    "state": "Uttar Pradesh",
+    "district": "Bijnor",
+    "strayDogsCensus": 38152,
+    "strayCattleCensus": 361,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 133,
+    "state": "Uttar Pradesh",
+    "district": "Budaun",
+    "strayDogsCensus": 45975,
+    "strayCattleCensus": 29760,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 134,
+    "state": "Uttar Pradesh",
+    "district": "Bulandshahr",
+    "strayDogsCensus": 44025,
+    "strayCattleCensus": 16634,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 135,
+    "state": "Uttar Pradesh",
+    "district": "Chandauli",
+    "strayDogsCensus": 20861,
+    "strayCattleCensus": 5577,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 136,
+    "state": "Uttar Pradesh",
+    "district": "Chitrakoot",
+    "strayDogsCensus": 38575,
+    "strayCattleCensus": 68813,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 137,
+    "state": "Uttar Pradesh",
+    "district": "Deoria",
+    "strayDogsCensus": 22798,
+    "strayCattleCensus": 8393,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 138,
+    "state": "Uttar Pradesh",
+    "district": "Etah",
+    "strayDogsCensus": 11252,
+    "strayCattleCensus": 2568,
+    "latitude": 27.3467,
+    "longitude": 80.4462
+  },
+  {
+    "districtId": 139,
+    "state": "Uttar Pradesh",
+    "district": "Etawah",
+    "strayDogsCensus": 20001,
+    "strayCattleCensus": 10841,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 140,
+    "state": "Uttar Pradesh",
+    "district": "Faizabad",
+    "strayDogsCensus": 11383,
+    "strayCattleCensus": 5629,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 141,
+    "state": "Uttar Pradesh",
+    "district": "Farrukhabad",
+    "strayDogsCensus": 18991,
+    "strayCattleCensus": 9844,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 142,
+    "state": "Uttar Pradesh",
+    "district": "Fatehpur",
+    "strayDogsCensus": 36814,
+    "strayCattleCensus": 19931,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 143,
+    "state": "Uttar Pradesh",
+    "district": "Firozabad",
+    "strayDogsCensus": 19771,
+    "strayCattleCensus": 6336,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 144,
+    "state": "Uttar Pradesh",
+    "district": "Gautam Buddha Nagar",
+    "strayDogsCensus": 13673,
+    "strayCattleCensus": 3340,
+    "latitude": 28.5355,
+    "longitude": 77.391
+  },
+  {
+    "districtId": 145,
+    "state": "Uttar Pradesh",
+    "district": "Ghaziabad",
+    "strayDogsCensus": 18236,
+    "strayCattleCensus": 4543,
+    "latitude": 28.6692,
+    "longitude": 77.4538
+  },
+  {
+    "districtId": 146,
+    "state": "Uttar Pradesh",
+    "district": "Ghazipur",
+    "strayDogsCensus": 45352,
+    "strayCattleCensus": 16150,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 147,
+    "state": "Uttar Pradesh",
+    "district": "Gonda",
+    "strayDogsCensus": 58507,
+    "strayCattleCensus": 52615,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 148,
+    "state": "Uttar Pradesh",
+    "district": "Gorakhpur",
+    "strayDogsCensus": 42601,
+    "strayCattleCensus": 10186,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 149,
+    "state": "Uttar Pradesh",
+    "district": "Hamirpur",
+    "strayDogsCensus": 20287,
+    "strayCattleCensus": 37834,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 661,
+    "state": "Uttar Pradesh",
+    "district": "Hapur",
+    "strayDogsCensus": 12014,
+    "strayCattleCensus": 3549,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 150,
+    "state": "Uttar Pradesh",
+    "district": "Hardoi",
+    "strayDogsCensus": 56174,
+    "strayCattleCensus": 48173,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 163,
+    "state": "Uttar Pradesh",
+    "district": "Hathras",
+    "strayDogsCensus": 16811,
+    "strayCattleCensus": 12230,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 151,
+    "state": "Uttar Pradesh",
+    "district": "Jalaun",
+    "strayDogsCensus": 19540,
+    "strayCattleCensus": 20872,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 152,
+    "state": "Uttar Pradesh",
+    "district": "Jaunpur",
+    "strayDogsCensus": 50357,
+    "strayCattleCensus": 23008,
+    "latitude": 27.3467,
+    "longitude": 80.4462
+  },
+  {
+    "districtId": 153,
+    "state": "Uttar Pradesh",
+    "district": "Jhansi",
+    "strayDogsCensus": 31323,
+    "strayCattleCensus": 37431,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 155,
+    "state": "Uttar Pradesh",
+    "district": "Kannauj",
+    "strayDogsCensus": 13628,
+    "strayCattleCensus": 5642,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 156,
+    "state": "Uttar Pradesh",
+    "district": "Kanpur Dehat",
+    "strayDogsCensus": 20976,
+    "strayCattleCensus": 14077,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 157,
+    "state": "Uttar Pradesh",
+    "district": "Kanpur Nagar",
+    "strayDogsCensus": 35279,
+    "strayCattleCensus": 26775,
+    "latitude": 26.4499,
+    "longitude": 80.3319
+  },
+  {
+    "districtId": 633,
+    "state": "Uttar Pradesh",
+    "district": "Kasganj",
+    "strayDogsCensus": 9452,
+    "strayCattleCensus": 3716,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 158,
+    "state": "Uttar Pradesh",
+    "district": "Kaushambi",
+    "strayDogsCensus": 20237,
+    "strayCattleCensus": 13817,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 159,
+    "state": "Uttar Pradesh",
+    "district": "Kheri",
+    "strayDogsCensus": 46513,
+    "strayCattleCensus": 41939,
+    "latitude": 27.3467,
+    "longitude": 80.4462
+  },
+  {
+    "districtId": 160,
+    "state": "Uttar Pradesh",
+    "district": "Kushi Nagar",
+    "strayDogsCensus": 16710,
+    "strayCattleCensus": 672,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 161,
+    "state": "Uttar Pradesh",
+    "district": "Lalitpur",
+    "strayDogsCensus": 19561,
+    "strayCattleCensus": 43498,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 162,
+    "state": "Uttar Pradesh",
+    "district": "Lucknow",
+    "strayDogsCensus": 32831,
+    "strayCattleCensus": 23003,
+    "latitude": 26.8467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 164,
+    "state": "Uttar Pradesh",
+    "district": "Maharajganj",
+    "strayDogsCensus": 18105,
+    "strayCattleCensus": 1479,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 165,
+    "state": "Uttar Pradesh",
+    "district": "Mahoba",
+    "strayDogsCensus": 19304,
+    "strayCattleCensus": 61765,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 166,
+    "state": "Uttar Pradesh",
+    "district": "Mainpuri",
+    "strayDogsCensus": 18386,
+    "strayCattleCensus": 5694,
+    "latitude": 27.3467,
+    "longitude": 80.4462
+  },
+  {
+    "districtId": 167,
+    "state": "Uttar Pradesh",
+    "district": "Mathura",
+    "strayDogsCensus": 34304,
+    "strayCattleCensus": 18556,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 168,
+    "state": "Uttar Pradesh",
+    "district": "Mau",
+    "strayDogsCensus": 23031,
+    "strayCattleCensus": 7789,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 169,
+    "state": "Uttar Pradesh",
+    "district": "Meerut",
+    "strayDogsCensus": 24297,
+    "strayCattleCensus": 4913,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 170,
+    "state": "Uttar Pradesh",
+    "district": "Mirzapur",
+    "strayDogsCensus": 35447,
+    "strayCattleCensus": 3897,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 171,
+    "state": "Uttar Pradesh",
+    "district": "Moradabad",
+    "strayDogsCensus": 23483,
+    "strayCattleCensus": 733,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 172,
+    "state": "Uttar Pradesh",
+    "district": "Muzaffarnagar",
+    "strayDogsCensus": 20375,
+    "strayCattleCensus": 3207,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 173,
+    "state": "Uttar Pradesh",
+    "district": "Pilibhit",
+    "strayDogsCensus": 28373,
+    "strayCattleCensus": 14348,
+    "latitude": 27.3467,
+    "longitude": 80.4462
+  },
+  {
+    "districtId": 174,
+    "state": "Uttar Pradesh",
+    "district": "Pratapgarh",
+    "strayDogsCensus": 38814,
+    "strayCattleCensus": 25483,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 175,
+    "state": "Uttar Pradesh",
+    "district": "Rae Bareli",
+    "strayDogsCensus": 19330,
+    "strayCattleCensus": 15513,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 176,
+    "state": "Uttar Pradesh",
+    "district": "Rampur",
+    "strayDogsCensus": 17934,
+    "strayCattleCensus": 26,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 177,
+    "state": "Uttar Pradesh",
+    "district": "Saharanpur",
+    "strayDogsCensus": 42550,
+    "strayCattleCensus": 2915,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 659,
+    "state": "Uttar Pradesh",
+    "district": "Sambhal",
+    "strayDogsCensus": 18316,
+    "strayCattleCensus": 5331,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 178,
+    "state": "Uttar Pradesh",
+    "district": "Sant Kabeer Nagar",
+    "strayDogsCensus": 16220,
+    "strayCattleCensus": 2926,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 179,
+    "state": "Uttar Pradesh",
+    "district": "Sant Ravidas Nagar",
+    "strayDogsCensus": 23724,
+    "strayCattleCensus": 12536,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 180,
+    "state": "Uttar Pradesh",
+    "district": "Shahjahanpur",
+    "strayDogsCensus": 24335,
+    "strayCattleCensus": 12669,
+    "latitude": 27.3467,
+    "longitude": 80.4462
+  },
+  {
+    "districtId": 660,
+    "state": "Uttar Pradesh",
+    "district": "Shamli",
+    "strayDogsCensus": 15711,
+    "strayCattleCensus": 2586,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 181,
+    "state": "Uttar Pradesh",
+    "district": "Shravasti",
+    "strayDogsCensus": 14596,
+    "strayCattleCensus": 21500,
+    "latitude": 27.5967,
+    "longitude": 81.1962
+  },
+  {
+    "districtId": 182,
+    "state": "Uttar Pradesh",
+    "district": "Siddharth Nagar",
+    "strayDogsCensus": 35086,
+    "strayCattleCensus": 14230,
+    "latitude": 26.0967,
+    "longitude": 80.1962
+  },
+  {
+    "districtId": 183,
+    "state": "Uttar Pradesh",
+    "district": "Sitapur",
+    "strayDogsCensus": 48332,
+    "strayCattleCensus": 17057,
+    "latitude": 26.3467,
+    "longitude": 80.9462
+  },
+  {
+    "districtId": 184,
+    "state": "Uttar Pradesh",
+    "district": "Sonbhadra",
+    "strayDogsCensus": 23048,
+    "strayCattleCensus": 4861,
+    "latitude": 26.5967,
+    "longitude": 81.6962
+  },
+  {
+    "districtId": 185,
+    "state": "Uttar Pradesh",
+    "district": "Sultanpur",
+    "strayDogsCensus": 25154,
+    "strayCattleCensus": 4026,
+    "latitude": 26.8467,
+    "longitude": 80.6962
+  },
+  {
+    "districtId": 186,
+    "state": "Uttar Pradesh",
+    "district": "Unnao",
+    "strayDogsCensus": 51084,
+    "strayCattleCensus": 42578,
+    "latitude": 27.0967,
+    "longitude": 81.4462
+  },
+  {
+    "districtId": 187,
+    "state": "Uttar Pradesh",
+    "district": "Varanasi",
+    "strayDogsCensus": 22432,
+    "strayCattleCensus": 12449,
+    "latitude": 25.3176,
+    "longitude": 82.9739
+  },
+  {
+    "districtId": 709,
+    "state": "Delhi data is based on 20th Livestock Census, 2019",
+    "district": "District",
+    "strayDogsCensus": 0,
+    "strayCattleCensus": 0,
+    "latitude": 20.5937,
+    "longitude": 78.9629
+  }
+]

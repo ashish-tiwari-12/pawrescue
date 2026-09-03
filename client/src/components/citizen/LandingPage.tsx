@@ -1,5 +1,6 @@
 import React from "react";
 import { NGO, Complaint } from "../../types";
+import { GeospatialIntelligenceMap } from "../maps/GeospatialIntelligenceMap";
 
 interface Props {
   ngos?: NGO[];
@@ -98,23 +99,22 @@ export const LandingPage: React.FC<Props> = ({
                       <span className="w-3 h-3 rounded-full bg-emerald-500 animate-pulse" />
                       <span className="text-xs font-bold text-slate-800">Live Rescue Stream</span>
                     </div>
-                    <span className="text-[11px] font-semibold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">
-                      Mumbai & Delhi NCR
+                    <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-100">
+                      Active
                     </span>
                   </div>
 
-                  {/* Featured Active Case */}
+                  {/* Sample Live Rescue Card */}
                   <div className="space-y-4">
-                    <div className="relative rounded-2xl overflow-hidden shadow-inner aspect-[16/10]">
+                    <div className="relative rounded-2xl overflow-hidden aspect-video bg-slate-900 shadow-md">
                       <img
-                        src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800&auto=format&fit=crop&q=80"
-                        alt="Injured Stray Dog Sighting"
+                        src="https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=600&auto=format&fit=crop&q=80"
+                        alt="Injured stray dog being treated"
                         className="w-full h-full object-cover"
                       />
-                      <div className="absolute top-3 left-3">
-                        <span className="px-2.5 py-1 bg-red-600 text-white text-[11px] font-bold rounded-lg shadow-md flex items-center gap-1">
-                          <span className="material-symbols-outlined !text-[14px]">ambulance</span>
-                          AMBULANCE EN ROUTE
+                      <div className="absolute top-2 left-2">
+                        <span className="px-2 py-1 rounded-md bg-orange-600/90 text-white text-[10px] font-extrabold uppercase tracking-wider backdrop-blur-xs">
+                          Emergency SOS
                         </span>
                       </div>
                       <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 text-white text-xs">
@@ -154,6 +154,12 @@ export const LandingPage: React.FC<Props> = ({
           </div>
         </div>
       </section>
+
+      {/* FULL-WIDTH GEOSPATIAL INTELLIGENCE MAP */}
+      <GeospatialIntelligenceMap
+        onStartReport={() => onStartReport(false)}
+        recentComplaints={recentComplaints}
+      />
 
       {/* Live Statistics Counter */}
       <section className="py-12 bg-white border-b border-slate-100">
