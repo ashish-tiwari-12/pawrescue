@@ -229,9 +229,10 @@ export const ComplaintManagement: React.FC<Props> = ({
         </div>
       )}
 
-      {/* Table Container */}
+      {/* Table Container (Desktop: Table, Mobile: Stacked Cards) */}
       <div className="bg-white rounded-3xl card-elevation-1 border border-slate-100 overflow-hidden">
-        <div className="overflow-x-auto">
+        {/* Desktop Table View (>= 768px) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-600 uppercase tracking-wider">
@@ -380,6 +381,80 @@ export const ComplaintManagement: React.FC<Props> = ({
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card Stack (< 768px) */}
+        <div className="md:hidden divide-y divide-slate-100">
+          {paginatedComplaints.length === 0 ? (
+            <div className="p-8 text-center text-slate-400 text-xs">
+              No complaints match your active filters.
+            </div>
+          ) : (
+            paginatedComplaints.map((comp) => {
+              const isSelected = selectedIds.includes(comp.id);
+              return (
+                <div
+                  key={comp.id}
+                  className={`p-4 space-y-3 transition-colors ${
+                    isSelected ? "bg-emerald-50/50" : "bg-white"
+                  }`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => handleToggleSelect(comp.id)}
+                        className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 cursor-pointer"
+                      />
+                      <span className="font-mono font-bold text-xs text-orange-600 bg-orange-100 px-2 py-0.5 rounded">
+                        #{comp.trackingId}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <PriorityBadge priority={comp.priority} size="sm" />
+                      <StatusBadge status={comp.status} size="sm" />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-3">
+                    {comp.images && comp.images.length > 0 && (
+                      <img
+                        src={comp.images[0]}
+                        alt=""
+                        className="w-16 h-16 rounded-xl object-cover border border-slate-200 shrink-0"
+                      />
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="text-xs font-bold text-slate-900 truncate">
+                        {comp.title}
+                      </div>
+                      <div className="text-[11px] text-slate-500 mt-0.5">
+                        Reporter: <strong className="text-slate-700">{comp.citizenName}</strong> ({comp.contactNumber})
+                      </div>
+                      <div className="text-[11px] text-slate-500 truncate mt-0.5">
+                        📍 {comp.address}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+                    <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-2 py-0.5 rounded">
+                      📍 {comp.distanceKm ? `${comp.distanceKm} KM` : "4.2 KM"} away
+                    </span>
+
+                    <button
+                      onClick={() => onOpenComplaintModal(comp)}
+                      className="px-3 py-1.5 bg-[#006c49] text-white hover:bg-emerald-800 rounded-xl text-xs font-bold shadow-sm flex items-center gap-1"
+                    >
+                      <span className="material-symbols-outlined !text-sm">visibility</span>
+                      <span>Inspect Case</span>
+                    </button>
+                  </div>
+                </div>
+              );
+            })
+          )}
         </div>
 
         {/* Pagination Footer */}

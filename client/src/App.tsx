@@ -20,6 +20,8 @@ import { TopNav } from "./components/common/TopNav";
 import { Footer } from "./components/common/Footer";
 import { AuthModal } from "./components/common/AuthModal";
 import { NotificationDrawer } from "./components/common/NotificationDrawer";
+import { MobileBottomNav } from "./components/common/MobileBottomNav";
+import { EmergencyFAB } from "./components/common/EmergencyFAB";
 
 // Citizen Portal Pages
 import { LandingPage } from "./components/citizen/LandingPage";
@@ -611,6 +613,28 @@ export default function App() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Mobile Bottom Navigation (Citizen Only, < 768px) */}
+      {activePortal === "citizen" && (
+        <MobileBottomNav
+          citizenView={citizenView}
+          onNavigateCitizen={setCitizenView}
+          onEmergencyReport={() => {
+            setCitizenView("report");
+          }}
+          user={user}
+          onOpenAuth={() => setAuthModalOpen(true)}
+        />
+      )}
+
+      {/* Floating Emergency SOS Action Button (< 768px, Citizen pages) */}
+      {activePortal === "citizen" && citizenView !== "report" && (
+        <EmergencyFAB
+          onEmergencyReport={() => {
+            setCitizenView("report");
+          }}
+        />
       )}
     </div>
   );

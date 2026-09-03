@@ -341,99 +341,193 @@ export const TopNav: React.FC<Props> = ({
             {/* Mobile Menu Trigger */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100"
+              className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none"
+              aria-label="Toggle Navigation Menu"
             >
-              <span className="material-symbols-outlined">
+              <span className="material-symbols-outlined !text-2xl">
                 {mobileMenuOpen ? "close" : "menu"}
               </span>
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Slide-In Mobile Drawer Backdrop & Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white border-t border-slate-100 px-4 py-3 space-y-1 animate-fadeIn">
-            {activePortal === "citizen" ? (
-              <>
+          <div className="md:hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
+            <div className="fixed top-0 right-0 bottom-0 w-[280px] max-w-[85vw] bg-white shadow-2xl z-50 flex flex-col justify-between overflow-y-auto animate-slideIn">
+              {/* Drawer Header */}
+              <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white flex items-center justify-center">
+                    <span className="material-symbols-outlined !text-xl">medical_services</span>
+                  </div>
+                  <div>
+                    <span className="font-extrabold text-slate-900 text-sm">PawConnect</span>
+                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold ml-1 px-1 rounded">
+                      NGO
+                    </span>
+                  </div>
+                </div>
+
                 <button
-                  onClick={() => {
-                    onNavigateCitizen("landing");
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-orange-50 rounded-lg"
+                  type="button"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-xs font-bold"
                 >
-                  Home
+                  ✕
                 </button>
-                <button
-                  onClick={() => {
-                    onNavigateCitizen("report");
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-orange-50 rounded-lg"
-                >
-                  Report Issue
-                </button>
-                <button
-                  onClick={() => {
-                    onNavigateCitizen("track");
-                    setMobileMenuOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-orange-50 rounded-lg"
-                >
-                  Track Complaint
-                </button>
-                {user && (
-                  <button
-                    onClick={() => {
-                      onNavigateCitizen("dashboard");
-                      setMobileMenuOpen(false);
-                    }}
-                    className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-orange-50 rounded-lg"
-                  >
-                    My Complaints
-                  </button>
-                )}
-              </>
-            ) : (
-              <>
+              </div>
+
+              {/* Drawer Navigation Links */}
+              <div className="p-4 space-y-1.5 flex-1">
                 <button
                   onClick={() => {
                     onNavigateNGO("overview");
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-emerald-50 rounded-lg"
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "overview" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
                 >
-                  Dashboard Home
+                  <span className="material-symbols-outlined !text-lg text-emerald-600">dashboard</span>
+                  <span>Overview</span>
                 </button>
+
                 <button
                   onClick={() => {
                     onNavigateNGO("complaints");
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-emerald-50 rounded-lg"
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "complaints" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
                 >
-                  Complaint Management
+                  <span className="material-symbols-outlined !text-lg text-emerald-600">receipt_long</span>
+                  <span>Rescues & Cases</span>
                 </button>
+
+                <button
+                  onClick={() => {
+                    onNavigateNGO("maps");
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "maps" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className="material-symbols-outlined !text-lg text-emerald-600">map</span>
+                  <span>Live Dispatch Map</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    onNavigateNGO("dogs");
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "dogs" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className="material-symbols-outlined !text-lg text-emerald-600">pets</span>
+                  <span>National Dog Registry</span>
+                </button>
+
                 <button
                   onClick={() => {
                     onNavigateNGO("volunteers");
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-emerald-50 rounded-lg"
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "volunteers" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
                 >
-                  Volunteer Roster
+                  <span className="material-symbols-outlined !text-lg text-emerald-600">group</span>
+                  <span>Volunteers</span>
                 </button>
+
                 <button
                   onClick={() => {
                     onNavigateNGO("analytics");
                     setMobileMenuOpen(false);
                   }}
-                  className="w-full text-left px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-emerald-50 rounded-lg"
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "analytics" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
                 >
-                  Analytics & Trends
+                  <span className="material-symbols-outlined !text-lg text-emerald-600">analytics</span>
+                  <span>Rescue Analytics</span>
                 </button>
-              </>
-            )}
+
+                <button
+                  onClick={() => {
+                    onNavigateNGO("gov_analytics");
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "gov_analytics" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className="material-symbols-outlined !text-lg text-emerald-600">account_balance</span>
+                  <span>Municipal ARV / ABC</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    onNavigateNGO("profile");
+                    setMobileMenuOpen(false);
+                  }}
+                  className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
+                    ngoView === "profile" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className="material-symbols-outlined !text-lg text-emerald-600">domain</span>
+                  <span>NGO Profile</span>
+                </button>
+              </div>
+
+              {/* Drawer Footer Actions */}
+              <div className="p-4 border-t border-slate-100 bg-slate-50">
+                {user ? (
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2.5">
+                      <img
+                        src={user.avatarUrl || "https://api.dicebear.com/7.x/bottts/svg?seed=Aarav"}
+                        alt={user.name}
+                        className="w-9 h-9 rounded-full border border-slate-300"
+                      />
+                      <div className="min-w-0 flex-1">
+                        <div className="text-xs font-bold text-slate-900 truncate">{user.name}</div>
+                        <div className="text-[10px] text-slate-500 truncate">{user.email}</div>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        onLogout();
+                      }}
+                      className="w-full py-2.5 bg-red-50 hover:bg-red-100 text-red-600 font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                    >
+                      <span className="material-symbols-outlined !text-base">logout</span>
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenAuth();
+                    }}
+                    className="w-full py-3 bg-[#006c49] hover:bg-emerald-800 text-white font-bold text-xs rounded-xl shadow-md flex items-center justify-center gap-1.5 transition-all"
+                  >
+                    <span className="material-symbols-outlined !text-base">login</span>
+                    <span>Sign In to NGO Portal</span>
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         )}
       </header>

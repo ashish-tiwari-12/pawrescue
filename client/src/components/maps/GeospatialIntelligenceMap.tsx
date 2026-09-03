@@ -514,7 +514,7 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
           </div>
 
           {/* Map Viewport (8 cols) */}
-          <div className="lg:col-span-8 relative rounded-2xl overflow-hidden border border-slate-800 shadow-inner min-h-[520px]">
+          <div className="lg:col-span-8 relative rounded-2xl overflow-hidden border border-slate-800 shadow-inner min-h-[300px] md:min-h-[520px] h-[300px] md:h-auto">
             {loading && (
               <div className="absolute inset-0 z-30 bg-slate-950/60 backdrop-blur-xs flex items-center justify-center">
                 <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 text-center space-y-2 shadow-xl">
@@ -526,7 +526,7 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
               </div>
             )}
 
-            <div ref={mapContainerRef} className="w-full h-full min-h-[520px]" />
+            <div ref={mapContainerRef} className="w-full h-full min-h-[300px] md:min-h-[520px]" />
           </div>
         </div>
       </div>

@@ -217,8 +217,8 @@ export const NGODogRegistry: React.FC<Props> = ({
           </div>
         </div>
 
-        {/* Registry Table */}
-        <div className="overflow-x-auto">
+        {/* Registry Table (Desktop: Table, Mobile: Cards) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-[11px] font-bold text-slate-600 uppercase tracking-wider">
@@ -319,6 +319,71 @@ export const NGODogRegistry: React.FC<Props> = ({
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Registry Cards (< 768px) */}
+        <div className="md:hidden divide-y divide-slate-100">
+          {filteredDogs.length === 0 ? (
+            <div className="p-8 text-center text-slate-400 text-xs">
+              No registered dogs match your filter.
+            </div>
+          ) : (
+            filteredDogs.map((dog) => (
+              <div
+                key={dog.id}
+                onClick={() => onSelectDog(dog)}
+                className="p-4 space-y-3 bg-white hover:bg-slate-50 transition-colors cursor-pointer"
+              >
+                <div className="flex gap-3">
+                  <img
+                    src={dog.images?.[0] || "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=200"}
+                    alt=""
+                    className="w-16 h-16 rounded-2xl object-cover border border-slate-200 shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="font-mono font-black text-xs text-slate-900 bg-slate-100 px-2 py-0.5 rounded">
+                        #{dog.dogId}
+                      </span>
+                      <span className="text-[10px] text-slate-500">{dog.gender} • {dog.estimatedAge}</span>
+                    </div>
+                    <div className="text-xs font-extrabold text-slate-900 mt-1 truncate">
+                      {dog.name || "Unnamed Dog"}
+                    </div>
+                    <div className="text-[11px] text-slate-500 truncate">
+                      {dog.breed} • 📍 {dog.currentArea}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    {dog.vaccinationStatus === "Fully Vaccinated" && (
+                      <span className="text-[9px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-md">
+                        💉 Vaccinated
+                      </span>
+                    )}
+                    {dog.sterilizationStatus.includes("Ear Notched") && (
+                      <span className="text-[9px] font-extrabold bg-purple-100 text-purple-800 px-2 py-0.5 rounded-md">
+                        ✂️ Ear Notched
+                      </span>
+                    )}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onSelectDog(dog);
+                    }}
+                    className="px-3 py-1.5 bg-[#006c49] text-white rounded-xl text-xs font-bold shadow-sm"
+                  >
+                    View Profile →
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
 
