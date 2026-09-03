@@ -38,19 +38,12 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve uploaded images statically
-app.use("/uploads", express.static(path.resolve("uploads")));
+import { uploadDir } from "./middleware/upload.js";
 
-// API Routes
-app.use("/api/auth", authRouter);
-app.use("/api/ngo/auth", ngoAuthRouter);
-app.use("/api/ngos/auth", ngoAuthRouter);
-app.use("/api/complaints", complaintsRouter);
-app.use("/api/volunteers", volunteersRouter);
-app.use("/api/ngos", ngosRouter);
-app.use("/api/notifications", notificationsRouter);
-app.use("/api/analytics", analyticsRouter);
-// Lazy DB connection middleware for serverless requests
+// Serve uploaded images statically
+app.use("/uploads", express.static(uploadDir));
+
+// Lazy DB connection middleware for all incoming requests (Serverless warm-start compatible)
 app.use(async (req, res, next) => {
   try {
     await connectDatabase();
@@ -60,18 +53,24 @@ app.use(async (req, res, next) => {
   next();
 });
 
-// API Routes
-app.use("/api/dogs", dogsRouter);
-app.use("/api/gov-analytics", govAnalyticsRouter);
-app.use("/api/geospatial", geospatialRouter);
+// Root & Health Check Endpoints
+const healthHandler = (req: express.Request, res: express.Response) => {
+  res.json({
+    status: "healthy",
+    platform: "PawConnect India API (MongoDB Atlas)",
+    database: "pawrescue",
+    version: "2.1.0",
+    serverTime: new Date().toISOString()
+  });
+};
 
-// Root & Health Check
 app.get("/", (req, res) => {
   res.json({
     status: "healthy",
     message: "🐾 PawConnect India Backend API is online!",
     endpoints: [
       "/api/auth",
+      "/api/ngo/auth",
       "/api/complaints",
       "/api/ngos",
       "/api/dogs",
@@ -82,15 +81,21 @@ app.get("/", (req, res) => {
   });
 });
 
-app.get("/health", (req, res) => {
-  res.json({
-    status: "healthy",
-    platform: "PawConnect India API (MongoDB Atlas)",
-    database: "pawrescue",
-    version: "2.1.0",
-    timestamp: new Date().toISOString()
-  });
-});
+app.get("/health", healthHandler);
+app.get("/api/health", healthHandler);
+
+// API Routes
+app.use("/api/auth", authRouter);
+app.use("/api/ngo/auth", ngoAuthRouter);
+app.use("/api/ngos/auth", ngoAuthRouter);
+app.use("/api/complaints", complaintsRouter);
+app.use("/api/volunteers", volunteersRouter);
+app.use("/api/ngos", ngosRouter);
+app.use("/api/notifications", notificationsRouter);
+app.use("/api/analytics", analyticsRouter);
+app.use("/api/dogs", dogsRouter);
+app.use("/api/gov-analytics", govAnalyticsRouter);
+app.use("/api/geospatial", geospatialRouter);
 
 // Global Error Handler
 app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
