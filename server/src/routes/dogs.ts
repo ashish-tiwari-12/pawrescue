@@ -1,5 +1,7 @@
 import { Router, Request, Response } from "express";
-import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
+
+const uuidv4 = () => crypto.randomUUID();
 import { DogProfileModel } from "../models/DogProfile.js";
 import { ComplaintModel } from "../models/Complaint.js";
 import {
