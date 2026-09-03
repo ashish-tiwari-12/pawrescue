@@ -27,10 +27,26 @@ import { NotificationDrawer } from "./components/common/NotificationDrawer";
 import { AuthModal } from "./components/common/AuthModal";
 import { NGOProfile } from "./components/ngo/NGOProfile";
 
+// Dedicated NGO Pages & Context
+import { Login } from "./pages/Login";
+import { Register } from "./pages/Register";
+import { ForgotPassword } from "./pages/ForgotPassword";
+import { Profile } from "./pages/Profile";
+import { useNgoAuth } from "./context/NgoAuthContext";
+
 export const App: React.FC = () => {
-  const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [activeNgo, setActiveNgo] = useState<NGO | null>(null);
+  const { user: authUser, ngo: authNgo, logout: authLogout, setNgo } = useNgoAuth();
+
+  const [currentUser, setCurrentUser] = useState<User | null>(authUser || api.getStoredUser());
+  const [activeNgo, setActiveNgo] = useState<NGO | null>(authNgo);
   const [currentTab, setCurrentTab] = useState<NGOView>("overview");
+  const [authPage, setAuthPage] = useState<"none" | "login" | "register" | "forgot_password">("none");
+
+  // Keep state in sync with context
+  useEffect(() => {
+    if (authUser) setCurrentUser(authUser);
+    if (authNgo) setActiveNgo(authNgo);
+  }, [authUser, authNgo]);
 
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
@@ -136,10 +152,49 @@ export const App: React.FC = () => {
     }
   };
 
+  // Full-page Auth routes
+  if (authPage === "login") {
+    return (
+      <Login
+        onNavigateRegister={() => setAuthPage("register")}
+        onNavigateForgotPassword={() => setAuthPage("forgot_password")}
+        onSuccess={() => {
+          setAuthPage("none");
+          loadInitialData();
+        }}
+      />
+    );
+  }
+
+  if (authPage === "register") {
+    return (
+      <Register
+        onNavigateLogin={() => setAuthPage("login")}
+        onSuccess={() => {
+          setAuthPage("none");
+          loadInitialData();
+        }}
+      />
+    );
+  }
+
+  if (authPage === "forgot_password") {
+    return (
+      <ForgotPassword
+        onNavigateLogin={() => setAuthPage("login")}
+        onSuccess={() => {
+          setAuthPage("login");
+        }}
+      />
+    );
+  }
+
   const handleLogout = () => {
+    authLogout();
     api.logout();
     setCurrentUser(null);
-    setIsAuthModalOpen(true);
+    setActiveNgo(null);
+    setAuthPage("login");
   };
 
   const unreadNotificationsCount = notifications.filter((n) => !n.read).length;
@@ -235,12 +290,20 @@ export const App: React.FC = () => {
               </button>
             </div>
           ) : (
-            <button
-              onClick={() => setIsAuthModalOpen(true)}
-              className="px-4 py-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-xs font-bold shadow-md shadow-orange-500/20 transition-all"
-            >
-              Sign In NGO
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setAuthPage("register")}
+                className="hidden sm:inline-flex px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition-all"
+              >
+                Register NGO
+              </button>
+              <button
+                onClick={() => setAuthPage("login")}
+                className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-black shadow-md shadow-emerald-500/20 transition-all"
+              >
+                Sign In NGO
+              </button>
+            </div>
           )}
         </div>
       </header>

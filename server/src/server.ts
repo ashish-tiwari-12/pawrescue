@@ -16,6 +16,7 @@ import analyticsRouter from "./routes/analytics.js";
 import dogsRouter from "./routes/dogs.js";
 import govAnalyticsRouter from "./routes/govAnalytics.js";
 import geospatialRouter from "./routes/geospatial.js";
+import ngoAuthRouter from "./routes/ngoAuthRoutes.js";
 import { initSocket } from "./sockets/index.js";
 
 const app = express();
@@ -42,6 +43,8 @@ app.use("/uploads", express.static(path.resolve("uploads")));
 
 // API Routes
 app.use("/api/auth", authRouter);
+app.use("/api/ngo/auth", ngoAuthRouter);
+app.use("/api/ngos/auth", ngoAuthRouter);
 app.use("/api/complaints", complaintsRouter);
 app.use("/api/volunteers", volunteersRouter);
 app.use("/api/ngos", ngosRouter);
