@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ComplaintCategory, User } from "../../types";
 import { api } from "../../api/client";
+import { DogPhotoCaptureSection } from "../common/DogPhotoCaptureSection";
 
 interface Props {
   user: User | null;
@@ -338,64 +339,50 @@ export const ReportIssuePage: React.FC<Props> = ({
           </div>
 
           {/* STEP 3: Photo & Quick Contact */}
-          <div className="bg-white p-5 sm:p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-4">
+          <div className="bg-white p-5 sm:p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-5">
             <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
               <span className="w-5 h-5 rounded-full bg-orange-500 text-white text-[11px] flex items-center justify-center font-bold">
                 3
               </span>
-              Photo & Your Contact Phone
+              Dog Photo & Citizen Helpline Contact
             </label>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {/* Photo Button */}
-              <div>
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                  id="simple-photo-input"
-                />
-                <label
-                  htmlFor="simple-photo-input"
-                  className="w-full h-11 border-2 border-dashed border-orange-300 hover:bg-orange-50/50 rounded-2xl flex items-center justify-center gap-2 text-xs font-bold text-orange-700 cursor-pointer transition-colors"
-                >
-                  <span className="material-symbols-outlined !text-lg">photo_camera</span>
-                  <span>{selectedFiles.length > 0 ? `+ Add More (${selectedFiles.length})` : "Attach Dog Photo"}</span>
-                </label>
-              </div>
+            {/* Live Camera & Gallery Photo Section */}
+            <DogPhotoCaptureSection
+              selectedFiles={selectedFiles}
+              previewUrls={previewUrls}
+              onFilesChange={(files, urls) => {
+                setSelectedFiles(files);
+                setPreviewUrls(urls);
+              }}
+              onPhotoCapturedAutoGps={handleFetchLocation}
+              locationCaptured={Boolean(latitude && longitude)}
+              coordinatesText={latitude && longitude ? `${latitude.toFixed(4)}, ${longitude.toFixed(4)}` : undefined}
+              maxFiles={5}
+            />
 
-              {/* Contact Phone Number */}
-              <div>
+            {/* Contact Phone Number */}
+            <div className="pt-2 border-t border-slate-100 space-y-1.5">
+              <label className="block text-xs font-bold text-slate-700">
+                Your Contact Phone Number *
+              </label>
+              <div className="relative">
+                <span className="material-symbols-outlined absolute left-3.5 top-3 !text-lg text-slate-400">
+                  call
+                </span>
                 <input
                   type="tel"
                   required
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  placeholder="Your phone number (+91...)"
-                  className="w-full h-11 px-3.5 text-xs border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-slate-50 font-medium"
+                  placeholder="Your 10-digit mobile number (+91...)"
+                  className="w-full h-11 pl-10 pr-3.5 text-xs border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-slate-50 font-semibold text-slate-900"
                 />
               </div>
+              <p className="text-[10px] text-slate-500">
+                Used strictly by assigned NGO rescuers and ambulance drivers to locate the dog.
+              </p>
             </div>
-
-            {/* Photo Previews */}
-            {previewUrls.length > 0 && (
-              <div className="flex gap-2 overflow-x-auto pt-1 pb-1">
-                {previewUrls.map((url, idx) => (
-                  <div key={idx} className="relative w-16 h-16 rounded-xl overflow-hidden border border-slate-200 shrink-0">
-                    <img src={url} alt="" className="w-full h-full object-cover" />
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveImage(idx)}
-                      className="absolute top-0.5 right-0.5 w-4 h-4 bg-red-600 text-white rounded-full flex items-center justify-center text-[10px]"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
 
             {/* Optional Extra Notes Toggle */}
             <div className="pt-2 border-t border-slate-100">
