@@ -150,7 +150,34 @@ export const ReportIssuePage: React.FC<Props> = ({
     }
   };
 
+  const resetForm = () => {
+    // Revoke object URLs to avoid memory leaks
+    previewUrls.forEach((url) => {
+      try {
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        // ignore
+      }
+    });
+    setSelectedFiles([]);
+    setPreviewUrls([]);
+    setSpotAddress("");
+    setExtraDetails("");
+    setShowExtraDetails(false);
+    setError(null);
+    setSelectedCategory(initialEmergency ? "Emergency Rescue" : "Injured Dog");
+    setIsEmergency(initialEmergency);
+  };
+
   const handleRemoveImage = (index: number) => {
+    const urlToRemove = previewUrls[index];
+    if (urlToRemove) {
+      try {
+        URL.revokeObjectURL(urlToRemove);
+      } catch (e) {
+        // ignore
+      }
+    }
     setPreviewUrls((prev) => prev.filter((_, i) => i !== index));
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
@@ -205,6 +232,10 @@ export const ReportIssuePage: React.FC<Props> = ({
       }
 
       const res = await api.createComplaint(formData);
+      
+      // Vacate and clean all form state, images, and notes for subsequent issues
+      resetForm();
+
       onSuccess(res.complaint);
     } catch (err: any) {
       setError(err.response?.data?.error || "Failed to submit rescue report.");
