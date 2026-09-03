@@ -24,6 +24,7 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
   const [activeLayer, setActiveLayer] = useState<LayerKey>("dog_density");
   const [layerData, setLayerData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
+  const [showTelemetryModal, setShowTelemetryModal] = useState(false);
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
@@ -34,7 +35,7 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
       id: "dog_density" as LayerKey,
       icon: "pets",
       title: "Dog Density",
-      subtitle: "Government Census & Live Sighting Heatmap",
+      subtitle: "710-District Census & Live Sighting Heatmap",
       badgeColor: "bg-blue-100 text-blue-800"
     },
     {
@@ -47,8 +48,8 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
     {
       id: "bite_hotspots" as LayerKey,
       icon: "crisis_alert",
-      title: "Dog Bite Hotspots",
-      subtitle: "Surveillance Clusters & Medical Stocks",
+      title: "Dog Bite Hotspots & PMC Surveillance",
+      subtitle: "State-wise 2.76M Annual Burden & Medical Stock",
       badgeColor: "bg-amber-100 text-amber-800"
     },
     {
@@ -132,11 +133,8 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
     const layerGroup = layerGroupRef.current;
     layerGroup.clearLayers();
 
-    const map = mapInstanceRef.current;
-
     switch (activeLayer) {
       case "dog_density": {
-        // Density points (Census districts + local dogs)
         const points = layerData.points || [];
         points.forEach((p: any) => {
           const isLocal = p.type === "registered_dog";
@@ -214,23 +212,50 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
       }
 
       case "bite_hotspots": {
-        const hotspots = layerData.hotspots || [];
-        hotspots.forEach((h: any) => {
+        // 1. National State-Level Surveillance Markers (PMC12533994 Data)
+        const stateHotspots = layerData.stateHotspots || [];
+        stateHotspots.forEach((st: any) => {
+          const radius = Math.min(18000, Math.max(5000, st.annualBites / 25));
+          const circle = L.circle([st.lat, st.lng], {
+            radius,
+            color: st.riskColor,
+            fillColor: st.riskColor,
+            fillOpacity: 0.28,
+            weight: 2
+          }).addTo(layerGroup);
+
+          circle.bindPopup(`
+            <div style="font-family: sans-serif; font-size: 12px; min-width: 210px;">
+              <span style="background: #fee2e2; color: #991b1b; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">
+                🏛️ State HMIS Surveillance
+              </span>
+              <strong style="color: #0f172a; font-size: 13px; display: block; margin-top: 4px;">📍 ${st.state}</strong>
+              <p style="color: ${st.riskColor}; font-weight: 800; font-size: 13px; margin: 4px 0;">
+                ${st.annualBites.toLocaleString()} Annual Dog Bites
+              </p>
+              <span style="font-size: 11px; color: #64748b;">Burden Tier: <strong>${st.tier}</strong> (${st.tierRange})</span>
+            </div>
+          `);
+        });
+
+        // 2. Micro-Level City Hotspots
+        const localHotspots = layerData.localHotspots || [];
+        localHotspots.forEach((h: any) => {
           const marker = L.circleMarker([h.latitude, h.longitude], {
             radius: 12 + Math.min(10, h.incidentCount),
             color: "#dc2626",
             fillColor: "#ef4444",
-            fillOpacity: 0.6,
+            fillOpacity: 0.75,
             weight: 3
           }).addTo(layerGroup);
 
           marker.bindPopup(`
-            <div style="font-family: sans-serif; font-size: 12px; min-width: 200px;">
+            <div style="font-family: sans-serif; font-size: 12px; min-width: 210px;">
               <span style="background: #fee2e2; color: #991b1b; font-size: 9px; font-weight: bold; padding: 2px 6px; border-radius: 4px; text-transform: uppercase;">
-                🚨 ${h.severity} Bite Hotspot
+                🚨 ${h.severity} Local Bite Hotspot
               </span>
               <strong style="color: #0f172a; font-size: 13px; display: block; margin-top: 4px;">📍 ${h.area} (${h.city})</strong>
-              <p style="color: #dc2626; font-weight: bold; font-size: 12px; margin: 4px 0;">Total Bite Incidents: ${h.incidentCount}</p>
+              <p style="color: #dc2626; font-weight: bold; font-size: 12px; margin: 4px 0;">Total Incidents: ${h.incidentCount}</p>
               <p style="color: #475569; font-size: 11px; margin-top: 4px; background: #f1f5f9; padding: 4px 6px; border-radius: 6px;">
                 💊 <strong>Advisory:</strong> ${h.medicalAdvisory}
               </p>
@@ -295,7 +320,6 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
       case "ngo_coverage": {
         const stations = layerData.stations || [];
         stations.forEach((s: any) => {
-          // 1. Shelter Radius Circle
           L.circle([s.latitude, s.longitude], {
             radius: (s.coverageRadiusKm || 15) * 1000,
             color: "#006c49",
@@ -305,7 +329,6 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
             dashArray: "4, 6"
           }).addTo(layerGroup);
 
-          // 2. Shelter HQ Marker
           const customIcon = L.divIcon({
             className: "ngo-marker-icon",
             html: `
@@ -390,11 +413,19 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
               Interactive Stray Animal Geospatial Intelligence
             </h2>
             <p className="text-slate-400 text-xs sm:text-sm max-w-2xl">
-              Integrating official 710-district government livestock census data with live citizen distress reports, AI dog profiles, and real-time NGO ambulance coordinates.
+              Integrating official 710-district government livestock census data and 2018–2023 NCBI/PMC national dog bite epidemiology with live citizen reports.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-3 shrink-0 flex-wrap">
+            <button
+              onClick={() => setShowTelemetryModal(true)}
+              className="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 shadow-sm"
+            >
+              <span className="material-symbols-outlined !text-lg text-amber-400">monitoring</span>
+              <span>National Dog Bite Report (PMC)</span>
+            </button>
+
             {onStartReport && (
               <button
                 onClick={onStartReport}
@@ -499,6 +530,94 @@ export const GeospatialIntelligenceMap: React.FC<Props> = ({
           </div>
         </div>
       </div>
+
+      {/* PMC12533994 Dog Bite Telemetry Modal */}
+      {showTelemetryModal && (
+        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-2xl w-full shadow-2xl space-y-6 text-white animate-scaleUp max-h-[85vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2">
+                <span className="w-3 h-3 rounded-full bg-red-500 animate-ping" />
+                <h3 className="font-extrabold text-base text-white">
+                  National Dog Bite Burden (2018–2023) — PMC Study
+                </h3>
+              </div>
+              <button
+                onClick={() => setShowTelemetryModal(false)}
+                className="p-1 text-slate-400 hover:text-white"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Time-Series Case Evolution */}
+            <div className="space-y-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Annual Reported Dog Bite Cases (India Total)
+              </span>
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                {[
+                  { year: "2018", cases: "7.57M", badge: "Peak Year" },
+                  { year: "2019", cases: "7.27M", badge: "High" },
+                  { year: "2020", cases: "4.76M", badge: "COVID Drop" },
+                  { year: "2021", cases: "3.24M", badge: "Post-Pandemic" },
+                  { year: "2022", cases: "2.18M", badge: "Lowest" },
+                  { year: "2023", cases: "2.76M", badge: "Rebound (+26%)" }
+                ].map((item, idx) => (
+                  <div key={idx} className="p-3 bg-slate-950 rounded-2xl border border-slate-800 text-center">
+                    <span className="text-[10px] text-slate-400 block font-mono">{item.year}</span>
+                    <strong className="text-xs font-black text-orange-400 block mt-0.5">{item.cases}</strong>
+                    <span className="text-[9px] text-slate-500 block mt-0.5">{item.badge}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* High-Risk State Rankings */}
+            <div className="space-y-2">
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Top State Burden Tiers (2023 Official HMIS Records)
+              </span>
+              <div className="space-y-2 text-xs">
+                {[
+                  { state: "Uttar Pradesh", count: "435,136 cases/yr", tier: "Critical High (Rank #1)", color: "text-red-400" },
+                  { state: "Madhya Pradesh", count: "390,878 cases/yr", tier: "Critical High (Rank #2)", color: "text-red-400" },
+                  { state: "Bihar", count: "138,597 cases/yr", tier: "Critical High (Rank #3)", color: "text-red-400" },
+                  { state: "Maharashtra", count: "105,420 cases/yr", tier: "Medium-High (Rank #4)", color: "text-orange-400" },
+                  { state: "Delhi (NCR)", count: "13,200 cases/yr", tier: "Low-Moderate Urban", color: "text-emerald-400" }
+                ].map((row, idx) => (
+                  <div key={idx} className="p-3 bg-slate-950/80 rounded-xl border border-slate-800 flex items-center justify-between">
+                    <div>
+                      <strong className="text-white font-bold">{row.state}</strong>
+                      <span className="text-[11px] text-slate-400 block">{row.tier}</span>
+                    </div>
+                    <span className={`font-mono font-bold ${row.color}`}>{row.count}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Zero by 30 Goal Banner */}
+            <div className="p-4 bg-emerald-950/60 border border-emerald-800/80 rounded-2xl text-xs space-y-1">
+              <span className="text-[10px] font-extrabold uppercase text-emerald-400 block">
+                🎯 WHO & FAO "Zero by 30" Strategic Plan
+              </span>
+              <p className="text-slate-300 text-[11px] leading-relaxed">
+                Aiming for <strong>Zero human rabies deaths by 2030</strong> through mass canine anti-rabies vaccination (ARV) and Animal Birth Control (ABC) sterilization campaigns.
+              </p>
+            </div>
+
+            <div className="flex justify-end pt-2">
+              <button
+                onClick={() => setShowTelemetryModal(false)}
+                className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-bold transition-colors"
+              >
+                Close Report
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
