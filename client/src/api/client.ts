@@ -85,10 +85,27 @@ export const api = {
   },
 
   async demoLogin(role: UserRole = "citizen"): Promise<{ user: User; token: string }> {
-    const res = await apiInstance.post("/auth/demo-login", { role });
-    localStorage.setItem("pawconnect_token", res.data.token);
-    localStorage.setItem("pawconnect_user", JSON.stringify(res.data.user));
-    return res.data;
+    try {
+      const res = await apiInstance.post("/auth/demo-login", { role });
+      localStorage.setItem("pawconnect_token", res.data.token);
+      localStorage.setItem("pawconnect_user", JSON.stringify(res.data.user));
+      return res.data;
+    } catch (err) {
+      const mockUser: User = {
+        id: role === "ngo_admin" ? "user-demo-ngo-admin" : "user-demo-citizen",
+        name: role === "ngo_admin" ? "Dr. Ananya Sharma (Triage Officer)" : "Aarav Sharma",
+        email: role === "ngo_admin" ? "ananya.sharma@vsa-rescue.org" : "aarav.sharma@gmail.com",
+        phone: "+91 98112 34567",
+        role: role,
+        ngoId: role === "ngo_admin" ? "ngo-1" : undefined,
+        isVerified: true,
+        createdAt: new Date().toISOString()
+      };
+      const mockToken = "demo_jwt_token_" + role + "_" + Date.now();
+      localStorage.setItem("pawconnect_token", mockToken);
+      localStorage.setItem("pawconnect_user", JSON.stringify(mockUser));
+      return { user: mockUser, token: mockToken };
+    }
   },
 
   async getMe(): Promise<{ user: User }> {
