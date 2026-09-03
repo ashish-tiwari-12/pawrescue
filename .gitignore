@@ -1,0 +1,17 @@
+node_modules/
+client/node_modules/
+server/node_modules/
+dist/
+client/dist/
+server/dist/
+server/db.json
+.env
+.env.local
+.env.*.local
+server/.env
+client/.env
+uploads/
+server/uploads/
+*.local
+.DS_Store
+.gemini/

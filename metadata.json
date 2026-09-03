@@ -1,0 +1,6 @@
+{
+  "name": "PawRescue",
+  "description": "A premium animal rescue and pet adoption platform featuring real-time rescue reports, AI diagnostics, custom Chat Assistant, adoption workflows, donations, and live-tracking maps.",
+  "requestFramePermissions": ["geolocation", "camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Report Dog - PawConnect India</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#4edea3",
+                        "on-primary-fixed-variant": "#783200",
+                        "on-primary-fixed": "#341100",
+                        "on-secondary-fixed-variant": "#005236",
+                        "on-tertiary-container": "#1304ac",
+                        "primary-container": "#f97316",
+                        "tertiary-fixed": "#e1e0ff",
+                        "tertiary-container": "#8c8fff",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#006c49",
+                        "inverse-primary": "#ffb690",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf8ff",
+                        "inverse-surface": "#283044",
+                        "primary": "#9d4300",
+                        "outline": "#8c7164",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#6ffbbe",
+                        "on-tertiary": "#ffffff",
+                        "outline-variant": "#e0c0b1",
+                        "on-secondary-container": "#00714d",
+                        "surface-container-highest": "#dae2fd",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f3ff",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#d2d9f4",
+                        "primary-fixed": "#ffdbca",
+                        "on-error-container": "#93000a",
+                        "on-background": "#131b2e",
+                        "inverse-on-surface": "#eef0ff",
+                        "on-primary-container": "#582200",
+                        "surface-container": "#eaedff",
+                        "on-surface": "#131b2e",
+                        "tertiary-fixed-dim": "#c0c1ff",
+                        "tertiary": "#494bd6",
+                        "on-secondary-fixed": "#002113",
+                        "background": "#faf8ff",
+                        "surface": "#faf8ff",
+                        "surface-variant": "#dae2fd",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#ffb690",
+                        "surface-tint": "#9d4300",
+                        "on-surface-variant": "#584237",
+                        "secondary-container": "#6cf8bb",
+                        "on-tertiary-fixed": "#07006c",
+                        "surface-container-high": "#e2e7ff",
+                        "on-tertiary-fixed-variant": "#2f2ebe"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    spacing: {
+                        "gutter": "20px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "margin-mobile": "16px",
+                        "margin-desktop": "40px",
+                        "lg": "24px",
+                        "sm": "8px",
+                        "2xl": "48px",
+                        "3xl": "64px",
+                        "md": "16px",
+                        "xl": "32px"
+                    },
+                    fontFamily: {
+                        "display-lg": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-sm": ["Inter"],
+                        "display-lg-mobile": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"]
+                    },
+                    fontSize: {
+                        "display-lg": ["48px", { lineHeight: "56px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["18px", { lineHeight: "28px", fontWeight: "400" }],
+                        "headline-sm": ["24px", { lineHeight: "32px", fontWeight: "600" }],
+                        "display-lg-mobile": ["36px", { lineHeight: "44px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "label-md": ["14px", { lineHeight: "20px", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "label-sm": ["12px", { lineHeight: "16px", fontWeight: "600" }],
+                        "body-md": ["16px", { lineHeight: "24px", fontWeight: "400" }],
+                        "headline-md": ["30px", { lineHeight: "38px", letterSpacing: "-0.01em", fontWeight: "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .issue-card input[type="radio"]:checked + div {
+            border-color: #f97316;
+            background-color: #ffdbca;
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+        }
+        .issue-card input[type="radio"]:checked + div .icon-container {
+            background-color: #f97316;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md antialiased min-h-screen flex flex-col md:flex-row overflow-x-hidden">
+<!-- Mobile Top App Bar -->
+<header class="md:hidden fixed top-0 w-full z-50 flex justify-between items-center px-margin-mobile h-16 bg-surface shadow-sm">
+<button aria-label="Menu" class="text-primary active:scale-95 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</button>
+<div class="font-headline-sm text-headline-sm font-bold text-primary">PawConnect India</div>
+<button class="text-primary font-label-md text-label-md font-semibold active:scale-95 transition-transform">Emergency</button>
+</header>
+<!-- Desktop Navigation Drawer -->
+<nav class="hidden md:flex flex-col py-6 gap-2 bg-surface h-full w-80 rounded-r-xl shadow-xl fixed left-0 top-0 bottom-0 z-40">
+<div class="px-6 pb-4 border-b border-surface-variant/50">
+<h1 class="font-headline-md text-headline-md font-extrabold text-primary">PawConnect India</h1>
+</div>
+<div class="flex-1 overflow-y-auto pt-4 px-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-md text-label-md">Home</span>
+</a>
+<a aria-current="page" class="flex items-center gap-3 px-4 py-3 bg-secondary-container text-on-secondary-container font-semibold rounded-full mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">pets</span>
+<span class="font-label-md text-label-md">Report Dog</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">assignment</span>
+<span class="font-label-md text-label-md">Track Complaint</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">info</span>
+<span class="font-label-md text-label-md">About</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-80 pt-20 md:pt-0 min-h-screen flex justify-center pb-24 md:pb-0">
+<div class="w-full max-w-7xl flex flex-col lg:flex-row gap-lg p-margin-mobile md:p-margin-desktop">
+<!-- Form Area -->
+<div class="flex-1 space-y-xl">
+<div>
+<h2 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-on-surface mb-2">Report an Incident</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Please provide details to help us dispatch the right rescue team.</p>
+</div>
+<form class="space-y-xl bg-surface-container-lowest rounded-2xl shadow-[0px_4px_20px_rgba(15,23,42,0.05)] p-6 md:p-8 border border-surface-variant/30">
+<!-- Section 1: Issue Type -->
+<section class="space-y-4">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">1. What's the primary issue?</h3>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+<!-- Option: Injured -->
+<label class="issue-card cursor-pointer relative">
+<input class="peer sr-only" name="issue_type" required="" type="radio" value="injured"/>
+<div class="flex flex-col items-center justify-center p-6 border-2 border-surface-variant rounded-xl bg-surface hover:bg-surface-container transition-all duration-200">
+<div class="icon-container w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center mb-3 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">local_hospital</span>
+</div>
+<span class="font-label-md text-label-md text-center">Injured</span>
+</div>
+</label>
+<!-- Option: Sick -->
+<label class="issue-card cursor-pointer relative">
+<input class="peer sr-only" name="issue_type" type="radio" value="sick"/>
+<div class="flex flex-col items-center justify-center p-6 border-2 border-surface-variant rounded-xl bg-surface hover:bg-surface-container transition-all duration-200">
+<div class="icon-container w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center mb-3 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">coronavirus</span>
+</div>
+<span class="font-label-md text-label-md text-center">Sick</span>
+</div>
+</label>
+<!-- Option: Bite -->
+<label class="issue-card cursor-pointer relative">
+<input class="peer sr-only" name="issue_type" type="radio" value="bite"/>
+<div class="flex flex-col items-center justify-center p-6 border-2 border-surface-variant rounded-xl bg-surface hover:bg-surface-container transition-all duration-200">
+<div class="icon-container w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center mb-3 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">personal_injury</span>
+</div>
+<span class="font-label-md text-label-md text-center">Dog Bite</span>
+</div>
+</label>
+<!-- Option: Aggressive -->
+<label class="issue-card cursor-pointer relative">
+<input class="peer sr-only" name="issue_type" type="radio" value="aggressive"/>
+<div class="flex flex-col items-center justify-center p-6 border-2 border-surface-variant rounded-xl bg-surface hover:bg-surface-container transition-all duration-200">
+<div class="icon-container w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center mb-3 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">warning</span>
+</div>
+<span class="font-label-md text-label-md text-center">Aggressive</span>
+</div>
+</label>
+<!-- Option: Lost -->
+<label class="issue-card cursor-pointer relative">
+<input class="peer sr-only" name="issue_type" type="radio" value="lost"/>
+<div class="flex flex-col items-center justify-center p-6 border-2 border-surface-variant rounded-xl bg-surface hover:bg-surface-container transition-all duration-200">
+<div class="icon-container w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center mb-3 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">search</span>
+</div>
+<span class="font-label-md text-label-md text-center">Lost</span>
+</div>
+</label>
+<!-- Option: Abandoned -->
+<label class="issue-card cursor-pointer relative">
+<input class="peer sr-only" name="issue_type" type="radio" value="abandoned"/>
+<div class="flex flex-col items-center justify-center p-6 border-2 border-surface-variant rounded-xl bg-surface hover:bg-surface-container transition-all duration-200">
+<div class="icon-container w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center mb-3 transition-colors">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">house_siding</span>
+</div>
+<span class="font-label-md text-label-md text-center">Abandoned</span>
+</div>
+</label>
+</div>
+</section>
+<hr class="border-surface-variant"/>
+<!-- Section 2: Image Upload -->
+<section class="space-y-4">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">2. Upload Photos</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Clear photos help us assess the situation accurately.</p>
+<div class="relative border-2 border-dashed border-outline-variant rounded-2xl p-8 flex flex-col items-center justify-center bg-surface hover:bg-surface-container-low transition-colors group cursor-pointer active:scale-95">
+<input accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" multiple="" type="file"/>
+<div class="w-16 h-16 rounded-full bg-primary-fixed flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-primary-fixed text-3xl" style="font-variation-settings: 'FILL' 0;">add_a_photo</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Click to upload or drag and drop</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant mt-1">SVG, PNG, JPG or GIF (max. 5MB)</span>
+</div>
+</section>
+<hr class="border-surface-variant"/>
+<!-- Section 3: Location -->
+<section class="space-y-4"><h3 class="font-headline-sm text-headline-sm text-on-surface">3. Where is the dog?</h3><div class="space-y-4"><button class="w-full bg-primary text-on-primary font-label-md text-label-md font-bold py-4 rounded-xl shadow-md hover:shadow-lg transition-all active:scale-95 flex justify-center items-center gap-2" type="button"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">my_location</span>Use Current Location</button><div class="relative w-full h-80 rounded-2xl overflow-hidden shadow-lg border-2 border-primary/20 cursor-crosshair group"><img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAIGkhrahsAXRDBvS8WRJip3Osoye_5KYOFMMwijtO6l_w6L-XhYrDa4him-1weumSN0jlD4K0h3TaMXvJjjEj3lFtHh4xUM38d1jgEegOQrS9sRIFBtPHRzs1jHdUqNhQGrCgNNFYmOaRghD3R9n4uiE8fAPnCUUUBZ8_o6Il9HgA-HFjbIcDJSgItZgyw7Xx_Rc7RK9SEATYiC_wOfNJ_azB8xpe_80_N1PqOYwEh9X5MicBFFYhQ"/><div class="absolute inset-0 flex items-center justify-center pointer-events-none"><span class="material-symbols-outlined text-primary text-5xl drop-shadow-md" style="font-variation-settings: 'FILL' 1;">location_on</span></div><div class="absolute bottom-4 left-1/2 -translate-x-1/2 bg-surface/90 backdrop-blur px-4 py-2 rounded-full text-label-sm font-semibold shadow-sm">Tap map to drop pin</div></div><div class="relative"><span class="material-symbols-outlined absolute left-4 top-4 text-outline">search</span><input class="w-full bg-surface border border-outline-variant rounded-lg pl-12 pr-4 py-4 font-body-md text-on-surface placeholder:text-outline focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none transition-all" placeholder="Or type address manually..." type="text"/></div></div></section>
+<hr class="border-surface-variant"/>
+<!-- Section 4: Details & Urgency -->
+<section class="space-y-6">
+<h3 class="font-headline-sm text-headline-sm text-on-surface">4. Additional Details</h3>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface" for="description">Description (Optional)</label>
+<div class="flex flex-wrap gap-2 mb-3"><button class="px-3 py-1.5 rounded-full border border-outline-variant text-label-sm hover:bg-primary-fixed hover:border-primary transition-all active:scale-95" type="button">Limping</button><button class="px-3 py-1.5 rounded-full border border-outline-variant text-label-sm hover:bg-primary-fixed hover:border-primary transition-all active:scale-95" type="button">Bleeding</button><button class="px-3 py-1.5 rounded-full border border-outline-variant text-label-sm hover:bg-primary-fixed hover:border-primary transition-all active:scale-95" type="button">Very Friendly</button><button class="px-3 py-1.5 rounded-full border border-outline-variant text-label-sm hover:bg-primary-fixed hover:border-primary transition-all active:scale-95" type="button">Scared</button><button class="px-3 py-1.5 rounded-full border border-outline-variant text-label-sm hover:bg-primary-fixed hover:border-primary transition-all active:scale-95" type="button">Wearing Collar</button></div><textarea class="w-full bg-surface border border-outline-variant rounded-lg p-4 font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 focus:outline-none transition-shadow resize-none" id="description" placeholder="Any specific details? e.g., 'Black dog, wearing a red collar, limping on right hind leg.'" rows="3"></textarea>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface" for="contact">Your Contact Number</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-4 text-outline" style="font-variation-settings: 'FILL' 0;">call</span>
+<input class="w-full bg-surface border border-outline-variant rounded-lg pl-12 pr-4 py-4 font-body-md text-body-md text-on-surface placeholder:text-outline focus:border-primary-container focus:ring-2 focus:ring-primary-container/20 focus:outline-none transition-shadow" id="contact" placeholder="10-digit mobile number" required="" type="tel"/>
+</div>
+</div>
+<div class="space-y-3">
+<label class="font-label-md text-label-md text-on-surface">Perceived Urgency</label>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3"><label class="cursor-pointer relative group"><input checked="" class="peer sr-only" name="urgency" type="radio" value="low"/><div class="py-4 px-2 text-center border-2 border-outline-variant rounded-xl text-on-surface-variant peer-checked:bg-secondary-container peer-checked:border-secondary peer-checked:text-on-secondary-container peer-checked:font-bold transition-all active:scale-95 group-hover:bg-surface-container-low"><span class="block text-2xl mb-1">😊</span><span class="font-label-md">Low</span></div></label><label class="cursor-pointer relative group"><input class="peer sr-only" name="urgency" type="radio" value="medium"/><div class="py-4 px-2 text-center border-2 border-outline-variant rounded-xl text-on-surface-variant peer-checked:bg-[#fef08a] peer-checked:border-[#ca8a04] peer-checked:text-[#854d0e] peer-checked:font-bold transition-all active:scale-95 group-hover:bg-surface-container-low"><span class="block text-2xl mb-1">😐</span><span class="font-label-md">Medium</span></div></label><label class="cursor-pointer relative group"><input class="peer sr-only" name="urgency" type="radio" value="high"/><div class="py-4 px-2 text-center border-2 border-outline-variant rounded-xl text-on-surface-variant peer-checked:bg-primary-fixed peer-checked:border-primary peer-checked:text-primary peer-checked:font-bold transition-all active:scale-95 group-hover:bg-surface-container-low"><span class="block text-2xl mb-1">😟</span><span class="font-label-md">High</span></div></label><label class="cursor-pointer relative group"><input class="peer sr-only" name="urgency" type="radio" value="critical"/><div class="py-4 px-2 text-center border-2 border-outline-variant rounded-xl text-on-surface-variant peer-checked:bg-error-container peer-checked:border-error peer-checked:text-error peer-checked:font-bold transition-all active:scale-95 group-hover:bg-surface-container-low"><span class="block text-2xl mb-1">🚨</span><span class="font-label-md">Critical</span></div></label></div>
+</div>
+</section>
+<div class="pt-6">
+<button class="w-full bg-primary-container text-on-primary-container font-label-md text-label-md font-bold py-4 rounded-xl shadow-md hover:bg-primary hover:text-on-primary hover:shadow-lg transition-all duration-200 flex justify-center items-center gap-2 active:scale-95" type="submit">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+                            Submit Report
+                        </button>
+</div>
+</form>
+</div>
+<!-- Right Sidebar: Tips -->
+<aside class="w-full lg:w-80 flex-shrink-0 space-y-6">
+<div class="bg-surface-container-highest rounded-2xl p-6 border border-surface-variant/50 shadow-[0px_4px_20px_rgba(15,23,42,0.05)] sticky top-6">
+<div class="flex items-center gap-3 mb-4 text-primary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_information</span>
+<h4 class="font-headline-sm text-headline-sm">Emergency Tips</h4>
+</div>
+<ul class="space-y-4">
+<li class="flex items-start gap-3">
+<div class="mt-1 w-6 h-6 rounded-full bg-surface-container-low flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">visibility</span>
+</div>
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface font-bold">Keep Visual Contact</h5>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">Stay at a safe distance and keep the dog in sight until help arrives.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-6 h-6 rounded-full bg-surface-container-low flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">do_not_touch</span>
+</div>
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface font-bold">Do Not Approach</h5>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">If the dog is aggressive or severely injured, do not attempt to pet or capture it.</p>
+</div>
+</li>
+<li class="flex items-start gap-3">
+<div class="mt-1 w-6 h-6 rounded-full bg-surface-container-low flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" style="font-variation-settings: 'FILL' 0;">water_drop</span>
+</div>
+<div>
+<h5 class="font-label-sm text-label-sm text-on-surface font-bold">Offer Water</h5>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm mt-1">You may leave a bowl of water nearby, but do not force the animal to drink.</p>
+</div>
+</li>
+</ul>
+<div class="mt-6 pt-6 border-t border-surface-variant">
+<div class="flex items-center gap-2 text-error mb-2">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">phone_in_talk</span>
+<span class="font-label-sm text-label-sm font-bold">Immediate Danger?</span>
+</div>
+<a class="block text-center w-full bg-error-container text-on-error-container font-label-md text-label-md py-3 rounded-lg hover:bg-error hover:text-on-error transition-colors" href="tel:18001234567">
+                             Call Rescue Hotline
+                         </a>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Mobile Bottom Nav Bar -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-3 pb-safe bg-surface shadow-[0px_-4px_20px_rgba(15,23,42,0.05)] rounded-t-xl">
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">home</span>
+<span class="font-label-sm text-label-sm mt-1">Home</span>
+</a>
+<a aria-current="page" class="flex flex-col items-center justify-center bg-primary-container text-on-primary-container rounded-xl px-4 py-1 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span class="font-label-sm text-label-sm mt-1">Report</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">location_searching</span>
+<span class="font-label-sm text-label-sm mt-1">Track</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant px-4 py-1 hover:text-primary transition-all duration-200" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+<span class="font-label-sm text-label-sm mt-1">Dashboard</span>
+</a>
+</nav>
+</body></html>
