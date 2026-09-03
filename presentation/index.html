@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PawConnect India — Executive Presentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .slide {
+      display: none;
+      min-height: 100vh;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+    .slide.active {
+      display: flex;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @media print {
+      body {
+        background: white !important;
+        color: black !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .slide {
+        display: flex !important;
+        min-height: 100vh !important;
+        page-break-after: always !important;
+        break-after: page !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 flex flex-col min-h-screen">
+
+  <!-- Top Controller Bar (Hidden in Print) -->
+  <header class="no-print sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-orange-500 flex items-center justify-center text-white font-bold">
+        🐾
+      </div>
+      <div>
+        <h1 class="text-sm font-extrabold text-white">PawConnect India — System Overview Deck</h1>
+        <p class="text-[10px] text-slate-400">Press Left/Right arrow keys or click Next to navigate</p>
+      </div>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="flex items-center gap-4">
+      <span id="slideIndicator" class="text-xs font-mono font-bold bg-slate-800 text-orange-400 px-3 py-1 rounded-full border border-slate-700">
+        Slide 1 of 10
+      </span>
+      <button onclick="prevSlide()" class="p-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors">
+        <span class="material-symbols-outlined !text-lg">arrow_back</span>
+      </button>
+      <button onclick="nextSlide()" class="p-2 rounded-xl bg-orange-500 hover:bg-orange-600 text-white font-bold transition-colors">
+        <span class="material-symbols-outlined !text-lg">arrow_forward</span>
+      </button>
+      <button onclick="window.print()" class="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition-colors flex items-center gap-1.5 shadow-sm">
+        <span class="material-symbols-outlined !text-sm">picture_as_pdf</span>
+        <span>Save as PDF</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Presentation Slides Container -->
+  <main class="flex-1 flex flex-col">
+
+    <!-- SLIDE 1: Title & Mission -->
+    <section class="slide active flex-col justify-center items-center p-8 sm:p-16 text-center relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-tr from-orange-600/10 via-transparent to-emerald-500/10 pointer-events-none"></div>
+      
+      <div class="max-w-4xl space-y-6 relative z-10">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/20 border border-orange-500/30 text-orange-400 text-xs font-bold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-orange-500 animate-ping"></span>
+          National Stray Animal Welfare Infrastructure
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight">
+          PawConnect <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-emerald-400">India</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl text-slate-300 font-medium max-w-2xl mx-auto leading-relaxed">
+          AI-Powered Stray Animal Rescue Dispatch, National Canine Registry, and Geospatial Intelligence Grid.
+        </p>
+
+        <div class="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
+          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-left">
+            <span class="text-2xl">⚡</span>
+            <strong class="text-sm font-bold block text-white mt-1">30-Sec SOS</strong>
+            <p class="text-[11px] text-slate-400">Rapid GPS citizen report</p>
+          </div>
+          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-left">
+            <span class="text-2xl">🤖</span>
+            <strong class="text-sm font-bold block text-white mt-1">AI Matching</strong>
+            <p class="text-[11px] text-slate-400">FAISS visual dog recognition</p>
+          </div>
+          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-left">
+            <span class="text-2xl">🗺️</span>
+            <strong class="text-sm font-bold block text-white mt-1">710 Districts</strong>
+            <p class="text-[11px] text-slate-400">Gov livestock census data</p>
+          </div>
+          <div class="p-4 bg-slate-900/80 rounded-2xl border border-slate-800 text-left">
+            <span class="text-2xl">🏥</span>
+            <strong class="text-sm font-bold block text-white mt-1">NGO Dispatch</strong>
+            <p class="text-[11px] text-slate-400">24x7 ambulance routing</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: The Problem -->
+    <section class="slide flex-col justify-center p-8 sm:p-16">
+      <div class="max-w-5xl mx-auto w-full space-y-8">
+        <div class="border-b border-slate-800 pb-4">
+          <span class="text-xs font-bold text-orange-400 uppercase tracking-widest">Industry Challenge</span>
+          <h2 class="text-3xl sm:text-4xl font-black text-white mt-1">The Stray Animal & Rabies Crisis in India</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 bg-slate-900 rounded-3xl border border-red-500/30 space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-red-500/20 flex items-center justify-center text-2xl text-red-400 font-black">
+              2.76M
+            </div>
+            <h3 class="text-base font-bold text-white">Annual Dog Bites (PMC12533994)</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              India accounts for 36% of global rabies fatalities. Over 2.76 million dog bites are recorded annually with heavy clusters in UP, MP, and Bihar.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-amber-500/30 space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-amber-500/20 flex items-center justify-center text-2xl text-amber-400 font-black">
+              40%
+            </div>
+            <h3 class="text-base font-bold text-white">Unreported Incidents</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Citizens lack a fast, frictionless reporting channel. Over 40% of injured street dogs never receive emergency medical attention.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-blue-500/30 space-y-3">
+            <div class="w-12 h-12 rounded-2xl bg-blue-500/20 flex items-center justify-center text-2xl text-blue-400 font-black">
+              0 ID
+            </div>
+            <h3 class="text-base font-bold text-white">Zero Dog Traceability</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Shelters suffer from duplicate rescues, lost medical records, and zero longitudinal tracking of Animal Birth Control (ABC) and rabies vaccinations.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: System Architecture -->
+    <section class="slide flex-col justify-center p-8 sm:p-16">
+      <div class="max-w-5xl mx-auto w-full space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Engineering Architecture</span>
+          <h2 class="text-3xl font-black text-white mt-1">Full-Stack Scalable Ecosystem</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+          <!-- Layer 1 -->
+          <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 space-y-3">
+            <span class="px-2.5 py-1 rounded bg-orange-500/20 text-orange-400 font-bold uppercase text-[10px]">Frontend UI</span>
+            <h4 class="text-sm font-bold text-white">Citizen Web App</h4>
+            <ul class="text-slate-400 space-y-1.5 text-[11px]">
+              <li>• React 18 + Vite</li>
+              <li>• Tailwind CSS Design System</li>
+              <li>• Blinkit GPS Auto-Detection</li>
+              <li>• Public Tracking Timeline</li>
+            </ul>
+          </div>
+
+          <!-- Layer 2 -->
+          <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 space-y-3">
+            <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 font-bold uppercase text-[10px]">NGO Command</span>
+            <h4 class="text-sm font-bold text-white">Standalone NGO App</h4>
+            <ul class="text-slate-400 space-y-1.5 text-[11px]">
+              <li>• Dedicated `ngo-client/`</li>
+              <li>• Real-Time Dispatch Grid</li>
+              <li>• Leaflet Road Routing Engine</li>
+              <li>• Clinical Medical Logs</li>
+            </ul>
+          </div>
+
+          <!-- Layer 3 -->
+          <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 space-y-3">
+            <span class="px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-400 font-bold uppercase text-[10px]">Core Backend</span>
+            <h4 class="text-sm font-bold text-white">Express & MongoDB</h4>
+            <ul class="text-slate-400 space-y-1.5 text-[11px]">
+              <li>• Node.js / Express REST API</li>
+              <li>• MongoDB 2dsphere Geospatial</li>
+              <li>• Socket.IO Real-time Events</li>
+              <li>• JWT Security & RBAC</li>
+            </ul>
+          </div>
+
+          <!-- Layer 4 -->
+          <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 space-y-3">
+            <span class="px-2.5 py-1 rounded bg-purple-500/20 text-purple-400 font-bold uppercase text-[10px]">AI Service</span>
+            <h4 class="text-sm font-bold text-white">FastAPI Microservice</h4>
+            <ul class="text-slate-400 space-y-1.5 text-[11px]">
+              <li>• Python FastAPI + YOLOv8</li>
+              <li>• PyTorch Embeddings (512-dim)</li>
+              <li>• FAISS Vector Similarity</li>
+              <li>• Human-in-the-Loop Triage</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: Citizen Reporting Portal -->
+    <section class="slide flex-col justify-center p-8 sm:p-16">
+      <div class="max-w-5xl mx-auto w-full space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="text-xs font-bold text-orange-400 uppercase tracking-widest">Module 1</span>
+          <h2 class="text-3xl font-black text-white mt-1">Citizen Portal: 30-Second Emergency Rescue</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4 text-xs sm:text-sm text-slate-300">
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 font-bold">1</div>
+              <div>
+                <strong class="text-white block font-bold">Blinkit-Style Instant GPS Auto-Detection</strong>
+                <p class="text-slate-400 text-xs mt-0.5">Captures high-accuracy device coordinates and reverse-geocodes road address automatically.</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 font-bold">2</div>
+              <div>
+                <strong class="text-white block font-bold">3-Step Streamlined Rescue Form</strong>
+                <p class="text-slate-400 text-xs mt-0.5">Emergency SOS toggle, photo upload, and instant category selection (Accident, Bite, Sick Dog).</p>
+              </div>
+            </div>
+
+            <div class="flex items-start gap-3">
+              <div class="w-8 h-8 rounded-xl bg-orange-500/20 text-orange-400 flex items-center justify-center shrink-0 font-bold">3</div>
+              <div>
+                <strong class="text-white block font-bold">Public Real-Time Tracking & Notifications</strong>
+                <p class="text-slate-400 text-xs mt-0.5">Generates unique Tracking IDs (e.g. #PAW-9281) with live stage progression (Reported → Accepted → In Treatment → Resolved).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+              <span class="text-xs font-bold text-emerald-400">✓ Live SOS Tracking Demo</span>
+              <span class="text-[10px] bg-emerald-950 text-emerald-300 border border-emerald-800 px-2 py-0.5 rounded">Active Rescue</span>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="p-3 bg-slate-950 rounded-xl flex justify-between">
+                <span class="text-slate-400">Tracking ID:</span>
+                <span class="font-mono font-bold text-white">PAW-7829-NCR</span>
+              </div>
+              <div class="p-3 bg-slate-950 rounded-xl flex justify-between">
+                <span class="text-slate-400">Assigned Shelter:</span>
+                <span class="font-bold text-emerald-400">Voice for Stray Animals (VSA)</span>
+              </div>
+              <div class="p-3 bg-slate-950 rounded-xl flex justify-between">
+                <span class="text-slate-400">Dispatch Status:</span>
+                <span class="font-bold text-orange-400">Ambulance In Transit (ETA: 18m)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: NGO Dispatch & Routing -->
+    <section class="slide flex-col justify-center p-8 sm:p-16">
+      <div class="max-w-5xl mx-auto w-full space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="text-xs font-bold text-teal-400 uppercase tracking-widest">Module 2</span>
+          <h2 class="text-3xl font-black text-white mt-1">Automatic NGO Geospatial Routing Engine</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <span class="text-2xl">📍</span>
+            <h3 class="text-sm font-bold text-white">2dsphere Spatial Indexing</h3>
+            <p class="text-slate-400 leading-relaxed">
+              When a complaint is submitted, MongoDB geospatial queries calculate the exact spherical distance to all verified shelters in under 15ms.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <span class="text-2xl">🎯</span>
+            <h3 class="text-sm font-bold text-white">Dynamic Coverage Zones</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Shelters define operational zones (5 KM, 10 KM, 20 KM, 50 KM). The engine checks service capabilities (Emergency, ABC, Medical OPD) before assigning.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <span class="text-2xl">🚑</span>
+            <h3 class="text-sm font-bold text-white">Leaflet Live Ambulance Routing</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Interactive map draws direct Polyline routes between shelter HQ and the accident spot, displaying distance badges (`📍 4.3 KM away`) and turnaround ETA.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: National Dog Registry -->
+    <section class="slide flex-col justify-center p-8 sm:p-16">
+      <div class="max-w-5xl mx-auto w-full space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="text-xs font-bold text-purple-400 uppercase tracking-widest">Module 3</span>
+          <h2 class="text-3xl font-black text-white mt-1">Centralized National Dog Registry</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-4">
+            <h3 class="text-sm font-bold text-white">Digital Health Passport for Every Indie Dog</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Every community dog receives a permanent Digital Passport with Unique Dog ID (e.g. <code>DOG-0023</code>), color pattern description, and geolocation tagging.
+            </p>
+            <div class="grid grid-cols-2 gap-2 text-[11px]">
+              <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                <span class="text-slate-400 block">Vaccination Card:</span>
+                <strong class="text-emerald-400">ARV & 7-in-1 Schedule</strong>
+              </div>
+              <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                <span class="text-slate-400 block">ABC Sterilization:</span>
+                <strong class="text-purple-400">Ear-Notch Surgery Log</strong>
+              </div>
+              <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                <span class="text-slate-400 block">Medical History:</span>
+                <strong class="text-blue-400">Prescriptions & Vet Notes</strong>
+              </div>
+              <div class="p-2.5 bg-slate-950 rounded-xl border border-slate-800">
+                <span class="text-slate-400 block">Citizen Sighting:</span>
+                <strong class="text-orange-400">Daily Territory Logs</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3 flex flex-col justify-between">
+            <div>
+              <span class="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-mono text-[10px]">DOG PROFILE DEMO</span>
+              <h4 class="text-base font-bold text-white mt-2">Sheru (ID: DOG-0023)</h4>
+              <p class="text-slate-400 text-xs mt-1">Indie • Male (3 yrs) • Sector 94 Noida</p>
+            </div>
+            <div class="p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-2 text-xs">
+              <div class="flex justify-between">
+                <span class="text-slate-400">Anti-Rabies (ARV):</span>
+                <span class="text-emerald-400 font-bold">✓ Valid (Next Due: Jan 2027)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">ABC Status:</span>
+                <span class="text-purple-400 font-bold">✓ Sterilized (Left Ear Notch)</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-slate-400">Active Rescues:</span>
+                <span class="text-slate-200">1 Completed Fracture Rehab</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: AI Visual Dog Matching -->
+    <section class="slide flex-col justify-center p-8 sm:p-16">
+      <div class="max-w-5xl mx-auto w-full space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="text-xs font-bold text-indigo-400 uppercase tracking-widest">Module 4</span>
+          <h2 class="text-3xl font-black text-white mt-1">AI Visual Canine Biometrics Microservice</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">1</div>
+            <h3 class="text-sm font-bold text-white">YOLOv8 Detection & Crop</h3>
+            <p class="text-slate-400 leading-relaxed">
+              FastAPI pipeline detects canine faces and coats, normalizing orientation, lighting, and background noise.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">2</div>
+            <h3 class="text-sm font-bold text-white">512-Dim Feature Embeddings</h3>
+            <p class="text-slate-400 leading-relaxed">
+              PyTorch neural network extracts unique biometric feature vectors: coat coloration, facial patches, muzzle pigmentation, and ear notch side.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <div class="w-10 h-10 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-lg">3</div>
+            <h3 class="text-sm font-bold text-white">FAISS Vector Similarity</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Ranks Top 5 candidate matches (e.g. DOG-0023 → 94% match) and presents side-by-side comparison to NGO officers to prevent duplicate rescues.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: Geospatial Intelligence Grid -->
+    <section class="slide flex-col justify-center p-8 sm:p-16">
+      <div class="max-w-5xl mx-auto w-full space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Module 5</span>
+          <h2 class="text-3xl font-black text-white mt-1">7-Layer National Geospatial Intelligence System</h2>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+            <strong class="text-blue-400 block font-bold text-sm">🐕 Dog Density</strong>
+            <p class="text-slate-400 text-[11px] mt-1">710-district Gov census + live platform sightings</p>
+          </div>
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+            <strong class="text-red-400 block font-bold text-sm">⚠️ Aggressive Risk</strong>
+            <p class="text-slate-400 text-[11px] mt-1">Formula: Aggressive×5 + Bite×10 + Rabies×20</p>
+          </div>
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+            <strong class="text-amber-400 block font-bold text-sm">🩸 Dog Bite Hotspots</strong>
+            <p class="text-slate-400 text-[11px] mt-1">PMC12533994 state surveillance + ARV stock</p>
+          </div>
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+            <strong class="text-emerald-400 block font-bold text-sm">💉 Vaccination Map</strong>
+            <p class="text-slate-400 text-[11px] mt-1">Color-coded: 🟢 >80%, 🟡 50-80%, 🔴 &lt;50%</p>
+          </div>
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+            <strong class="text-purple-400 block font-bold text-sm">✂️ Sterilization Map</strong>
+            <p class="text-slate-400 text-[11px] mt-1">ABC Animal Birth Control coverage zones</p>
+          </div>
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800">
+            <strong class="text-teal-400 block font-bold text-sm">🏥 NGO Coverage</strong>
+            <p class="text-slate-400 text-[11px] mt-1">Shelter HQs & 5-50 KM radius circle grid</p>
+          </div>
+          <div class="p-4 bg-slate-900 rounded-2xl border border-slate-800 col-span-2">
+            <strong class="text-orange-400 block font-bold text-sm">🚨 Live Rescue Stream</strong>
+            <p class="text-slate-400 text-[11px] mt-1">Real-time Socket.IO pulses (Pending 🔴, Active 🟠, Resolved 🟢)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: Standalone NGO Command HQ -->
+    <section class="slide flex-col justify-center p-8 sm:p-16">
+      <div class="max-w-5xl mx-auto w-full space-y-6">
+        <div class="border-b border-slate-800 pb-3">
+          <span class="text-xs font-bold text-orange-400 uppercase tracking-widest">Module 6</span>
+          <h2 class="text-3xl font-black text-white mt-1">Dedicated NGO Platform (`ngo-client/`)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <span class="text-2xl">📋</span>
+            <h3 class="text-sm font-bold text-white">Triage & Case Queue</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Auto-assignment distance indicators, status updates with timeline notes, and 1-click field volunteer assignment.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <span class="text-2xl">👥</span>
+            <h3 class="text-sm font-bold text-white">Volunteer Field Management</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Tracks live volunteer availability (`Available`, `On Mission`, `Off Duty`), contact numbers, and completed rescue track records.
+            </p>
+          </div>
+
+          <div class="p-6 bg-slate-900 rounded-3xl border border-slate-800 space-y-3">
+            <span class="text-2xl">🏢</span>
+            <h3 class="text-sm font-bold text-white">Dedicated NGO Profile</h3>
+            <p class="text-slate-400 leading-relaxed">
+              Manage shelter credentials, AWBI registration certificates, 24x7 ambulance readiness, and operating radius parameters.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: Vision & Impact -->
+    <section class="slide flex-col justify-center p-8 sm:p-16 text-center">
+      <div class="max-w-4xl mx-auto space-y-8">
+        <div>
+          <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Global Impact & Future</span>
+          <h2 class="text-3xl sm:text-5xl font-black text-white mt-2">Aligning with WHO "Zero by 30"</h2>
+          <p class="text-sm sm:text-base text-slate-300 max-w-2xl mx-auto mt-3">
+            Eliminating dog-mediated human rabies deaths by 2030 through civic technology, mass anti-rabies vaccination, and humanitarian rescue coordination.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-left">
+          <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+            <strong class="text-white text-sm font-bold block">1. Municipal Partnerships</strong>
+            <p class="text-slate-400">Direct integration with Municipal Corporations (MCD, NN, BMC) for data-driven ABC tenders.</p>
+          </div>
+          <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+            <strong class="text-white text-sm font-bold block">2. Smart Collar IoT</strong>
+            <p class="text-slate-400">NFC and QR-enabled reflective community collars linked directly to National Dog IDs.</p>
+          </div>
+          <div class="p-5 bg-slate-900 rounded-2xl border border-slate-800 space-y-2">
+            <strong class="text-white text-sm font-bold block">3. One Health Expansion</strong>
+            <p class="text-slate-400">Expanding triage to stray cattle and feline population health surveillance across India.</p>
+          </div>
+        </div>
+
+        <div class="pt-4">
+          <span class="text-xs font-mono text-slate-500">PawConnect India • Production Build • Open Source Civic Innovation</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const indicator = document.getElementById('slideIndicator');
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      indicator.textContent = `Slide ${index + 1} of ${slides.length}`;
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) {
+        showSlide(currentSlide + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        showSlide(currentSlide - 1);
+      }
+    }
+
+    // Keyboard Arrow Controls
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        prevSlide();
+      }
+    });
+  </script>
+</body>
+</html>
