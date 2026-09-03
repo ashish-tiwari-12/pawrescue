@@ -69,10 +69,20 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 });
 
 // Connect to MongoDB Atlas & Start Server
-connectDatabase().then(() => {
-  server.listen(PORT, () => {
-    console.log(`🚀 PawConnect India Server running on http://localhost:${PORT}`);
-    console.log(`🗄️ Connected to MongoDB Atlas cluster 'pawrescue'`);
-    console.log(`📡 Real-time Socket.io active on port ${PORT}`);
+if (process.env.NODE_ENV !== "test" && !process.env.VERCEL) {
+  connectDatabase().then(() => {
+    server.listen(PORT, () => {
+      console.log(`🚀 PawConnect India Server running on http://localhost:${PORT}`);
+      console.log(`🗄️ Connected to MongoDB Atlas cluster 'pawrescue'`);
+      console.log(`📡 Real-time Socket.io active on port ${PORT}`);
+    });
+  }).catch((err) => {
+    console.error("Database connection failed:", err);
   });
-});
+} else {
+  // Ensure DB connects lazily in serverless environments
+  connectDatabase().catch(console.error);
+}
+
+export { app, server };
+export default app;
