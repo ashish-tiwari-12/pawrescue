@@ -112,58 +112,81 @@ export const ComplaintDetailModal: React.FC<Props> = ({
 
         {/* Content Body */}
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
-          {/* Top Row: Quick Actions Bar */}
-          <div className="p-4 bg-orange-50/70 border border-orange-200/80 rounded-2xl flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-xs font-bold text-orange-950">
+          {/* Top Row: Sequential Status Workflow Actions Bar */}
+          <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-800">
               <span className="material-symbols-outlined text-orange-600 !text-base">
                 published_with_changes
               </span>
-              <span>Quick Status Actions:</span>
+              <span>Workflow Action:</span>
+              {currentComplaint.status === "Reported" && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-full">
+                  🟡 Pending Triage
+                </span>
+              )}
+              {currentComplaint.status === "Accepted" && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                  🟢 Accepted
+                </span>
+              )}
+              {currentComplaint.status === "In Progress" && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-800 bg-blue-100 px-2.5 py-0.5 rounded-full">
+                  🔵 Rescue Team Dispatched
+                </span>
+              )}
+              {(currentComplaint.status === "Resolved" || currentComplaint.status === "Closed") && (
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+                  ✅ Resolved
+                </span>
+              )}
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
+              {/* STEP 1: IF status == "Reported" / "Pending" -> Show ONLY Accept */}
               {currentComplaint.status === "Reported" && (
                 <button
+                  type="button"
                   onClick={() => handleStatusChange("Accepted")}
                   disabled={loadingAction}
-                  className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1"
+                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
                 >
-                  <span className="material-symbols-outlined !text-sm">thumb_up</span>
-                  <span>Accept Case</span>
+                  <span className="material-symbols-outlined !text-base">thumb_up</span>
+                  <span>{loadingAction ? "Accepting..." : "Accept"}</span>
                 </button>
               )}
 
-              {currentComplaint.status !== "In Progress" && currentComplaint.status !== "Resolved" && (
+              {/* STEP 2: IF status == "Accepted" -> Show ONLY Dispatch Rescue Team */}
+              {currentComplaint.status === "Accepted" && (
                 <button
+                  type="button"
                   onClick={() => handleStatusChange("In Progress")}
                   disabled={loadingAction}
-                  className="px-3 py-1.5 bg-[#f97316] hover:bg-orange-600 text-white rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1"
+                  className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
                 >
-                  <span className="material-symbols-outlined !text-sm">ambulance</span>
-                  <span>Dispatch / In Progress</span>
+                  <span className="material-symbols-outlined !text-base">ambulance</span>
+                  <span>{loadingAction ? "Dispatching..." : "Dispatch Rescue Team"}</span>
                 </button>
               )}
 
-              {currentComplaint.status !== "Resolved" && (
+              {/* STEP 3: IF status == "In Progress" -> Show ONLY Mark Resolved */}
+              {currentComplaint.status === "In Progress" && (
                 <button
+                  type="button"
                   onClick={() => handleStatusChange("Resolved")}
                   disabled={loadingAction}
-                  className="px-3 py-1.5 bg-[#006c49] hover:bg-emerald-800 text-white rounded-lg text-xs font-bold shadow-sm transition-all flex items-center gap-1"
+                  className="px-4 py-2 bg-[#006c49] hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
                 >
-                  <span className="material-symbols-outlined !text-sm">task_alt</span>
-                  <span>Mark Resolved</span>
+                  <span className="material-symbols-outlined !text-base">task_alt</span>
+                  <span>{loadingAction ? "Resolving..." : "Mark Resolved"}</span>
                 </button>
               )}
 
-              {currentComplaint.status === "Resolved" && (
-                <button
-                  onClick={() => handleStatusChange("Closed")}
-                  disabled={loadingAction}
-                  className="px-3 py-1.5 bg-slate-700 hover:bg-slate-800 text-white rounded-lg text-xs font-bold transition-all flex items-center gap-1"
-                >
-                  <span className="material-symbols-outlined !text-sm">lock</span>
-                  <span>Close File</span>
-                </button>
+              {/* STEP 4: IF status == "Resolved" or "Closed" -> Hide action buttons & Show Completed Badge */}
+              {(currentComplaint.status === "Resolved" || currentComplaint.status === "Closed") && (
+                <div className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-100 border border-emerald-300 text-emerald-800 rounded-xl text-xs font-extrabold shadow-xs">
+                  <span className="material-symbols-outlined !text-base text-emerald-700">verified</span>
+                  <span>✓ Rescue Completed</span>
+                </div>
               )}
             </div>
           </div>
