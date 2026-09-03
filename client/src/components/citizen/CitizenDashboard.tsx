@@ -19,9 +19,14 @@ export const CitizenDashboard: React.FC<Props> = ({
   const [filterStatus, setFilterStatus] = useState<"all" | "active" | "resolved">("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const userComplaints = complaints.filter(
-    (c) => c.userId === user.id || c.contactNumber === user.phone || c.citizenPhone === user.phone
-  );
+  const userComplaints = complaints
+    .filter(
+      (c) => c.userId === user.id || c.contactNumber === user.phone || c.citizenPhone === user.phone
+    )
+    .filter(
+      (comp, index, self) =>
+        index === self.findIndex((c) => c.id === comp.id || c.trackingId === comp.trackingId)
+    );
 
   const totalReports = userComplaints.length;
   const activeCount = userComplaints.filter(

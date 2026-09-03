@@ -97,7 +97,12 @@ export default function App() {
     const socket = initClientSocket(user?.id, user?.role);
 
     socket.on("complaint:created", (data: { complaint: Complaint }) => {
-      setComplaints((prev) => [data.complaint, ...prev]);
+      setComplaints((prev) => {
+        if (prev.some((c) => c.id === data.complaint.id || c.trackingId === data.complaint.trackingId)) {
+          return prev;
+        }
+        return [data.complaint, ...prev];
+      });
       showToast(
         "🚨 New Complaint Logged!",
         `#${data.complaint.trackingId} reported at ${data.complaint.address}`
@@ -128,7 +133,10 @@ export default function App() {
     });
 
     socket.on("notification:new", (data: { notification: Notification }) => {
-      setNotifications((prev) => [data.notification, ...prev]);
+      setNotifications((prev) => {
+        if (prev.some((n) => n.id === data.notification.id)) return prev;
+        return [data.notification, ...prev];
+      });
     });
 
     return () => {
@@ -158,7 +166,12 @@ export default function App() {
   };
 
   const handleComplaintSubmitted = (complaint: Complaint) => {
-    setComplaints((prev) => [complaint, ...prev]);
+    setComplaints((prev) => {
+      if (prev.some((c) => c.id === complaint.id || c.trackingId === complaint.trackingId)) {
+        return prev;
+      }
+      return [complaint, ...prev];
+    });
     setSuccessReport(complaint);
   };
 
