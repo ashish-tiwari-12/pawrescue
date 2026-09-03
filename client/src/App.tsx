@@ -242,8 +242,14 @@ export default function App() {
           <>
             {citizenView === "landing" && (
               <LandingPage
+                ngos={ngos}
+                recentComplaints={complaints}
                 onStartReport={handleStartReport}
-                onTrackComplaint={handleTrackClick}
+                onTrackClick={handleTrackClick}
+                onViewAllReports={() => {
+                  if (user) setCitizenView("dashboard");
+                  else setAuthModalOpen(true);
+                }}
               />
             )}
 

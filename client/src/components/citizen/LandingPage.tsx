@@ -2,19 +2,19 @@ import React from "react";
 import { NGO, Complaint } from "../../types";
 
 interface Props {
-  ngos: NGO[];
-  recentComplaints: Complaint[];
+  ngos?: NGO[];
+  recentComplaints?: Complaint[];
   onStartReport: (isEmergency?: boolean) => void;
   onTrackClick: () => void;
-  onViewAllReports: () => void;
+  onViewAllReports?: () => void;
 }
 
 export const LandingPage: React.FC<Props> = ({
-  ngos,
-  recentComplaints,
+  ngos = [],
+  recentComplaints = [],
   onStartReport,
   onTrackClick,
-  onViewAllReports
+  onViewAllReports = () => {}
 }) => {
   return (
     <div className="min-h-screen bg-[#faf8ff]">
