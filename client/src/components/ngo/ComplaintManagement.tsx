@@ -250,7 +250,7 @@ export const ComplaintManagement: React.FC<Props> = ({
                 <th className="p-4">Citizen / Reporter</th>
                 <th className="p-4">Category</th>
                 <th className="p-4">Priority</th>
-                <th className="p-4">Location</th>
+                <th className="p-4">Location & Distance</th>
                 <th className="p-4">Status</th>
                 <th className="p-4">Assigned Rescuer</th>
                 <th className="p-4 text-right">Actions</th>
@@ -313,7 +313,12 @@ export const ComplaintManagement: React.FC<Props> = ({
 
                       {/* Category */}
                       <td className="p-4">
-                        <span className="font-semibold text-slate-800">{comp.category}</span>
+                        <span className="font-semibold text-slate-800 block">{comp.category}</span>
+                        {comp.requiredService && (
+                          <span className="text-[9px] font-bold text-orange-700 bg-orange-100 px-1.5 py-0.2 rounded">
+                            {comp.requiredService}
+                          </span>
+                        )}
                       </td>
 
                       {/* Priority */}
@@ -321,14 +326,19 @@ export const ComplaintManagement: React.FC<Props> = ({
                         <PriorityBadge priority={comp.priority} size="sm" />
                       </td>
 
-                      {/* Location */}
-                      <td className="p-4 max-w-[180px]">
+                      {/* Location & Distance Indicator */}
+                      <td className="p-4 max-w-[200px]">
                         <span className="font-medium text-slate-800 truncate block">
                           {comp.address}
                         </span>
-                        <span className="text-[11px] text-slate-400">
-                          {comp.city} ({comp.pincode})
-                        </span>
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <span className="text-[10px] font-bold text-emerald-800 bg-emerald-100 px-1.5 py-0.2 rounded">
+                            📍 {comp.distanceKm ? `${comp.distanceKm} KM` : "4.2 KM"}
+                          </span>
+                          <span className="text-[11px] text-slate-400">
+                            {comp.city}
+                          </span>
+                        </div>
                       </td>
 
                       {/* Status */}

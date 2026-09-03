@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { api } from "./api/client";
-import { initClientSocket, getClientSocket } from "./api/socket";
+import { initClientSocket } from "./api/socket";
 import {
   User,
   PortalType,
@@ -32,6 +32,8 @@ import { ComplaintManagement } from "./components/ngo/ComplaintManagement";
 import { ComplaintDetailModal } from "./components/ngo/ComplaintDetailModal";
 import { VolunteerManagement } from "./components/ngo/VolunteerManagement";
 import { AnalyticsView } from "./components/ngo/AnalyticsView";
+import { NGODispatchMap } from "./components/maps/NGODispatchMap";
+import { NGOSettingsModal } from "./components/ngo/NGOSettingsModal";
 
 export default function App() {
   // Authentication & Portal State
@@ -49,9 +51,11 @@ export default function App() {
 
   // Selected Items & Modals
   const [inspectComplaint, setInspectComplaint] = useState<Complaint | null>(null);
+  const [selectedMapComplaint, setSelectedMapComplaint] = useState<Complaint | null>(null);
   const [trackingTargetId, setTrackingTargetId] = useState<string>("");
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [notifsDrawerOpen, setNotifsDrawerOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [successReport, setSuccessReport] = useState<Complaint | null>(null);
   const [toastMessage, setToastMessage] = useState<{ title: string; desc: string } | null>(null);
 
@@ -59,6 +63,9 @@ export default function App() {
     setToastMessage({ title, desc });
     setTimeout(() => setToastMessage(null), 4500);
   };
+
+  // Current active NGO for dashboard (from user profile or first NGO in list)
+  const currentNgo = ngos.find((n) => n.id === user?.ngoId) || ngos[0] || null;
 
   // Load initial data
   const loadAllData = async () => {
@@ -186,47 +193,39 @@ export default function App() {
     setUser(null);
     setActivePortal("citizen");
     setCitizenView("landing");
+    showToast("Logged Out", "You have been logged out successfully.");
   };
 
-  const unreadNotifsCount = notifications.filter((n) => !n.read).length;
+  const handleNGOUpdated = (updatedNgo: NGO) => {
+    setNgos((prev) => prev.map((n) => (n.id === updatedNgo.id ? updatedNgo : n)));
+    showToast("NGO Settings Updated", "Coverage zone and services saved!");
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#faf8ff] text-slate-900 font-['Inter',sans-serif]">
-      {/* Real-time Toast Alert */}
+    <div className="min-h-screen flex flex-col bg-[#faf8ff] text-[#131b2e] selection:bg-[#f97316] selection:text-white">
+      {/* Toast Notification Alert */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-700 flex items-start gap-3 max-w-sm animate-slideLeft">
+        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-800 flex items-start gap-3 max-w-sm animate-slideUp">
           <div className="w-8 h-8 rounded-xl bg-orange-500 text-white flex items-center justify-center shrink-0">
-            <span className="material-symbols-outlined !text-base">notifications_active</span>
+            <span className="material-symbols-outlined !text-lg">notifications_active</span>
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white">{toastMessage.title}</h4>
-            <p className="text-xs text-slate-300 mt-0.5">{toastMessage.desc}</p>
+            <h4 className="font-extrabold text-xs text-white">{toastMessage.title}</h4>
+            <p className="text-[11px] text-slate-300 mt-0.5">{toastMessage.desc}</p>
           </div>
-          <button
-            onClick={() => setToastMessage(null)}
-            className="text-slate-400 hover:text-white ml-auto"
-          >
-            <span className="material-symbols-outlined !text-sm">close</span>
-          </button>
         </div>
       )}
 
-      {/* Top Header & Portal Bar */}
+      {/* Top Navbar */}
       <TopNav
         user={user}
         activePortal={activePortal}
         citizenView={citizenView}
         ngoView={ngoView}
-        unreadNotifsCount={unreadNotifsCount}
+        unreadNotifsCount={notifications.filter((n) => !n.read).length}
         onSwitchPortal={handleSwitchPortal}
-        onNavigateCitizen={(view) => {
-          setActivePortal("citizen");
-          setCitizenView(view);
-        }}
-        onNavigateNGO={(view) => {
-          setActivePortal("ngo");
-          setNgoView(view);
-        }}
+        onNavigateCitizen={(view) => setCitizenView(view)}
+        onNavigateNGO={(view) => setNgoView(view)}
         onOpenAuth={() => setAuthModalOpen(true)}
         onOpenNotifications={() => setNotifsDrawerOpen(true)}
         onLogout={handleLogout}
@@ -236,17 +235,15 @@ export default function App() {
         }}
       />
 
-      {/* Main View Render */}
+      {/* Main Content Area */}
       <main className="flex-1">
         {activePortal === "citizen" ? (
+          /* Citizen Portal Views */
           <>
             {citizenView === "landing" && (
               <LandingPage
-                ngos={ngos}
-                recentComplaints={complaints}
                 onStartReport={handleStartReport}
-                onTrackClick={handleTrackClick}
-                onViewAllReports={() => setCitizenView("dashboard")}
+                onTrackComplaint={handleTrackClick}
               />
             )}
 
@@ -289,12 +286,45 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
             {ngoView === "overview" && (
               <NGOHome
+                ngo={currentNgo}
                 analytics={analytics}
                 complaints={complaints}
                 volunteers={volunteers}
                 onOpenComplaintModal={(c) => setInspectComplaint(c)}
                 onNavigateTab={(tab) => setNgoView(tab as NGOView)}
+                onOpenSettings={() => setIsSettingsOpen(true)}
               />
+            )}
+
+            {/* FEATURE 4 & 9: NGO Live Dispatch Map View */}
+            {ngoView === "maps" && (
+              <div className="space-y-6">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <h2 className="text-xl font-extrabold text-slate-900 tracking-tight">
+                      Live Ambulance Dispatch & Coverage Map
+                    </h2>
+                    <p className="text-xs text-slate-500">
+                      Visualizing active cases, {currentNgo?.coverageRadiusKm || 15} KM operational radius, and direct road routes.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setIsSettingsOpen(true)}
+                    className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 rounded-xl text-xs font-bold shadow-sm flex items-center gap-1.5"
+                  >
+                    <span className="material-symbols-outlined !text-base text-emerald-600">tune</span>
+                    <span>Adjust Coverage Radius</span>
+                  </button>
+                </div>
+
+                <NGODispatchMap
+                  ngo={currentNgo}
+                  complaints={complaints}
+                  selectedComplaint={selectedMapComplaint}
+                  onSelectComplaint={(c) => setSelectedMapComplaint(c)}
+                  onOpenComplaintModal={(c) => setInspectComplaint(c)}
+                />
+              </div>
             )}
 
             {ngoView === "complaints" && (
@@ -374,6 +404,16 @@ export default function App() {
         />
       )}
 
+      {/* FEATURE 5: NGO Settings & Coverage Zones Modal */}
+      {isSettingsOpen && currentNgo && (
+        <NGOSettingsModal
+          ngo={currentNgo}
+          isOpen={isSettingsOpen}
+          onClose={() => setIsSettingsOpen(false)}
+          onUpdated={handleNGOUpdated}
+        />
+      )}
+
       {/* Success Report Creation Modal */}
       {successReport && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
@@ -390,41 +430,45 @@ export default function App() {
                 Emergency Alert Sent to NGOs!
               </h3>
               <p className="text-xs text-slate-500">
-                Rescue teams in your area have received the photo evidence and GPS coordinates.
+                Your report has been auto-assigned to <strong>{successReport.ngoName || "Noida Animal Shelter"}</strong> based on geolocation and specialty.
               </p>
             </div>
 
-            <div className="p-4 bg-orange-50 rounded-2xl border border-orange-200/80 space-y-1.5">
-              <span className="text-[11px] font-bold text-orange-900 uppercase">
-                Your Public Tracking ID
-              </span>
-              <div className="text-2xl font-mono font-extrabold text-orange-600 tracking-wider">
-                {successReport.trackingId}
+            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200/70 text-left space-y-2">
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-slate-500">Tracking ID</span>
+                <span className="font-mono font-bold text-orange-600">
+                  #{successReport.trackingId}
+                </span>
               </div>
-              <p className="text-[10px] text-orange-700">
-                Save or screenshot this ID to monitor ambulance arrival.
-              </p>
+              <div className="flex justify-between items-center text-xs">
+                <span className="text-slate-500">Auto-Assigned NGO</span>
+                <span className="font-bold text-slate-900">{successReport.ngoName || "Noida Animal Shelter"}</span>
+              </div>
+              {successReport.distanceKm && (
+                <div className="flex justify-between items-center text-xs">
+                  <span className="text-slate-500">Distance</span>
+                  <span className="font-bold text-emerald-700 font-mono">📍 {successReport.distanceKm} KM away</span>
+                </div>
+              )}
             </div>
 
-            <div className="flex flex-col gap-2 pt-2">
+            <div className="flex gap-2">
               <button
                 onClick={() => {
                   const id = successReport.trackingId;
                   setSuccessReport(null);
                   handleSelectComplaintForTracking(id);
                 }}
-                className="w-full py-3 bg-[#f97316] hover:bg-orange-600 text-white rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 transition-all"
+                className="flex-1 py-3 bg-[#f97316] hover:bg-orange-600 text-white rounded-xl text-xs font-bold shadow-md transition-all"
               >
-                Track Live Progress Now →
+                Track Live Status
               </button>
               <button
-                onClick={() => {
-                  setSuccessReport(null);
-                  setCitizenView("landing");
-                }}
-                className="w-full py-2.5 text-xs text-slate-600 hover:text-slate-900"
+                onClick={() => setSuccessReport(null)}
+                className="px-4 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all"
               >
-                Back to Home
+                Close
               </button>
             </div>
           </div>

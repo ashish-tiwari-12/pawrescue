@@ -4,6 +4,7 @@ import { Complaint } from "../../types";
 import { StatusBadge } from "../common/StatusBadge";
 import { PriorityBadge } from "../common/PriorityBadge";
 import { TimelineView } from "../common/TimelineView";
+import { ComplaintLocationMap } from "../maps/ComplaintLocationMap";
 
 interface Props {
   initialTrackingId?: string;
@@ -279,29 +280,55 @@ export const TrackComplaintPage: React.FC<Props> = ({
                     </div>
                   )}
 
-                  {/* Location Info */}
-                  <div className="pt-3 border-t border-slate-100 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                    <div className="bg-slate-50 p-3 rounded-xl">
-                      <span className="text-slate-400 block text-[11px]">Exact Location</span>
-                      <strong className="text-slate-800">{complaint.address}</strong>
-                      {complaint.landmark && (
-                        <p className="text-slate-500 text-[11px] mt-0.5">
-                          Landmark: {complaint.landmark}
-                        </p>
-                      )}
+                  {/* Location Info & Interactive Map */}
+                  <div className="pt-3 border-t border-slate-100 space-y-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                      <div className="bg-slate-50 p-3 rounded-xl">
+                        <span className="text-slate-400 block text-[11px]">Exact Location</span>
+                        <strong className="text-slate-800">{complaint.address}</strong>
+                        {complaint.landmark && (
+                          <p className="text-slate-500 text-[11px] mt-0.5">
+                            Landmark: {complaint.landmark}
+                          </p>
+                        )}
+                      </div>
+                      <div className="bg-slate-50 p-3 rounded-xl">
+                        <span className="text-slate-400 block text-[11px]">Area / City</span>
+                        <strong className="text-slate-800">
+                          {complaint.city} ({complaint.pincode})
+                        </strong>
+                        {complaint.location && (
+                          <p className="text-emerald-700 font-mono text-[11px] mt-0.5">
+                            GPS: {complaint.location.latitude.toFixed(4)},{" "}
+                            {complaint.location.longitude.toFixed(4)}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div className="bg-slate-50 p-3 rounded-xl">
-                      <span className="text-slate-400 block text-[11px]">Area / City</span>
-                      <strong className="text-slate-800">
-                        {complaint.city} ({complaint.pincode})
-                      </strong>
-                      {complaint.location && (
-                        <p className="text-emerald-700 font-mono text-[11px] mt-0.5">
-                          GPS: {complaint.location.latitude.toFixed(4)},{" "}
-                          {complaint.location.longitude.toFixed(4)}
-                        </p>
-                      )}
-                    </div>
+
+                    {/* FEATURE 4: Interactive Leaflet Map for Citizen */}
+                    {complaint.location && (
+                      <div className="space-y-1.5 pt-1">
+                        <div className="flex items-center justify-between text-xs text-slate-500">
+                          <span className="font-bold text-slate-700 flex items-center gap-1">
+                            <span className="material-symbols-outlined !text-base text-orange-600">
+                              location_on
+                            </span>
+                            Incident GPS Sighting Map
+                          </span>
+                          <span className="text-[11px] text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">
+                            Verified Coordinates
+                          </span>
+                        </div>
+                        <ComplaintLocationMap
+                          latitude={complaint.location.latitude}
+                          longitude={complaint.location.longitude}
+                          title={complaint.title}
+                          address={complaint.address}
+                          category={complaint.category}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
 

@@ -6,6 +6,7 @@ import { NGOModel } from "../models/NGO.js";
 import { VolunteerModel } from "../models/Volunteer.js";
 import { UserModel } from "../models/User.js";
 import { sendRescueNotificationEmail } from "../services/emailService.js";
+import { findNearestEligibleNGO, calculateDistanceKm } from "../services/routingEngine.js";
 import { authenticateJWT, optionalAuth, requireRole, AuthRequest } from "../middleware/auth.js";
 import { uploadImages } from "../middleware/upload.js";
 import {
@@ -24,7 +25,7 @@ function generateTrackingId(): string {
   return `PC-2026-${randomNum}`;
 }
 
-// 1. Create Complaint (Multer upload supported + Saved to MongoDB)
+// 1. Create Complaint (Multer upload supported + Saved to MongoDB + Auto Geospatial NGO Assignment)
 router.post(
   "/",
   optionalAuth,
@@ -38,8 +39,8 @@ router.post(
         description,
         address,
         landmark,
-        city = "Mumbai",
-        pincode = "400053",
+        city = "Noida",
+        pincode = "201301",
         latitude,
         longitude,
         contactNumber,
@@ -101,7 +102,8 @@ router.post(
         isEmergency === "true" ||
         isEmergency === true ||
         category === "Emergency Rescue" ||
-        category === "Injured Dog";
+        category === "Injured Dog" ||
+        category === "Dog Bite";
 
       let priority: ComplaintPriority = "Medium";
       if (isEmerg) priority = "Critical";
@@ -110,7 +112,6 @@ router.post(
         priority = "Low";
 
       let trackingId = generateTrackingId();
-      // Ensure trackingId uniqueness
       while (await ComplaintModel.findOne({ trackingId })) {
         trackingId = generateTrackingId();
       }
@@ -120,32 +121,58 @@ router.post(
       const cName = citizenName || user?.name || "Concerned Citizen";
       const uId = user ? user._id.toString() : `anon-${uuidv4().slice(0, 6)}`;
 
+      const parsedLat = latitude ? parseFloat(latitude) : 28.5482;
+      const parsedLng = longitude ? parseFloat(longitude) : 77.3426;
+
+      // FEATURE 2 & 7: Automatic Geospatial Assignment Engine
+      let assignedNgo = null;
+      let distanceKm = 0;
+      let requiredService: any = "Rescue";
+      let withinCoverage = true;
+
+      if (ngoId) {
+        assignedNgo = await NGOModel.findById(ngoId);
+        if (assignedNgo) {
+          distanceKm = calculateDistanceKm(
+            parsedLat,
+            parsedLng,
+            assignedNgo.location.coordinates[1],
+            assignedNgo.location.coordinates[0]
+          );
+        }
+      } else {
+        const assignmentResult = await findNearestEligibleNGO(
+          parsedLat,
+          parsedLng,
+          category,
+          isEmerg
+        );
+        assignedNgo = assignmentResult.assignedNgo;
+        distanceKm = assignmentResult.distanceKm;
+        requiredService = assignmentResult.requiredService;
+        withinCoverage = assignmentResult.withinCoverage;
+      }
+
       // Initial Timeline
       const initialTimeline: TimelineEvent = {
         id: `tl-${uuidv4().slice(0, 6)}`,
         status: "Reported",
-        title: "Complaint Registered",
-        description: isEmerg
+        title: "Complaint Registered & Auto-Routed",
+        description: assignedNgo
+          ? `Automatically assigned to ${assignedNgo.name} (${distanceKm} KM away) covering ${requiredService} service zone.`
+          : isEmerg
           ? "CRITICAL EMERGENCY complaint registered with priority ambulance dispatch."
-          : "Complaint registered and queued for NGO review.",
+          : "Complaint registered and queued for NGO triage.",
         timestamp: now,
         updatedBy: cName,
         role: user?.role || "citizen"
       };
 
-      // Auto-match NGO
-      let targetNgo = ngoId ? await NGOModel.findById(ngoId) : null;
-      if (!targetNgo && pincode) {
-        targetNgo = await NGOModel.findOne({ pincodesCovered: pincode });
-      }
-      if (!targetNgo) {
-        targetNgo = await NGOModel.findOne();
-      }
-
       const newComplaint = await ComplaintModel.create({
         trackingId,
         title: title || `${category} reported at ${address}`,
         category: category as ComplaintCategory,
+        requiredService,
         dogCondition: parsedConditions,
         description,
         images: imageUrls,
@@ -153,13 +180,14 @@ router.post(
         landmark: landmark || "",
         city,
         pincode,
-        location:
-          latitude && longitude
-            ? {
-                latitude: parseFloat(latitude),
-                longitude: parseFloat(longitude)
-              }
-            : undefined,
+        location: {
+          latitude: parsedLat,
+          longitude: parsedLng
+        },
+        geoPoint: {
+          type: "Point",
+          coordinates: [parsedLng, parsedLat]
+        },
         contactNumber,
         isEmergency: isEmerg,
         priority,
@@ -167,8 +195,10 @@ router.post(
         userId: uId,
         citizenName: cName,
         citizenPhone: contactNumber,
-        ngoId: targetNgo ? targetNgo._id.toString() : undefined,
-        ngoName: targetNgo ? targetNgo.name : "Voice for Stray Animals (VSA)",
+        ngoId: assignedNgo ? assignedNgo._id.toString() : undefined,
+        ngoName: assignedNgo ? assignedNgo.name : "Noida Animal Shelter",
+        distanceKm,
+        autoAssigned: true,
         timeline: [initialTimeline],
         notes: []
       });

@@ -6,6 +6,8 @@ import { NGOModel } from "../models/NGO.js";
 import { VolunteerModel } from "../models/Volunteer.js";
 import { NotificationModel } from "../models/Notification.js";
 
+import { seedDelhiNcrNGOs } from "../seeds/ncrNgoSeeder.js";
+
 const DEFAULT_MONGODB_URI = "mongodb://localhost:27017/pawrescue";
 
 export const connectDatabase = async () => {
@@ -16,8 +18,9 @@ export const connectDatabase = async () => {
     await mongoose.connect(uri);
     console.log("✅ Successfully connected to MongoDB Atlas ('pawrescue')");
 
-    // Run seed check
+    // Run initial and Delhi-NCR seeders
     await seedInitialData();
+    await seedDelhiNcrNGOs();
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
   }

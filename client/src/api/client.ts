@@ -197,13 +197,29 @@ export const api = {
   },
 
   // NGOs
-  async getNGOs(): Promise<{ ngos: NGO[] }> {
-    const res = await apiInstance.get("/ngos");
+  async getNGOs(lat?: number, lng?: number): Promise<{ ngos: NGO[] }> {
+    const res = await apiInstance.get("/ngos", { params: { lat, lng } });
     return res.data;
   },
 
   async getNGOById(id: string): Promise<{ ngo: NGO; stats: any }> {
     const res = await apiInstance.get(`/ngos/${id}`);
+    return res.data;
+  },
+
+  async updateNGOSettings(
+    id: string,
+    settings: {
+      coverageRadiusKm?: number;
+      servicesOffered?: string[];
+      workingHours?: string;
+      emergency24x7?: boolean;
+      address?: string;
+      latitude?: number;
+      longitude?: number;
+    }
+  ): Promise<{ ngo: NGO; message: string }> {
+    const res = await apiInstance.put(`/ngos/${id}/settings`, settings);
     return res.data;
   },
 

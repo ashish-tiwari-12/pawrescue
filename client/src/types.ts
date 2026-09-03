@@ -1,4 +1,7 @@
 export type UserRole = "citizen" | "ngo_admin" | "volunteer";
+export type PortalType = "citizen" | "ngo";
+export type CitizenView = "landing" | "report" | "track" | "dashboard" | "profile";
+export type NGOView = "overview" | "complaints" | "maps" | "volunteers" | "analytics" | "settings";
 
 export interface User {
   id: string;
@@ -8,6 +11,7 @@ export interface User {
   role: UserRole;
   ngoId?: string;
   avatarUrl?: string;
+  isVerified?: boolean;
   createdAt: string;
 }
 
@@ -18,7 +22,17 @@ export type ComplaintCategory =
   | "Abandoned Puppy"
   | "Emergency Rescue"
   | "Sterilization Request"
-  | "Vaccination Request";
+  | "Vaccination Request"
+  | "Lost Dog"
+  | "Dog Bite";
+
+export type ServiceType =
+  | "Rescue"
+  | "Medical"
+  | "Emergency"
+  | "ABC"
+  | "Vaccination"
+  | "Tracking";
 
 export type ComplaintPriority = "Low" | "Medium" | "High" | "Critical";
 
@@ -54,6 +68,7 @@ export interface Complaint {
   trackingId: string; // e.g. "PC-2026-8912"
   title: string;
   category: ComplaintCategory;
+  requiredService?: ServiceType;
   dogCondition: string[];
   description: string;
   images: string[];
@@ -64,6 +79,10 @@ export interface Complaint {
   location?: {
     latitude: number;
     longitude: number;
+  };
+  geoPoint?: {
+    type: "Point";
+    coordinates: [number, number]; // [lng, lat]
   };
   contactNumber: string;
   isEmergency: boolean;
@@ -77,6 +96,8 @@ export interface Complaint {
   volunteerId?: string;
   volunteerName?: string;
   volunteerPhone?: string;
+  distanceKm?: number;
+  autoAssigned?: boolean;
   timeline: TimelineEvent[];
   notes: ComplaintNote[];
   resolutionNotes?: string;
@@ -95,6 +116,16 @@ export interface NGO {
   city: string;
   state: string;
   pincodesCovered: string[];
+  location: {
+    type: "Point";
+    coordinates: [number, number]; // [lng, lat]
+  };
+  latitude?: number;
+  longitude?: number;
+  coverageRadiusKm: number; // 5, 10, 20, 50 KM
+  servicesOffered: ServiceType[];
+  workingHours: string;
+  emergency24x7: boolean;
   activeVolunteersCount: number;
   totalRescued: number;
   avatarUrl?: string;
@@ -139,8 +170,3 @@ export interface AnalyticsSummary {
   monthlyTrends: { month: string; reported: number; resolved: number }[];
   pincodeDistribution: { area: string; count: number }[];
 }
-
-export type PortalType = "citizen" | "ngo";
-
-export type CitizenView = "landing" | "report" | "track" | "dashboard" | "profile";
-export type NGOView = "overview" | "complaints" | "volunteers" | "analytics";

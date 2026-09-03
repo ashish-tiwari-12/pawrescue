@@ -9,6 +9,7 @@ export interface User {
   role: UserRole;
   ngoId?: string;
   avatarUrl?: string;
+  isVerified?: boolean;
   createdAt: string;
 }
 
@@ -19,7 +20,17 @@ export type ComplaintCategory =
   | "Abandoned Puppy"
   | "Emergency Rescue"
   | "Sterilization Request"
-  | "Vaccination Request";
+  | "Vaccination Request"
+  | "Lost Dog"
+  | "Dog Bite";
+
+export type ServiceType =
+  | "Rescue"
+  | "Medical"
+  | "Emergency"
+  | "ABC"
+  | "Vaccination"
+  | "Tracking";
 
 export type ComplaintPriority = "Low" | "Medium" | "High" | "Critical";
 
@@ -55,6 +66,7 @@ export interface Complaint {
   trackingId: string; // e.g. "PC-2026-8912"
   title: string;
   category: ComplaintCategory;
+  requiredService?: ServiceType;
   dogCondition: string[]; // e.g. ["Severe Bleeding", "Limping", "Malnourished"]
   description: string;
   images: string[];
@@ -65,6 +77,10 @@ export interface Complaint {
   location?: {
     latitude: number;
     longitude: number;
+  };
+  geoPoint?: {
+    type: "Point";
+    coordinates: [number, number]; // [lng, lat]
   };
   contactNumber: string;
   isEmergency: boolean;
@@ -78,6 +94,8 @@ export interface Complaint {
   volunteerId?: string;
   volunteerName?: string;
   volunteerPhone?: string;
+  distanceKm?: number;
+  autoAssigned?: boolean;
   timeline: TimelineEvent[];
   notes: ComplaintNote[];
   resolutionNotes?: string;
@@ -96,6 +114,16 @@ export interface NGO {
   city: string;
   state: string;
   pincodesCovered: string[];
+  location: {
+    type: "Point";
+    coordinates: [number, number]; // [longitude, latitude]
+  };
+  latitude?: number;
+  longitude?: number;
+  coverageRadiusKm: number; // 5, 10, 20, 50 KM
+  servicesOffered: ServiceType[];
+  workingHours: string; // e.g. "24/7" or "08:00 AM - 08:00 PM"
+  emergency24x7: boolean;
   activeVolunteersCount: number;
   totalRescued: number;
   avatarUrl?: string;

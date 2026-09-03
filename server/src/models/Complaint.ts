@@ -3,6 +3,7 @@ import {
   ComplaintCategory,
   ComplaintPriority,
   ComplaintStatus,
+  ServiceType,
   TimelineEvent,
   ComplaintNote
 } from "../types.js";
@@ -11,6 +12,7 @@ export interface IComplaintDocument extends Document {
   trackingId: string;
   title: string;
   category: ComplaintCategory;
+  requiredService?: ServiceType;
   dogCondition: string[];
   description: string;
   images: string[];
@@ -21,6 +23,10 @@ export interface IComplaintDocument extends Document {
   location?: {
     latitude: number;
     longitude: number;
+  };
+  geoPoint?: {
+    type: "Point";
+    coordinates: [number, number]; // [longitude, latitude]
   };
   contactNumber: string;
   isEmergency: boolean;
@@ -34,6 +40,8 @@ export interface IComplaintDocument extends Document {
   volunteerId?: string;
   volunteerName?: string;
   volunteerPhone?: string;
+  distanceKm?: number;
+  autoAssigned?: boolean;
   timeline: TimelineEvent[];
   notes: ComplaintNote[];
   resolutionNotes?: string;
@@ -81,21 +89,37 @@ const ComplaintSchema = new Schema<IComplaintDocument>(
         "Abandoned Puppy",
         "Emergency Rescue",
         "Sterilization Request",
-        "Vaccination Request"
+        "Vaccination Request",
+        "Lost Dog",
+        "Dog Bite"
       ],
       required: true,
       index: true
+    },
+    requiredService: {
+      type: String,
+      enum: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination", "Tracking"]
     },
     dogCondition: [{ type: String }],
     description: { type: String, required: true },
     images: [{ type: String }],
     address: { type: String, required: true },
     landmark: { type: String },
-    city: { type: String, default: "Mumbai" },
+    city: { type: String, default: "Noida" },
     pincode: { type: String, required: true, index: true },
     location: {
       latitude: { type: Number },
       longitude: { type: Number }
+    },
+    geoPoint: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        default: "Point"
+      },
+      coordinates: {
+        type: [Number] // [longitude, latitude]
+      }
     },
     contactNumber: { type: String, required: true, index: true },
     isEmergency: { type: Boolean, default: false },
@@ -119,6 +143,8 @@ const ComplaintSchema = new Schema<IComplaintDocument>(
     volunteerId: { type: String, index: true },
     volunteerName: { type: String },
     volunteerPhone: { type: String },
+    distanceKm: { type: Number },
+    autoAssigned: { type: Boolean, default: false },
     timeline: [TimelineEventSchema],
     notes: [ComplaintNoteSchema],
     resolutionNotes: { type: String },
@@ -136,5 +162,8 @@ const ComplaintSchema = new Schema<IComplaintDocument>(
     }
   }
 );
+
+// 2dsphere index for Complaint coordinates
+ComplaintSchema.index({ geoPoint: "2dsphere" });
 
 export const ComplaintModel = mongoose.model<IComplaintDocument>("Complaint", ComplaintSchema);

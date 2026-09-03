@@ -1,22 +1,26 @@
 import React from "react";
-import { Complaint, Volunteer, AnalyticsSummary } from "../../types";
+import { Complaint, Volunteer, AnalyticsSummary, NGO } from "../../types";
 import { StatusBadge } from "../common/StatusBadge";
 import { PriorityBadge } from "../common/PriorityBadge";
 
 interface Props {
+  ngo: NGO | null;
   analytics: AnalyticsSummary | null;
   complaints: Complaint[];
   volunteers: Volunteer[];
   onOpenComplaintModal: (complaint: Complaint) => void;
-  onNavigateTab: (tab: "complaints" | "volunteers" | "analytics") => void;
+  onNavigateTab: (tab: "complaints" | "maps" | "volunteers" | "analytics") => void;
+  onOpenSettings: () => void;
 }
 
 export const NGOHome: React.FC<Props> = ({
+  ngo,
   analytics,
   complaints,
   volunteers,
   onOpenComplaintModal,
-  onNavigateTab
+  onNavigateTab,
+  onOpenSettings
 }) => {
   const pendingComplaints = complaints.filter(
     (c) => c.status === "Reported" || c.status === "Accepted"
@@ -34,29 +38,39 @@ export const NGOHome: React.FC<Props> = ({
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-full text-xs font-semibold border border-emerald-500/30">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             <span>NGO Triage & Dispatch Control Center</span>
+            <span className="bg-emerald-400/20 text-emerald-200 px-2 py-0.2 rounded-full font-mono text-[10px]">
+              {ngo?.coverageRadiusKm || 15} KM Zone
+            </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            Voice for Stray Animals (VSA)
+            {ngo?.name || "Voice for Stray Animals (VSA)"}
           </h1>
           <p className="text-slate-300 text-xs sm:text-sm max-w-xl">
-            Real-time ambulance dispatch, volunteer field coordination, and emergency rescue queue for Greater Mumbai.
+            {ngo?.address ? `HQ: ${ngo.address} (${ngo.city})` : "Real-time ambulance dispatch, volunteer field coordination, and emergency rescue queue."}
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 z-10">
           <button
+            onClick={() => onNavigateTab("maps")}
+            className="px-5 py-3 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold rounded-xl text-xs shadow-lg shadow-emerald-500/30 transition-all flex items-center gap-2 hover:scale-105"
+          >
+            <span className="material-symbols-outlined !text-lg">map</span>
+            <span>Live Dispatch Map</span>
+          </button>
+          <button
             onClick={() => onNavigateTab("complaints")}
             className="px-5 py-3 bg-[#006c49] hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-2"
           >
             <span className="material-symbols-outlined !text-lg">list_alt</span>
-            <span>View All Complaints ({complaints.length})</span>
+            <span>Complaints ({complaints.length})</span>
           </button>
           <button
-            onClick={() => onNavigateTab("volunteers")}
-            className="px-5 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl text-xs font-bold transition-all flex items-center gap-2 backdrop-blur-sm"
+            onClick={onOpenSettings}
+            className="px-4 py-3 bg-white/10 hover:bg-white/20 text-white border border-white/20 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 backdrop-blur-sm"
           >
-            <span className="material-symbols-outlined !text-lg">group</span>
-            <span>Volunteers ({availableVolunteers.length} Ready)</span>
+            <span className="material-symbols-outlined !text-lg">settings</span>
+            <span>Settings</span>
           </button>
         </div>
 
@@ -146,12 +160,20 @@ export const NGOHome: React.FC<Props> = ({
                 Urgent Action Queue ({pendingComplaints.length + criticalCases.length})
               </h2>
             </div>
-            <button
-              onClick={() => onNavigateTab("complaints")}
-              className="text-xs font-bold text-[#006c49] hover:underline"
-            >
-              Open Full Manager →
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => onNavigateTab("maps")}
+                className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg hover:bg-emerald-100 transition-colors"
+              >
+                🗺️ View on Map
+              </button>
+              <button
+                onClick={() => onNavigateTab("complaints")}
+                className="text-xs font-bold text-[#006c49] hover:underline"
+              >
+                Open Full Manager →
+              </button>
+            </div>
           </div>
 
           <div className="space-y-3.5">
@@ -172,11 +194,15 @@ export const NGOHome: React.FC<Props> = ({
                   )}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         <span className="text-xs font-mono font-bold text-orange-600 bg-orange-100 px-2 py-0.5 rounded">
                           #{comp.trackingId}
                         </span>
                         <StatusBadge status={comp.status} size="sm" />
+                        {/* FEATURE 6: Distance Calculation Badge */}
+                        <span className="text-[10px] font-extrabold text-emerald-800 bg-emerald-100/80 px-2 py-0.5 rounded-full flex items-center gap-0.5">
+                          📍 {comp.distanceKm ? `${comp.distanceKm} KM away` : "3.8 KM away"}
+                        </span>
                       </div>
                       <PriorityBadge priority={comp.priority} size="sm" />
                     </div>

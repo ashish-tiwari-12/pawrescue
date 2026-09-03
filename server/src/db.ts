@@ -24,6 +24,14 @@ const SEED_NGOS: NGO[] = [
     city: "Mumbai",
     state: "Maharashtra",
     pincodesCovered: ["400053", "400058", "400069", "400050", "400049"],
+    location: {
+      type: "Point",
+      coordinates: [72.8468, 19.1197]
+    },
+    coverageRadiusKm: 20,
+    servicesOffered: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination", "Tracking"],
+    workingHours: "24/7",
+    emergency24x7: true,
     activeVolunteersCount: 18,
     totalRescued: 1420,
     avatarUrl: "https://images.unsplash.com/photo-1548767797-d8c844163c4c?w=150&auto=format&fit=crop&q=80",
@@ -39,6 +47,14 @@ const SEED_NGOS: NGO[] = [
     city: "New Delhi",
     state: "Delhi",
     pincodesCovered: ["110024", "110001", "110016", "110020", "110049"],
+    location: {
+      type: "Point",
+      coordinates: [77.2341, 28.5732]
+    },
+    coverageRadiusKm: 25,
+    servicesOffered: ["Rescue", "Medical", "Emergency", "ABC", "Vaccination", "Tracking"],
+    workingHours: "24/7",
+    emergency24x7: true,
     activeVolunteersCount: 26,
     totalRescued: 3890,
     avatarUrl: "https://images.unsplash.com/photo-1534361960057-19889db9621e?w=150&auto=format&fit=crop&q=80",
@@ -54,6 +70,14 @@ const SEED_NGOS: NGO[] = [
     city: "Bengaluru",
     state: "Karnataka",
     pincodesCovered: ["560038", "560001", "560075", "560008"],
+    location: {
+      type: "Point",
+      coordinates: [77.6412, 12.9784]
+    },
+    coverageRadiusKm: 15,
+    servicesOffered: ["Rescue", "Medical", "ABC", "Vaccination"],
+    workingHours: "08:00 AM - 08:00 PM",
+    emergency24x7: false,
     activeVolunteersCount: 14,
     totalRescued: 980,
     avatarUrl: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=150&auto=format&fit=crop&q=80",
