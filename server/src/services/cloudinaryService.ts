@@ -5,26 +5,28 @@ import { Readable } from "stream";
 const cloud_name =
   process.env.CLOUDINARY_CLOUD_NAME ||
   process.env.CLODINARY_CLOUD_NAME ||
-  "ddlnny6dg";
+  "";
 
 const api_key =
   process.env.CLOUDINARY_API_KEY ||
   process.env.CLODINARY_API_KEY ||
-  "647881943231376";
+  "";
 
 const api_secret =
   process.env.CLOUDINARY_API_SECRET ||
   process.env.CLOUDINARY_API_SECRET_KEY ||
   process.env.CLODINARY_API_SECRET_KEY ||
-  "ijzoHY_e58MZ1FrpRkSJJjrS3vI";
+  "";
 
 // Initialize Cloudinary SDK
-cloudinary.config({
-  cloud_name,
-  api_key,
-  api_secret,
-  secure: true
-});
+if (cloud_name && api_key && api_secret) {
+  cloudinary.config({
+    cloud_name,
+    api_key,
+    api_secret,
+    secure: true
+  });
+}
 
 export const isCloudinaryConfigured = (): boolean => {
   return Boolean(cloud_name && api_key && api_secret);
