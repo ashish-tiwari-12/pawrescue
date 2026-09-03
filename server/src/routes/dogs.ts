@@ -9,7 +9,7 @@ import {
   generateVisualEmbedding
 } from "../services/aiMatcherService.js";
 import { authenticateJWT, optionalAuth, requireRole, AuthRequest } from "../middleware/auth.js";
-import { uploadImages } from "../middleware/upload.js";
+import { uploadImages, processUploadedImages } from "../middleware/upload.js";
 
 const router = Router();
 
@@ -149,13 +149,9 @@ router.post(
         return res.status(400).json({ error: "Color pattern and sighting area are required." });
       }
 
-      // Collect image URLs
-      const imageUrls: string[] = [];
-      if (req.files && Array.isArray(req.files)) {
-        req.files.forEach((file: Express.Multer.File) => {
-          imageUrls.push(`/uploads/${file.filename}`);
-        });
-      }
+      // Collect image URLs (Uploaded directly to Cloudinary collection: pawrescue/dogs)
+      const uploadedCloudinaryUrls = await processUploadedImages(req.files as any, "pawrescue/dogs");
+      const imageUrls: string[] = [...uploadedCloudinaryUrls];
       if (req.body.imageUrls) {
         try {
           const parsed =
