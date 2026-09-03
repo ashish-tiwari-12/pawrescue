@@ -1,6 +1,9 @@
 import { io, Socket } from "socket.io-client";
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || "http://localhost:5000";
+const isProd = typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1";
+const DEFAULT_PROD_SOCKET = "https://pawrescue-ebon.vercel.app";
+
+const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || (isProd ? DEFAULT_PROD_SOCKET : "http://localhost:5000");
 
 let socketInstance: Socket | null = null;
 
