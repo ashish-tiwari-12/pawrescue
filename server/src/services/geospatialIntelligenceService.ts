@@ -4,15 +4,26 @@ import { DogProfileModel } from "../models/DogProfile.js";
 import { ComplaintModel } from "../models/Complaint.js";
 import { NGOModel } from "../models/NGO.js";
 
-// Load 710 official government census districts
+// Load 710 official government census districts with fallback paths
 let censusDistricts: any[] = [];
-try {
-  const dataPath = path.resolve("src/data/strayCensusDistricts.json");
-  if (fs.existsSync(dataPath)) {
-    censusDistricts = JSON.parse(fs.readFileSync(dataPath, "utf-8"));
+const candidatePaths = [
+  path.resolve("src/data/strayCensusDistricts.json"),
+  path.resolve("server/src/data/strayCensusDistricts.json"),
+  path.resolve("dist/data/strayCensusDistricts.json"),
+  path.resolve("server/dist/data/strayCensusDistricts.json"),
+  path.resolve(process.cwd(), "src/data/strayCensusDistricts.json"),
+  path.resolve(process.cwd(), "server/src/data/strayCensusDistricts.json")
+];
+
+for (const p of candidatePaths) {
+  try {
+    if (fs.existsSync(p)) {
+      censusDistricts = JSON.parse(fs.readFileSync(p, "utf-8"));
+      break;
+    }
+  } catch (err) {
+    // Continue to next path
   }
-} catch (err) {
-  console.warn("Could not load strayCensusDistricts.json:", err);
 }
 
 // Official National Dog Bite Burden Dataset (2018-2023) from PMC12533994 / OGD / HMIS
