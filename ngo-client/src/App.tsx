@@ -70,8 +70,19 @@ export const App: React.FC = () => {
     }
 
     loadInitialData();
+  }, []);
 
-    // 2. Real-time Socket Listener for Live NGO Dispatch
+  // Automatic Scroll to Top on every page / tab change
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
+  }, [currentTab, authPage]);
+
+  // 2. Real-time Socket Listener for Live NGO Dispatch
+  useEffect(() => {
     const socket = getSocket();
 
     socket.on("complaint_created", (newComplaint: Complaint) => {

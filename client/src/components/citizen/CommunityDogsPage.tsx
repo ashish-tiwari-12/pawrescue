@@ -198,79 +198,118 @@ export const CommunityDogsPage: React.FC<Props> = ({
               <div
                 key={dog.id}
                 onClick={() => onSelectDog(dog)}
-                className="bg-white rounded-3xl card-elevation-1 border border-slate-100 overflow-hidden hover:shadow-xl transition-all cursor-pointer group flex flex-col"
+                className="bg-white rounded-3xl card-elevation-1 border border-slate-100 overflow-hidden hover:shadow-xl transition-all cursor-pointer group flex flex-col justify-between"
               >
-                {/* Photo Header */}
-                <div className="relative aspect-4/3 overflow-hidden bg-slate-100">
-                  <img
-                    src={dog.images?.[0] || "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600"}
-                    alt={dog.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <div className="absolute top-3 left-3">
-                    <span className="font-mono font-black text-[11px] bg-slate-900/80 text-white backdrop-blur-md px-2.5 py-1 rounded-xl shadow-sm">
-                      #{dog.dogId}
-                    </span>
+                <div>
+                  {/* Photo Header */}
+                  <div className="relative aspect-4/3 overflow-hidden bg-slate-100">
+                    <img
+                      src={dog.images?.[0] || "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=600"}
+                      alt={dog.name || "Community Dog"}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute top-3 left-3">
+                      <span className="font-mono font-black text-[11px] bg-slate-900/85 text-white backdrop-blur-md px-2.5 py-1 rounded-xl shadow-sm">
+                        #{dog.dogId || "Not Available"}
+                      </span>
+                    </div>
+
+                    <div className="absolute top-3 right-3 flex flex-col items-end gap-1">
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-lg shadow-sm ${
+                        dog.vaccinationStatus === "Fully Vaccinated"
+                          ? "bg-emerald-600 text-white"
+                          : dog.vaccinationStatus === "Due Soon"
+                          ? "bg-amber-500 text-white"
+                          : "bg-slate-800/80 text-slate-200 backdrop-blur-xs"
+                      }`}>
+                        💉 {dog.vaccinationStatus || "Not Available"}
+                      </span>
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-lg shadow-sm ${
+                        dog.sterilizationStatus?.includes("Ear Notched") || dog.sterilizationStatus?.includes("Sterilized")
+                          ? "bg-purple-600 text-white"
+                          : "bg-slate-800/80 text-slate-200 backdrop-blur-xs"
+                      }`}>
+                        ✂️ {dog.sterilizationStatus || "Not Available"}
+                      </span>
+                    </div>
                   </div>
-                  <div className="absolute top-3 right-3 flex flex-col items-end gap-1">
-                    {dog.vaccinationStatus === "Fully Vaccinated" && (
-                      <span className="text-[10px] font-extrabold bg-emerald-600 text-white px-2 py-0.5 rounded-lg shadow-sm flex items-center gap-0.5">
-                        💉 Vaccinated
-                      </span>
-                    )}
-                    {dog.sterilizationStatus.includes("Ear Notched") && (
-                      <span className="text-[10px] font-extrabold bg-purple-600 text-white px-2 py-0.5 rounded-lg shadow-sm flex items-center gap-0.5">
-                        ✂️ Ear Notched
-                      </span>
-                    )}
+
+                  {/* Card Body */}
+                  <div className="p-5 space-y-3">
+                    {/* Name & Gender / Age */}
+                    <div>
+                      <div className="flex items-center justify-between gap-2">
+                        <h3 className="font-extrabold text-sm text-slate-900 group-hover:text-orange-600 transition-colors truncate">
+                          {dog.name || "Not Available"}
+                        </h3>
+                        <span className="text-[10px] font-bold text-slate-500 shrink-0 bg-slate-100 px-2 py-0.5 rounded-md">
+                          {dog.gender || "Not Available"} • {dog.estimatedAge || "Not Available"}
+                        </span>
+                      </div>
+
+                      {/* Breed */}
+                      <p className="text-xs text-slate-600 font-semibold truncate mt-1">
+                        🐕 {dog.breed || "Not Available"}
+                      </p>
+
+                      {/* Color / Pattern */}
+                      <p className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">
+                        🎨 Pattern: {dog.colorPattern || "Not Available"}
+                      </p>
+
+                      {/* Status Tag */}
+                      <div className="mt-2">
+                        <span className="inline-block text-[10px] font-bold bg-orange-50 text-orange-800 border border-orange-200/80 px-2 py-0.5 rounded-md">
+                          Status: {dog.adoptionStatus || "Community Dog (Free Roaming)"}
+                        </span>
+                      </div>
+
+                      {/* Location & Last Seen & Sightings */}
+                      <div className="mt-3 pt-2.5 border-t border-slate-100 space-y-1 text-[11px] text-slate-500">
+                        <div className="flex items-center justify-between">
+                          <span className="truncate max-w-[150px]">📍 {dog.currentArea || "Not Available"}</span>
+                          <span className="font-semibold text-slate-700 shrink-0">
+                            Seen: {dog.lastSeenDate || "Not Available"}
+                          </span>
+                        </div>
+                        <div className="flex items-center justify-between text-[10px] text-slate-400 pt-0.5">
+                          <span>Reports / Sightings:</span>
+                          <strong className="text-slate-700">
+                            {dog.caretakersCount || dog.rescueHistory?.length || 1} logged
+                          </strong>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                {/* Card Body */}
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                  <div>
-                    <div className="flex items-center justify-between gap-2">
-                      <h3 className="font-extrabold text-sm text-slate-900 group-hover:text-orange-600 transition-colors truncate">
-                        {dog.name || `Community Dog #${dog.dogId}`}
-                      </h3>
-                      <span className="text-[10px] font-bold text-slate-400 shrink-0">
-                        {dog.gender} • {dog.estimatedAge}
-                      </span>
-                    </div>
+                {/* Actions: View Profile & I Saw This Dog */}
+                <div className="px-5 pb-5 pt-1 space-y-2">
+                  <button
+                    type="button"
+                    onClick={() => onSelectDog(dog)}
+                    className="w-full py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                  >
+                    <span>View Profile</span>
+                    <span className="material-symbols-outlined !text-sm">arrow_forward</span>
+                  </button>
 
-                    <p className="text-xs text-slate-500 font-medium truncate mt-0.5">
-                      {dog.breed}
-                    </p>
-
-                    <p className="text-[11px] text-slate-400 line-clamp-1 mt-1">
-                      {dog.colorPattern}
-                    </p>
-
-                    {/* Area & Last Seen */}
-                    <div className="mt-3 pt-2 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                      <span className="truncate">📍 {dog.currentArea}</span>
-                      <span className="font-semibold text-slate-700 shrink-0">Seen: {dog.lastSeenDate}</span>
-                    </div>
-                  </div>
-
-                  {/* Citizen "I Saw This Dog" Button */}
-                  <div className="pt-2">
-                    <button
-                      onClick={(e) => handleSighting(e, dog)}
-                      className={`w-full py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-sm ${
-                        sightingSuccessId === dog.id
-                          ? "bg-emerald-600 text-white"
-                          : "bg-orange-50 hover:bg-orange-100 text-orange-800 border border-orange-200"
-                      }`}
-                    >
-                      <span className="material-symbols-outlined !text-sm">
-                        {sightingSuccessId === dog.id ? "check_circle" : "visibility"}
-                      </span>
-                      <span>
-                        {sightingSuccessId === dog.id ? "Sighting Recorded!" : "I Saw This Dog Today"}
-                      </span>
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => handleSighting(e, dog)}
+                    className={`w-full py-1.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-sm ${
+                      sightingSuccessId === dog.id
+                        ? "bg-emerald-600 text-white"
+                        : "bg-orange-50 hover:bg-orange-100 text-orange-800 border border-orange-200"
+                    }`}
+                  >
+                    <span className="material-symbols-outlined !text-sm">
+                      {sightingSuccessId === dog.id ? "check_circle" : "visibility"}
+                    </span>
+                    <span>
+                      {sightingSuccessId === dog.id ? "Sighting Recorded!" : "I Saw This Dog Today"}
+                    </span>
+                  </button>
                 </div>
               </div>
             ))}

@@ -349,21 +349,23 @@ export const TopNav: React.FC<Props> = ({
               </button>
             )}
 
-            {/* Mobile Menu Trigger */}
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none"
-              aria-label="Toggle Navigation Menu"
-            >
-              <span className="material-symbols-outlined !text-2xl">
-                {mobileMenuOpen ? "close" : "menu"}
-              </span>
-            </button>
+            {/* Mobile Menu Trigger (NGO Dashboard only, Citizen uses Bottom Navigation) */}
+            {activePortal === "ngo" && (
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 rounded-xl text-slate-700 hover:bg-slate-100 transition-colors focus:outline-none"
+                aria-label="Toggle Navigation Menu"
+              >
+                <span className="material-symbols-outlined !text-2xl">
+                  {mobileMenuOpen ? "close" : "menu"}
+                </span>
+              </button>
+            )}
           </div>
         </div>
 
-        {/* Slide-In Mobile Drawer Backdrop & Menu */}
-        {mobileMenuOpen && (
+        {/* Slide-In Mobile Drawer Backdrop & Menu (NGO only) */}
+        {mobileMenuOpen && activePortal === "ngo" && (
           <div className="md:hidden fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm animate-fadeIn">
             <div className="fixed top-0 right-0 bottom-0 w-[280px] max-w-[85vw] bg-white shadow-2xl z-50 flex flex-col justify-between overflow-y-auto animate-slideIn">
               {/* Drawer Header */}

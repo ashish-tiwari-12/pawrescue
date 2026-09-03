@@ -122,6 +122,15 @@ export default function App() {
     loadAllData();
   }, [user]);
 
+  // Automatic Scroll to Top on every page / view change
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth"
+    });
+  }, [citizenView, ngoView, activePortal, selectedTrackingId]);
+
   // Real-time Socket.io listeners
   useEffect(() => {
     const socket = initClientSocket(user?.id, user?.role);
