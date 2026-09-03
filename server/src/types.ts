@@ -67,7 +67,7 @@ export interface Complaint {
   title: string;
   category: ComplaintCategory;
   requiredService?: ServiceType;
-  dogCondition: string[]; // e.g. ["Severe Bleeding", "Limping", "Malnourished"]
+  dogCondition: string[];
   description: string;
   images: string[];
   address: string;
@@ -96,6 +96,7 @@ export interface Complaint {
   volunteerPhone?: string;
   distanceKm?: number;
   autoAssigned?: boolean;
+  matchedDogId?: string; // Linked National Dog Registry ID
   timeline: TimelineEvent[];
   notes: ComplaintNote[];
   resolutionNotes?: string;
@@ -116,13 +117,13 @@ export interface NGO {
   pincodesCovered: string[];
   location: {
     type: "Point";
-    coordinates: [number, number]; // [longitude, latitude]
+    coordinates: [number, number]; // [lng, lat]
   };
   latitude?: number;
   longitude?: number;
-  coverageRadiusKm: number; // 5, 10, 20, 50 KM
+  coverageRadiusKm: number;
   servicesOffered: ServiceType[];
-  workingHours: string; // e.g. "24/7" or "08:00 AM - 08:00 PM"
+  workingHours: string;
   emergency24x7: boolean;
   activeVolunteersCount: number;
   totalRescued: number;
@@ -167,4 +168,133 @@ export interface AnalyticsSummary {
   categoryCounts: Record<string, number>;
   monthlyTrends: { month: string; reported: number; resolved: number }[];
   pincodeDistribution: { area: string; count: number }[];
+}
+
+// ==========================================
+// PHASE 3: NATIONAL DOG REGISTRY & AI TYPES
+// ==========================================
+
+export type VaccinationStatus =
+  | "Fully Vaccinated"
+  | "Partially Vaccinated"
+  | "Not Vaccinated"
+  | "Due Soon";
+
+export type SterilizationStatus =
+  | "Sterilized (Ear Notched)"
+  | "Unsterilized"
+  | "Scheduled";
+
+export type AdoptionStatus =
+  | "Available for Adoption"
+  | "In Foster Care"
+  | "Community Dog (Free Roaming)"
+  | "Adopted";
+
+export interface VaccinationRecord {
+  id: string;
+  vaccineType: "Anti-Rabies (ARV)" | "7-in-1 (DHPPIL)" | "Corona" | "Booster Dose";
+  administeredDate: string;
+  nextDueDate: string;
+  administeredBy: string;
+  batchNumber?: string;
+  certificateUrl?: string;
+}
+
+export interface SterilizationRecord {
+  id: string;
+  surgeryDate: string;
+  earNotchSide: "Left Ear" | "Right Ear" | "V-Shape" | "None";
+  earNotchPhoto?: string;
+  operatingNgo: string;
+  veterinarySurgeon: string;
+  recoveryStatus: "Fully Recovered" | "Post-Op Care" | "Complications";
+  notes?: string;
+}
+
+export interface MedicalRecord {
+  id: string;
+  diagnosis: string;
+  treatmentDate: string;
+  treatments: string[];
+  medications: string[];
+  attendingVet: string;
+  vetNotes?: string;
+  recoveryStatus: "Under Treatment" | "Recovering" | "Fully Healed" | "Chronic";
+}
+
+export interface RescueHistoryItem {
+  complaintId: string;
+  trackingId: string;
+  date: string;
+  category: string;
+  description: string;
+  status: string;
+  ngoName: string;
+}
+
+export interface DogProfile {
+  id: string;
+  dogId: string; // e.g. "DOG-0023", "DOG-IND-8912"
+  name?: string;
+  images: string[];
+  breed: string; // e.g. "Indian Pariah / Indie", "Labrador Mix", "Desi Stray"
+  gender: "Male" | "Female" | "Unknown";
+  estimatedAge: string; // e.g. "2.5 Years", "Puppy (4 Months)"
+  colorPattern: string; // e.g. "Tan / Light Brown with White Chest"
+  vaccinationStatus: VaccinationStatus;
+  sterilizationStatus: SterilizationStatus;
+  adoptionStatus: AdoptionStatus;
+  currentArea: string;
+  city: string;
+  pincode: string;
+  location?: {
+    latitude: number;
+    longitude: number;
+  };
+  geoPoint?: {
+    type: "Point";
+    coordinates: [number, number]; // [lng, lat]
+  };
+  lastSeenDate: string;
+  registeredByNgoId?: string;
+  registeredByNgoName?: string;
+  microchipNumber?: string;
+  rescueHistory: RescueHistoryItem[];
+  medicalHistory: MedicalRecord[];
+  vaccinations: VaccinationRecord[];
+  sterilization?: SterilizationRecord;
+  caretakersCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface AIMatchCandidate {
+  dog: DogProfile;
+  similarityScore: number; // 0 to 100 (e.g. 94)
+  confidence: "High" | "Medium" | "Low";
+  matchingFeatures: string[];
+}
+
+export interface GovernmentAnalytics {
+  totalRegisteredDogs: number;
+  vaccinatedDogsCount: number;
+  vaccinationCoveragePercent: number;
+  sterilizedDogsCount: number;
+  sterilizationCoveragePercent: number;
+  activeStrayCases: number;
+  adoptedDogsCount: number;
+  districtStats: {
+    district: string;
+    dogCount: number;
+    vaccinatedPercent: number;
+    sterilizedPercent: number;
+    hotspotLevel: "Low" | "Moderate" | "High";
+  }[];
+  densityHeatmapPoints: {
+    latitude: number;
+    longitude: number;
+    intensity: number;
+    area: string;
+  }[];
 }

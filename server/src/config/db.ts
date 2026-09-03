@@ -7,6 +7,7 @@ import { VolunteerModel } from "../models/Volunteer.js";
 import { NotificationModel } from "../models/Notification.js";
 
 import { seedDelhiNcrNGOs } from "../seeds/ncrNgoSeeder.js";
+import { seedNationalDogRegistry } from "../seeds/dogRegistrySeeder.js";
 
 const DEFAULT_MONGODB_URI = "mongodb://localhost:27017/pawrescue";
 
@@ -18,9 +19,10 @@ export const connectDatabase = async () => {
     await mongoose.connect(uri);
     console.log("✅ Successfully connected to MongoDB Atlas ('pawrescue')");
 
-    // Run initial and Delhi-NCR seeders
+    // Run initial, Delhi-NCR, and National Dog Registry seeders
     await seedInitialData();
     await seedDelhiNcrNGOs();
+    await seedNationalDogRegistry();
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
   }

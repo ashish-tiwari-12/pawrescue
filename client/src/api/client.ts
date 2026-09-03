@@ -269,5 +269,99 @@ export const api = {
   async getAnalytics(ngoId?: string): Promise<AnalyticsSummary> {
     const res = await apiInstance.get("/analytics/summary", { params: { ngoId } });
     return res.data;
+  },
+
+  // National Dog Registry (Phase 3)
+  async getDogs(params?: {
+    search?: string;
+    area?: string;
+    city?: string;
+    breed?: string;
+    vaccinationStatus?: string;
+    sterilizationStatus?: string;
+    adoptionStatus?: string;
+    page?: number;
+    limit?: number;
+  }): Promise<{ dogs: any[]; total: number; page: number; totalPages: number }> {
+    const res = await apiInstance.get("/dogs", { params });
+    return res.data;
+  },
+
+  async getDogById(id: string): Promise<{ dog: any }> {
+    const res = await apiInstance.get(`/dogs/${id}`);
+    return res.data;
+  },
+
+  async createDogProfile(formData: FormData): Promise<{ dog: any; message: string }> {
+    const res = await apiInstance.post("/dogs", formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+    });
+    return res.data;
+  },
+
+  async matchDogPhoto(data: {
+    imageUrl: string;
+    breedHint?: string;
+    colorHint?: string;
+    areaHint?: string;
+  }): Promise<{ queryImage: string; topMatches: any[] }> {
+    const res = await apiInstance.post("/dogs/match", data);
+    return res.data;
+  },
+
+  async addMedicalRecord(
+    dogId: string,
+    data: {
+      diagnosis: string;
+      treatments?: string[];
+      medications?: string[];
+      attendingVet: string;
+      vetNotes?: string;
+      recoveryStatus?: string;
+    }
+  ): Promise<{ dog: any; record: any; message: string }> {
+    const res = await apiInstance.post(`/dogs/${dogId}/medical`, data);
+    return res.data;
+  },
+
+  async recordVaccination(
+    dogId: string,
+    data: {
+      vaccineType: string;
+      administeredBy: string;
+      nextDueDate?: string;
+      batchNumber?: string;
+    }
+  ): Promise<{ dog: any; vaccination: any; message: string }> {
+    const res = await apiInstance.post(`/dogs/${dogId}/vaccination`, data);
+    return res.data;
+  },
+
+  async recordSterilization(
+    dogId: string,
+    data: {
+      operatingNgo?: string;
+      veterinarySurgeon?: string;
+      earNotchSide?: string;
+      recoveryStatus?: string;
+      notes?: string;
+    }
+  ): Promise<{ dog: any; message: string }> {
+    const res = await apiInstance.post(`/dogs/${dogId}/sterilization`, data);
+    return res.data;
+  },
+
+  async recordDogSighting(
+    dogId: string,
+    data: { currentArea?: string; latitude?: number; longitude?: number }
+  ): Promise<{ dog: any; message: string }> {
+    const res = await apiInstance.post(`/dogs/${dogId}/seen`, data);
+    return res.data;
+  },
+
+  // Government & Municipal Analytics (Phase 3)
+  async getGovernmentAnalytics(): Promise<any> {
+    const res = await apiInstance.get("/gov-analytics/summary");
+    return res.data;
   }
 };

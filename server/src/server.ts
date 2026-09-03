@@ -13,6 +13,8 @@ import volunteersRouter from "./routes/volunteers.js";
 import ngosRouter from "./routes/ngos.js";
 import notificationsRouter from "./routes/notifications.js";
 import analyticsRouter from "./routes/analytics.js";
+import dogsRouter from "./routes/dogs.js";
+import govAnalyticsRouter from "./routes/govAnalytics.js";
 import { initSocket } from "./sockets/index.js";
 
 const app = express();
@@ -44,6 +46,8 @@ app.use("/api/volunteers", volunteersRouter);
 app.use("/api/ngos", ngosRouter);
 app.use("/api/notifications", notificationsRouter);
 app.use("/api/analytics", analyticsRouter);
+app.use("/api/dogs", dogsRouter);
+app.use("/api/gov-analytics", govAnalyticsRouter);
 
 // Health Check
 app.get("/health", (req, res) => {

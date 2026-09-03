@@ -10,7 +10,9 @@ import {
   Volunteer,
   NGO,
   Notification,
-  AnalyticsSummary
+  AnalyticsSummary,
+  DogProfile,
+  AIMatchCandidate
 } from "./types";
 
 // Common Components
@@ -25,6 +27,7 @@ import { ReportIssuePage } from "./components/citizen/ReportIssuePage";
 import { TrackComplaintPage } from "./components/citizen/TrackComplaintPage";
 import { CitizenDashboard } from "./components/citizen/CitizenDashboard";
 import { CitizenProfile } from "./components/citizen/CitizenProfile";
+import { CommunityDogsPage } from "./components/citizen/CommunityDogsPage";
 
 // NGO Dashboard Pages
 import { NGOHome } from "./components/ngo/NGOHome";
@@ -34,6 +37,12 @@ import { VolunteerManagement } from "./components/ngo/VolunteerManagement";
 import { AnalyticsView } from "./components/ngo/AnalyticsView";
 import { NGODispatchMap } from "./components/maps/NGODispatchMap";
 import { NGOSettingsModal } from "./components/ngo/NGOSettingsModal";
+import { NGODogRegistry } from "./components/ngo/NGODogRegistry";
+import { GovernmentAnalyticsView } from "./components/ngo/GovernmentAnalyticsView";
+
+// Dog Modals
+import { DogProfileModal } from "./components/dogs/DogProfileModal";
+import { AIMatchResultsDrawer } from "./components/dogs/AIMatchResultsDrawer";
 
 export default function App() {
   // Authentication & Portal State
@@ -46,13 +55,22 @@ export default function App() {
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [volunteers, setVolunteers] = useState<Volunteer[]>([]);
   const [ngos, setNgos] = useState<NGO[]>([]);
+  const [dogs, setDogs] = useState<DogProfile[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [analytics, setAnalytics] = useState<AnalyticsSummary | null>(null);
 
   // Selected Items & Modals
   const [inspectComplaint, setInspectComplaint] = useState<Complaint | null>(null);
   const [selectedMapComplaint, setSelectedMapComplaint] = useState<Complaint | null>(null);
+  const [selectedDog, setSelectedDog] = useState<DogProfile | null>(null);
   const [trackingTargetId, setTrackingTargetId] = useState<string>("");
+  
+  // AI Match Drawer State
+  const [aiMatchDrawerOpen, setAiMatchDrawerOpen] = useState(false);
+  const [aiMatchQueryImage, setAiMatchQueryImage] = useState<string>("");
+  const [aiMatches, setAiMatches] = useState<AIMatchCandidate[]>([]);
+
+  // Modals
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [notifsDrawerOpen, setNotifsDrawerOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
@@ -70,17 +88,19 @@ export default function App() {
   // Load initial data
   const loadAllData = async () => {
     try {
-      const [cRes, vRes, nRes, aRes] = await Promise.all([
+      const [cRes, vRes, nRes, aRes, dRes] = await Promise.all([
         api.getComplaints({ limit: 100 }),
         api.getVolunteers(),
         api.getNGOs(),
-        api.getAnalytics()
+        api.getAnalytics(),
+        api.getDogs({ limit: 50 })
       ]);
 
       setComplaints(cRes.complaints);
       setVolunteers(vRes.volunteers);
       setNgos(nRes.ngos);
       setAnalytics(aRes);
+      setDogs(dRes.dogs);
     } catch (err) {
       console.error("Failed to load initial data:", err);
     }
@@ -172,7 +192,7 @@ export default function App() {
     setCitizenView("track");
   };
 
-  const handleComplaintSubmitted = (complaint: Complaint) => {
+  const handleComplaintSubmitted = async (complaint: Complaint) => {
     setComplaints((prev) => {
       if (prev.some((c) => c.id === complaint.id || c.trackingId === complaint.trackingId)) {
         return prev;
@@ -180,6 +200,23 @@ export default function App() {
       return [complaint, ...prev];
     });
     setSuccessReport(complaint);
+
+    // Trigger AI Visual Dog Matcher if photo was uploaded
+    if (complaint.images && complaint.images.length > 0) {
+      try {
+        const matchRes = await api.matchDogPhoto({
+          imageUrl: complaint.images[0],
+          breedHint: complaint.category,
+          areaHint: complaint.address
+        });
+        if (matchRes.topMatches && matchRes.topMatches.length > 0) {
+          setAiMatchQueryImage(complaint.images[0]);
+          setAiMatches(matchRes.topMatches);
+        }
+      } catch (err) {
+        console.warn("AI match background query warning:", err);
+      }
+    }
   };
 
   const handleSelectComplaintForTracking = (trackingId: string) => {
@@ -199,6 +236,12 @@ export default function App() {
   const handleNGOUpdated = (updatedNgo: NGO) => {
     setNgos((prev) => prev.map((n) => (n.id === updatedNgo.id ? updatedNgo : n)));
     showToast("NGO Settings Updated", "Coverage zone and services saved!");
+  };
+
+  const handleDogProfileUpdated = (updatedDog: DogProfile) => {
+    setDogs((prev) => prev.map((d) => (d.id === updatedDog.id ? updatedDog : d)));
+    setSelectedDog(updatedDog);
+    showToast("Dog Profile Updated", `Record #${updatedDog.dogId} saved.`);
   };
 
   return (
@@ -253,6 +296,15 @@ export default function App() {
               />
             )}
 
+            {/* MODULE 7: Citizen Community Dogs Page */}
+            {citizenView === "community_dogs" && (
+              <CommunityDogsPage
+                user={user}
+                onSelectDog={(d) => setSelectedDog(d)}
+                onStartReport={() => setCitizenView("report")}
+              />
+            )}
+
             {citizenView === "report" && (
               <ReportIssuePage
                 user={user}
@@ -302,7 +354,23 @@ export default function App() {
               />
             )}
 
-            {/* FEATURE 4 & 9: NGO Live Dispatch Map View */}
+            {/* MODULE 8: National Dog Registry */}
+            {ngoView === "dogs" && (
+              <NGODogRegistry
+                dogs={dogs}
+                user={user}
+                ngo={currentNgo}
+                onSelectDog={(d) => setSelectedDog(d)}
+                onRefreshDogs={loadAllData}
+              />
+            )}
+
+            {/* MODULE 9: Government & Municipal Analytics */}
+            {ngoView === "gov_analytics" && (
+              <GovernmentAnalyticsView />
+            )}
+
+            {/* NGO Live Dispatch Map View */}
             {ngoView === "maps" && (
               <div className="space-y-6">
                 <div className="flex flex-wrap items-center justify-between gap-4">
@@ -410,7 +478,37 @@ export default function App() {
         />
       )}
 
-      {/* FEATURE 5: NGO Settings & Coverage Zones Modal */}
+      {/* MODULE 3: Dog Profile Modal */}
+      {selectedDog && (
+        <DogProfileModal
+          dog={selectedDog}
+          user={user}
+          isOpen={Boolean(selectedDog)}
+          onClose={() => setSelectedDog(null)}
+          onUpdated={handleDogProfileUpdated}
+        />
+      )}
+
+      {/* MODULE 2: AI Match Results Drawer */}
+      {aiMatchDrawerOpen && (
+        <AIMatchResultsDrawer
+          queryImage={aiMatchQueryImage}
+          matches={aiMatches}
+          isOpen={aiMatchDrawerOpen}
+          onClose={() => setAiMatchDrawerOpen(false)}
+          onSelectExistingDog={(dog) => {
+            setAiMatchDrawerOpen(false);
+            setSelectedDog(dog);
+            showToast("Linked to Dog Record", `Matched with #${dog.dogId} (${dog.name || "Community Dog"})`);
+          }}
+          onCreateNewDog={() => {
+            setAiMatchDrawerOpen(false);
+            if (activePortal === "ngo") setNgoView("dogs");
+          }}
+        />
+      )}
+
+      {/* NGO Settings & Coverage Zones Modal */}
       {isSettingsOpen && currentNgo && (
         <NGOSettingsModal
           ngo={currentNgo}
@@ -420,7 +518,7 @@ export default function App() {
         />
       )}
 
-      {/* Success Report Creation Modal */}
+      {/* Success Report Creation Modal with AI Match Action */}
       {successReport && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-slate-100 text-center space-y-5 animate-scaleUp">
@@ -436,7 +534,7 @@ export default function App() {
                 Emergency Alert Sent to NGOs!
               </h3>
               <p className="text-xs text-slate-500">
-                Your report has been auto-assigned to <strong>{successReport.ngoName || "Noida Animal Shelter"}</strong> based on geolocation and specialty.
+                Your report has been auto-assigned to <strong>{successReport.ngoName || "Noida Animal Shelter"}</strong>.
               </p>
             </div>
 
@@ -458,6 +556,29 @@ export default function App() {
                 </div>
               )}
             </div>
+
+            {/* AI Visual Matcher trigger banner */}
+            {aiMatches.length > 0 && (
+              <div className="p-3 bg-orange-50 border border-orange-200 rounded-2xl text-left flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-orange-600 !text-xl">psychology</span>
+                  <div>
+                    <strong className="text-xs text-orange-950 block">AI Match Available</strong>
+                    <span className="text-[10px] text-orange-800">{aiMatches.length} matching dogs in registry</span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSuccessReport(null);
+                    setAiMatchDrawerOpen(true);
+                  }}
+                  className="px-3 py-1.5 bg-orange-600 text-white rounded-xl text-xs font-bold shadow-sm"
+                >
+                  View Matches
+                </button>
+              </div>
+            )}
 
             <div className="flex gap-2">
               <button

@@ -130,6 +130,16 @@ export const TopNav: React.FC<Props> = ({
                     Report Issue
                   </button>
                   <button
+                    onClick={() => onNavigateCitizen("community_dogs")}
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                      citizenView === "community_dogs"
+                        ? "text-orange-600 bg-orange-50 font-bold"
+                        : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span>🐕 Community Dogs</span>
+                  </button>
+                  <button
                     onClick={() => onNavigateCitizen("track")}
                     className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
                       citizenView === "track"
@@ -165,6 +175,16 @@ export const TopNav: React.FC<Props> = ({
                     Dashboard Home
                   </button>
                   <button
+                    onClick={() => onNavigateNGO("dogs")}
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                      ngoView === "dogs"
+                        ? "text-[#006c49] bg-emerald-50 font-bold"
+                        : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
+                    }`}
+                  >
+                    <span>🐕 Dog Registry</span>
+                  </button>
+                  <button
                     onClick={() => onNavigateNGO("maps")}
                     className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
                       ngoView === "maps"
@@ -183,7 +203,17 @@ export const TopNav: React.FC<Props> = ({
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
                     }`}
                   >
-                    Complaint Management
+                    Complaints
+                  </button>
+                  <button
+                    onClick={() => onNavigateNGO("gov_analytics")}
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                      ngoView === "gov_analytics"
+                        ? "text-indigo-700 bg-indigo-50 font-bold"
+                        : "text-slate-600 hover:text-indigo-700 hover:bg-slate-50"
+                    }`}
+                  >
+                    <span>🏛️ Municipal ARV/ABC</span>
                   </button>
                   <button
                     onClick={() => onNavigateNGO("volunteers")}
@@ -193,17 +223,7 @@ export const TopNav: React.FC<Props> = ({
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
                     }`}
                   >
-                    Volunteer Roster
-                  </button>
-                  <button
-                    onClick={() => onNavigateNGO("analytics")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
-                      ngoView === "analytics"
-                        ? "text-[#006c49] bg-emerald-50"
-                        : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
-                    }`}
-                  >
-                    Analytics & Trends
+                    Volunteers
                   </button>
                 </>
               )}
