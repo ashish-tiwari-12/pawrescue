@@ -327,6 +327,7 @@ export const App: React.FC = () => {
           { id: "complaints" as NGOView, icon: "assignment", label: `Rescues & Cases (${complaints.length})` },
           { id: "maps" as NGOView, icon: "map", label: "Live Dispatch Map" },
           { id: "dogs" as NGOView, icon: "pets", label: `National Dog Registry (${dogs.length})` },
+          { id: "ai_review" as NGOView, icon: "verified", label: "AI Dog Verification" },
           { id: "volunteers" as NGOView, icon: "group", label: `Volunteers (${volunteers.length})` },
           { id: "analytics" as NGOView, icon: "analytics", label: "Rescue Analytics" },
           { id: "gov_analytics" as NGOView, icon: "bar_chart", label: "Municipal ARV/ABC Heatmap" },
