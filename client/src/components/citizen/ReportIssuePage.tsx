@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ComplaintCategory, User } from "../../types";
 import { api } from "../../api/client";
 import { DogPhotoCaptureSection } from "../common/DogPhotoCaptureSection";
+import { validateImageInBrowser } from "../../utils/animalImageValidator";
 
 interface Props {
   user: User | null;
@@ -198,6 +199,21 @@ export const ReportIssuePage: React.FC<Props> = ({
     setLoading(true);
 
     try {
+      // Client-Side AI Animal Validation Guard: Verify every attached photo
+      if (selectedFiles.length > 0) {
+        for (const file of selectedFiles) {
+          const valResult = await validateImageInBrowser(file);
+          if (!valResult.validAnimal) {
+            setError(
+              valResult.error ||
+                "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
+            );
+            setLoading(false);
+            return;
+          }
+        }
+      }
+
       const defaultDesc = `${selectedCategory} reported at ${fullLocation}. ${extraDetails}`.trim();
 
       const formData = new FormData();

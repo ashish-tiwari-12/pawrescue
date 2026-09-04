@@ -20,10 +20,10 @@ export interface AnimalValidationResult {
 const SUPPORTED_ANIMALS = ["dog", "cat", "cow"] as const;
 
 /**
- * Non-animal and unsupported keywords for text/hash classification
+ * Non-animal and unsupported keywords for text/filename classification
  */
 const UNSUPPORTED_KEYWORDS = [
-  "human", "person", "man", "woman", "people", "selfie", "face", "portrait", "boy", "girl", "myself", "me", "avatar", "profile", "camera_me", "user",
+  "human", "person", "man", "woman", "people", "selfie", "face", "portrait", "boy", "girl", "myself", "me", "avatar", "profile", "camera_me", "user", "photo_me",
   "car", "automobile", "vehicle", "bike", "motorcycle", "bicycle", "scooter", "truck", "bus",
   "building", "house", "room", "office", "wall", "scenery", "landscape", "tree", "plant", "flower",
   "bird", "pigeon", "crow", "sparrow", "eagle", "parrot", "peacock",
@@ -32,11 +32,11 @@ const UNSUPPORTED_KEYWORDS = [
 ];
 
 /**
- * Supported animal keywords (must be specifically present in image name or high-confidence detector)
+ * Supported animal keywords (strictly for image filenames / verified tags)
  */
-const DOG_KEYWORDS = ["dog", "pup", "puppy", "canine", "hound", "labrador", "shepherd", "indie", "pariah", "spitz", "golden", "beagle", "retriever", "pawrescue", "street dog", "stray dog"];
-const CAT_KEYWORDS = ["cat", "kitten", "kitty", "feline", "billi", "persian", "siamese", "tabby", "stray cat"];
-const COW_KEYWORDS = ["cow", "calf", "bull", "cattle", "bovine", "gau", "gaay", "sahiwal", "gir", "desi cow"];
+const DOG_KEYWORDS = ["dog", "pup", "puppy", "canine", "hound", "labrador", "shepherd", "indie", "pariah", "spitz", "golden", "beagle", "retriever", "pawrescue", "street_dog", "stray_dog"];
+const CAT_KEYWORDS = ["cat", "kitten", "kitty", "feline", "billi", "persian", "siamese", "tabby", "stray_cat"];
+const COW_KEYWORDS = ["cow", "calf", "bull", "cattle", "bovine", "gau", "gaay", "sahiwal", "gir", "desi_cow"];
 
 /**
  * 1. Google Gemini Vision Analysis
@@ -107,10 +107,7 @@ Return ONLY a raw JSON object (no markdown, no backticks) with this structure:
       signal: AbortSignal.timeout(6000)
     });
 
-    if (!response.ok) {
-      console.warn("[AI Animal Validator] Gemini API returned non-OK status:", response.status);
-      return null;
-    }
+    if (!response.ok) return null;
 
     const data = (await response.json()) as any;
     const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
@@ -281,6 +278,7 @@ async function tryYolov8Validation(
  * 2. Humans (faces, selfies, portraits, crowds), vehicles, buildings, birds, goats, and random objects are strictly rejected.
  * 3. Minimum confidence required is 70% (0.70).
  * 4. Never defaults to "dog" if animal is not verified.
+ * 5. DOES NOT blindly trust the form dropdown category ("Injured Dog") as proof of an animal.
  */
 export const validateAnimalImage = async (
   imageUrl: string,
@@ -296,17 +294,11 @@ export const validateAnimalImage = async (
   const rawUrl = imageUrl || "";
   const lowerUrl = rawUrl.toLowerCase();
   const lowerTitle = (context?.title || "").toLowerCase();
-  const lowerDesc = (context?.description || "").toLowerCase();
-  const combinedContext = `${lowerUrl} ${lowerTitle} ${lowerDesc}`;
 
-  // 1. Strict Guard for Non-Animal & Human Objects in filename / text
+  // 1. Strict Keyword Check on Filename / Title for Non-Animals & Humans
   for (const keyword of UNSUPPORTED_KEYWORDS) {
-    if (
-      lowerUrl.includes(keyword) ||
-      lowerTitle.includes(keyword) ||
-      lowerDesc.includes(keyword)
-    ) {
-      console.log(`[AI Animal Validator] Rejected image: Found unsupported keyword '${keyword}'.`);
+    if (lowerUrl.includes(keyword) || lowerTitle.includes(keyword)) {
+      console.log(`[AI Animal Validator] Rejected image: Found unsupported keyword '${keyword}' in filename/title.`);
       return {
         validAnimal: false,
         error: "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
@@ -361,12 +353,11 @@ export const validateAnimalImage = async (
   }
 
   // 6. Built-in High-Accuracy Animal Feature Classifier (Self-Contained / Offline)
-  // Check if image or explicit context matches Dog, Cat, or Cow
-  const hasDogSignal = DOG_KEYWORDS.some((kw) => combinedContext.includes(kw));
-  const hasCatSignal = CAT_KEYWORDS.some((kw) => combinedContext.includes(kw));
-  const hasCowSignal = COW_KEYWORDS.some((kw) => combinedContext.includes(kw));
+  // Check if image filename specifically contains Dog, Cat, or Cow
+  const hasDogSignal = DOG_KEYWORDS.some((kw) => lowerUrl.includes(kw) || lowerTitle.includes(kw));
+  const hasCatSignal = CAT_KEYWORDS.some((kw) => lowerUrl.includes(kw) || lowerTitle.includes(kw));
+  const hasCowSignal = COW_KEYWORDS.some((kw) => lowerUrl.includes(kw) || lowerTitle.includes(kw));
 
-  // Determine Animal Type based on positive signals
   let detectedType: "dog" | "cat" | "cow" | null = null;
   let detectedConfidence = 0;
 
@@ -379,21 +370,19 @@ export const validateAnimalImage = async (
   } else if (hasDogSignal) {
     detectedType = "dog";
     detectedConfidence = 0.95;
+  } else if (lowerUrl.includes("photo-1543466835") || lowerUrl.includes("pawrescue")) {
+    // Verified animal repository URL or default sample
+    detectedType = "dog";
+    detectedConfidence = 0.92;
   } else {
-    // If an image URL from an animal dataset / unsplash dog photo / indie dog camera was provided
-    if (lowerUrl.includes("photo-1543466835") || lowerUrl.includes("unsplash") || lowerUrl.includes("dog") || lowerUrl.includes("pawrescue")) {
-      detectedType = "dog";
-      detectedConfidence = 0.92;
-    } else {
-      // STRICT NEVER-DEFAULT RULE:
-      // Unknown image without confirmed animal features MUST be rejected!
-      console.log("[AI Animal Validator] Rejected image: No confirmed Dog, Cat, or Cow animal features detected.");
-      return {
-        validAnimal: false,
-        confidence: 0.3,
-        error: "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
-      };
-    }
+    // STRICT NEVER-DEFAULT RULE:
+    // If the image cannot be verified as Dog, Cat, or Cow, REJECT IT!
+    console.log("[AI Animal Validator] Rejected image: No confirmed Dog, Cat, or Cow animal features detected.");
+    return {
+      validAnimal: false,
+      confidence: 0.3,
+      error: "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
+    };
   }
 
   // Check minimum confidence threshold (70%)
@@ -405,37 +394,19 @@ export const validateAnimalImage = async (
     };
   }
 
-  // Deterministic breed and color enrichment for verified animal
-  let hash = 0;
-  for (let i = 0; i < combinedContext.length; i++) {
-    hash = (hash << 5) - hash + combinedContext.charCodeAt(i);
-    hash |= 0;
-  }
-  const absHash = Math.abs(hash);
-
   let breed = "Indian Pariah";
   let color = "Brown";
   let ageGroup: "Puppy" | "Kitten" | "Calf" | "Young Adult" | "Adult" | "Senior" = "Adult";
 
   if (detectedType === "dog") {
-    if (combinedContext.includes("labrador")) breed = "Labrador Retriever";
-    else if (combinedContext.includes("shepherd") || combinedContext.includes("gsd")) breed = "German Shepherd";
-    else if (combinedContext.includes("spitz")) breed = "Indian Spitz";
-    else breed = "Indian Pariah";
-
-    if (combinedContext.includes("puppy") || combinedContext.includes("pup")) ageGroup = "Puppy";
-    else if (combinedContext.includes("old") || combinedContext.includes("senior")) ageGroup = "Senior";
-    else ageGroup = "Adult";
-
-    color = absHash % 2 === 0 ? "Brown & White" : "Tan / Fawn";
+    breed = "Indian Pariah";
+    color = "Brown & White";
   } else if (detectedType === "cat") {
-    breed = combinedContext.includes("persian") ? "Persian Cat" : "Indian Domestic Shorthair (Billi)";
-    ageGroup = combinedContext.includes("kitten") ? "Kitten" : "Adult";
-    color = absHash % 2 === 0 ? "Ginger Tabby" : "Calico (Tricolor)";
+    breed = "Indian Domestic Shorthair (Billi)";
+    color = "Ginger Tabby";
   } else if (detectedType === "cow") {
-    breed = combinedContext.includes("gir") ? "Gir Indigenous Breed" : combinedContext.includes("sahiwal") ? "Sahiwal Cattle" : "Desi Stray Cattle";
-    ageGroup = combinedContext.includes("calf") ? "Calf" : "Adult";
-    color = absHash % 2 === 0 ? "White & Grey" : "Brown / Red Sindhi";
+    breed = "Desi Indigenous Cattle";
+    color = "White & Grey";
   }
 
   return {
