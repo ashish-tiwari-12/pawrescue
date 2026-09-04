@@ -86,10 +86,14 @@ router.post(
 
       // AI ANIMAL VALIDATION: Validate that the uploaded image contains a supported animal (Dog, Cat, Cow)
       const primaryImage = imageUrls[0];
+      const primaryFileBuffer = Array.isArray(req.files) && req.files.length > 0 ? req.files[0].buffer : undefined;
+      const primaryFileName = Array.isArray(req.files) && req.files.length > 0 ? req.files[0].originalname : undefined;
+
       const validation = await validateAnimalImage(primaryImage, {
-        title,
+        title: `${title || ""} ${primaryFileName || ""}`.trim(),
         description,
-        category
+        category,
+        buffer: primaryFileBuffer
       });
 
       if (!validation.validAnimal) {

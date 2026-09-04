@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { LiveWebcamModal } from "./LiveWebcamModal";
+import { api } from "../../api/client";
 
 interface Props {
   selectedFiles: File[];
@@ -29,6 +30,8 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
   const [isWebcamOpen, setIsWebcamOpen] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [activeRetakeIndex, setActiveRetakeIndex] = useState<number | null>(null);
+  const [validatingMap, setValidatingMap] = useState<Record<number, boolean>>({});
+  const [aiStatusMap, setAiStatusMap] = useState<Record<number, { valid: boolean; message: string; animal?: string }>>({});
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024 * 1024) {
@@ -37,7 +40,62 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
-  const processNewFiles = (newFiles: File[], replaceIndex?: number | null) => {
+  const fileToDataUrl = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const runAiValidationOnFile = async (file: File, index: number) => {
+    setValidatingMap((prev) => ({ ...prev, [index]: true }));
+    try {
+      const dataUrl = await fileToDataUrl(file);
+      const res = await api.validateAnimalImage({
+        imageUrl: dataUrl,
+        title: file.name
+      });
+
+      if (res.validAnimal && res.animalType) {
+        const emoji = res.animalType === "dog" ? "🐶" : res.animalType === "cat" ? "🐱" : "🐮";
+        const label = res.animalType.charAt(0).toUpperCase() + res.animalType.slice(1);
+        setAiStatusMap((prev) => ({
+          ...prev,
+          [index]: {
+            valid: true,
+            animal: res.animalType,
+            message: `${emoji} Verified ${label} (${Math.round((res.confidence || 0.9) * 100)}% Match)`
+          }
+        }));
+      } else {
+        const errMsg = res.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
+        setAiStatusMap((prev) => ({
+          ...prev,
+          [index]: {
+            valid: false,
+            message: errMsg
+          }
+        }));
+        setValidationError(errMsg);
+      }
+    } catch (err: any) {
+      const errMsg = err.response?.data?.error || "Please upload a clear image of a Dog, Cat, or Cow.";
+      setAiStatusMap((prev) => ({
+        ...prev,
+        [index]: {
+          valid: false,
+          message: errMsg
+        }
+      }));
+      setValidationError(errMsg);
+    } finally {
+      setValidatingMap((prev) => ({ ...prev, [index]: false }));
+    }
+  };
+
+  const processNewFiles = async (newFiles: File[], replaceIndex?: number | null) => {
     setValidationError(null);
 
     const validFiles: File[] = [];
@@ -53,11 +111,19 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         return;
       }
 
+      const lowerName = file.name.toLowerCase();
+      const forbiddenWords = ["selfie", "human", "person", "me", "face", "portrait", "boy", "girl", "avatar", "car", "bike", "building"];
+      if (forbiddenWords.some((w) => lowerName.includes(w))) {
+        setValidationError("Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.");
+        return;
+      }
+
       validFiles.push(file);
     }
 
     let updatedFiles: File[] = [];
     let updatedUrls: string[] = [];
+    const newIndices: number[] = [];
 
     if (typeof replaceIndex === "number" && replaceIndex >= 0) {
       updatedFiles = [...selectedFiles];
@@ -65,6 +131,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       if (validFiles[0]) {
         updatedFiles[replaceIndex] = validFiles[0];
         updatedUrls[replaceIndex] = URL.createObjectURL(validFiles[0]);
+        newIndices.push(replaceIndex);
       }
     } else {
       const totalAllowed = maxFiles - selectedFiles.length;
@@ -78,6 +145,9 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         setValidationError(`Only ${totalAllowed} more photo(s) could be added (max ${maxFiles}).`);
       }
 
+      const startIdx = selectedFiles.length;
+      filesToAdd.forEach((_, i) => newIndices.push(startIdx + i));
+
       updatedFiles = [...selectedFiles, ...filesToAdd];
       const newUrls = filesToAdd.map((file) => URL.createObjectURL(file));
       updatedUrls = [...previewUrls, ...newUrls];
@@ -88,6 +158,13 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
     if (onPhotoCapturedAutoGps) {
       onPhotoCapturedAutoGps();
     }
+
+    newIndices.forEach((idx) => {
+      const fileToValidate = updatedFiles[idx];
+      if (fileToValidate) {
+        runAiValidationOnFile(fileToValidate, idx);
+      }
+    });
   };
 
   const handleMobileCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,6 +189,18 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
     const updatedFiles = selectedFiles.filter((_, i) => i !== index);
     const updatedUrls = previewUrls.filter((_, i) => i !== index);
     onFilesChange(updatedFiles, updatedUrls);
+
+    setAiStatusMap((prev) => {
+      const next = { ...prev };
+      delete next[index];
+      return next;
+    });
+    setValidatingMap((prev) => {
+      const next = { ...prev };
+      delete next[index];
+      return next;
+    });
+    setValidationError(null);
   };
 
   const handleRetakeImage = (index: number) => {
@@ -164,7 +253,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
 
       <div className="flex items-center justify-between">
         <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-          <span>Dog Photos</span>
+          <span>Animal Photos (Dog, Cat, Cow)</span>
           <span className="text-[11px] font-normal text-slate-400">
             ({selectedFiles.length}/{maxFiles} attached)
           </span>
@@ -212,7 +301,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           </div>
           <div className="text-left">
             <div className="text-xs font-bold text-white leading-tight">🖼 Upload From Gallery</div>
-            <div className="text-[10px] font-normal text-slate-400">Pick from device files</div>
+            <div className="text-[10px] font-normal text-slate-400">Dog, Cat, or Cow image</div>
           </div>
         </button>
       </div>
@@ -220,51 +309,90 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       {selectedFiles.length > 0 && (
         <div className="space-y-2 pt-1">
           <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            Attached Dog Photos
+            Attached Photos & AI Validation Status
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            {selectedFiles.map((file, idx) => (
-              <div
-                key={idx}
-                className="relative bg-slate-800/90 p-2.5 rounded-2xl border border-slate-700 shadow-sm flex items-center gap-3 animate-fadeIn"
-              >
-                <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-900 shrink-0 border border-slate-700">
-                  <img
-                    src={previewUrls[idx]}
-                    alt={`Preview ${idx + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+            {selectedFiles.map((file, idx) => {
+              const aiStatus = aiStatusMap[idx];
+              const isValidating = validatingMap[idx];
 
-                <div className="flex-1 min-w-0 pr-6">
-                  <div className="text-xs font-bold text-slate-100 truncate">
-                    {file.name || `Photo #${idx + 1}`}
+              return (
+                <div
+                  key={idx}
+                  className={`relative p-2.5 rounded-2xl border shadow-sm flex items-center gap-3 animate-fadeIn ${
+                    aiStatus && !aiStatus.valid
+                      ? "bg-red-950/40 border-red-800/60"
+                      : aiStatus && aiStatus.valid
+                      ? "bg-emerald-950/30 border-emerald-700/60"
+                      : "bg-slate-800/90 border-slate-700"
+                  }`}
+                >
+                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-900 shrink-0 border border-slate-700 relative">
+                    <img
+                      src={previewUrls[idx]}
+                      alt={`Preview ${idx + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                    {aiStatus && !aiStatus.valid && (
+                      <div className="absolute inset-0 bg-red-950/80 flex items-center justify-center text-red-200 text-base font-bold">
+                        ✕
+                      </div>
+                    )}
                   </div>
-                  <div className="text-[10px] text-slate-400 font-mono mt-0.5">
-                    {formatFileSize(file.size)} • {file.type.split("/")[1]?.toUpperCase() || "JPG"}
+
+                  <div className="flex-1 min-w-0 pr-6">
+                    <div className="text-xs font-bold text-slate-100 truncate">
+                      {file.name || `Photo #${idx + 1}`}
+                    </div>
+                    <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                      {formatFileSize(file.size)} • {file.type.split("/")[1]?.toUpperCase() || "JPG"}
+                    </div>
+
+                    <div className="mt-1">
+                      {isValidating ? (
+                        <div className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-md">
+                          <span className="w-2.5 h-2.5 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
+                          <span>AI Validating...</span>
+                        </div>
+                      ) : aiStatus ? (
+                        aiStatus.valid ? (
+                          <div className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded-md">
+                            <span>{aiStatus.message}</span>
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center gap-1 text-[10px] font-bold text-red-300 bg-red-950/80 px-2 py-0.5 rounded-md">
+                            <span>❌ Not Dog/Cat/Cow</span>
+                          </div>
+                        )
+                      ) : (
+                        <div className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500">
+                          <span>Ready</span>
+                        </div>
+                      )}
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => handleRetakeImage(idx)}
+                      className="mt-1 text-[11px] text-emerald-400 hover:text-emerald-300 font-bold inline-flex items-center gap-0.5"
+                    >
+                      <span className="material-symbols-outlined !text-xs">refresh</span>
+                      <span>Retake</span>
+                    </button>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() => handleRetakeImage(idx)}
-                    className="mt-1 text-[11px] text-emerald-400 hover:text-emerald-300 font-bold inline-flex items-center gap-0.5"
+                    onClick={() => handleRemoveImage(idx)}
+                    className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-slate-700 hover:bg-red-900/60 text-slate-300 hover:text-red-300 flex items-center justify-center text-xs font-bold transition-colors"
+                    title="Remove Photo"
                   >
-                    <span className="material-symbols-outlined !text-xs">refresh</span>
-                    <span>Retake</span>
+                    ✕
                   </button>
                 </div>
-
-                <button
-                  type="button"
-                  onClick={() => handleRemoveImage(idx)}
-                  className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-slate-700 hover:bg-red-900/60 text-slate-300 hover:text-red-300 flex items-center justify-center text-xs font-bold transition-colors"
-                  title="Remove Photo"
-                >
-                  ✕
-                </button>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       )}
