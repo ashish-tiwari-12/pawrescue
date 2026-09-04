@@ -199,18 +199,21 @@ export const ReportIssuePage: React.FC<Props> = ({
     setLoading(true);
 
     try {
-      // Client-Side AI Animal Validation Guard: Verify every attached photo
+      // Multi-image rule: Validate EACH image independently; allow submission if at least one valid animal exists
       if (selectedFiles.length > 0) {
-        for (const file of selectedFiles) {
-          const valResult = await validateImageInBrowser(file);
-          if (!valResult.validAnimal) {
-            setError(
-              valResult.error ||
-                "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
-            );
-            setLoading(false);
-            return;
-          }
+        const results = await Promise.all(
+          selectedFiles.map((file) => validateImageInBrowser(file))
+        );
+        const hasValidAnimal = results.some(
+          (r) => r.validAnimal && r.animalDetected && r.confidence >= 0.40
+        );
+        if (!hasValidAnimal) {
+          const firstError =
+            results[0]?.error ||
+            "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
+          setError(firstError);
+          setLoading(false);
+          return;
         }
       }
 

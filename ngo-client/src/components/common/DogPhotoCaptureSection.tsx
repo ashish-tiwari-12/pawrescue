@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { LiveWebcamModal } from "./LiveWebcamModal";
 import { api } from "../../api/client";
+import { fileToDataUrl } from "../../utils/animalImageValidator";
 
 interface Props {
   selectedFiles: File[];
@@ -12,8 +13,22 @@ interface Props {
   maxFiles?: number;
 }
 
+interface ImageValidationInfo {
+  status: "idle" | "validating" | "accepted" | "rejected";
+  animalDetected: boolean;
+  animalType?: "dog" | "cat" | "cow" | string;
+  detectedClasses: string[];
+  confidence: number;
+  confidencePercent: number;
+  error?: string;
+}
+
 const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 MB
 const ALLOWED_MIME_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+
+const getFileKey = (file: File): string => {
+  return `${file.name}_${file.size}_${file.lastModified}`;
+};
 
 export const DogPhotoCaptureSection: React.FC<Props> = ({
   selectedFiles,
@@ -30,8 +45,8 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
   const [isWebcamOpen, setIsWebcamOpen] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
   const [activeRetakeIndex, setActiveRetakeIndex] = useState<number | null>(null);
-  const [validatingMap, setValidatingMap] = useState<Record<number, boolean>>({});
-  const [aiStatusMap, setAiStatusMap] = useState<Record<number, { valid: boolean; message: string; animal?: string }>>({});
+
+  const [validationMap, setValidationMap] = useState<Record<string, ImageValidationInfo>>({});
 
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024 * 1024) {
@@ -40,58 +55,58 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
   };
 
-  const fileToDataUrl = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
-  };
+  const validateSingleFile = async (file: File) => {
+    const key = getFileKey(file);
 
-  const runAiValidationOnFile = async (file: File, index: number) => {
-    setValidatingMap((prev) => ({ ...prev, [index]: true }));
+    setValidationMap((prev) => ({
+      ...prev,
+      [key]: {
+        status: "validating",
+        animalDetected: false,
+        detectedClasses: [],
+        confidence: 0,
+        confidencePercent: 0
+      }
+    }));
+
     try {
-      const dataUrl = await fileToDataUrl(file);
+      const dataUrl = await fileToDataUrl(file, 800);
       const res = await api.validateAnimalImage({
         imageUrl: dataUrl,
         title: file.name
       });
 
-      if (res.validAnimal && res.animalType) {
-        const emoji = res.animalType === "dog" ? "🐶" : res.animalType === "cat" ? "🐱" : "🐮";
-        const label = res.animalType.charAt(0).toUpperCase() + res.animalType.slice(1);
-        setAiStatusMap((prev) => ({
-          ...prev,
-          [index]: {
-            valid: true,
-            animal: res.animalType,
-            message: `${emoji} Verified ${label} (${Math.round((res.confidence || 0.9) * 100)}% Match)`
-          }
-        }));
-      } else {
-        const errMsg = res.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
-        setAiStatusMap((prev) => ({
-          ...prev,
-          [index]: {
-            valid: false,
-            message: errMsg
-          }
-        }));
-        setValidationError(errMsg);
-      }
-    } catch (err: any) {
-      const errMsg = err.response?.data?.error || "Please upload a clear image of a Dog, Cat, or Cow.";
-      setAiStatusMap((prev) => ({
+      const conf = res.confidence || 0.92;
+      const confPercent = Math.round(conf * 100);
+      const isAccepted = Boolean(res.validAnimal && (res as any).animalDetected !== false && conf >= 0.40);
+
+      setValidationMap((prev) => ({
         ...prev,
-        [index]: {
-          valid: false,
-          message: errMsg
+        [key]: {
+          status: isAccepted ? "accepted" : "rejected",
+          animalDetected: isAccepted,
+          animalType: res.animalType,
+          detectedClasses: (res as any).detectedClasses || (res.animalType ? [res.animalType] : []),
+          confidence: conf,
+          confidencePercent: confPercent,
+          error: isAccepted ? undefined : (res.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.")
         }
       }));
-      setValidationError(errMsg);
-    } finally {
-      setValidatingMap((prev) => ({ ...prev, [index]: false }));
+    } catch (err: any) {
+      const data = err.response?.data;
+      const errMsg = data?.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
+      
+      setValidationMap((prev) => ({
+        ...prev,
+        [key]: {
+          status: "rejected",
+          animalDetected: false,
+          detectedClasses: data?.detectedClasses || ["unsupported"],
+          confidence: 0,
+          confidencePercent: 0,
+          error: errMsg
+        }
+      }));
     }
   };
 
@@ -107,14 +122,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       }
 
       if (file.size > MAX_FILE_SIZE_BYTES) {
-        setValidationError(`"${file.name}" exceeds the 10MB limit (${formatFileSize(file.size)}). Please select a smaller photo.`);
-        return;
-      }
-
-      const lowerName = file.name.toLowerCase();
-      const forbiddenWords = ["selfie", "human", "person", "me", "face", "portrait", "boy", "girl", "avatar", "car", "bike", "building"];
-      if (forbiddenWords.some((w) => lowerName.includes(w))) {
-        setValidationError("Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.");
+        setValidationError(`"${file.name}" exceeds 10MB limit (${formatFileSize(file.size)}).`);
         return;
       }
 
@@ -123,34 +131,32 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
 
     let updatedFiles: File[] = [];
     let updatedUrls: string[] = [];
-    const newIndices: number[] = [];
+    const filesToValidate: File[] = [];
 
-    if (typeof replaceIndex === "number" && replaceIndex >= 0) {
+    if (typeof replaceIndex === "number" && replaceIndex >= 0 && replaceIndex < selectedFiles.length) {
       updatedFiles = [...selectedFiles];
       updatedUrls = [...previewUrls];
       if (validFiles[0]) {
         updatedFiles[replaceIndex] = validFiles[0];
         updatedUrls[replaceIndex] = URL.createObjectURL(validFiles[0]);
-        newIndices.push(replaceIndex);
+        filesToValidate.push(validFiles[0]);
       }
     } else {
       const totalAllowed = maxFiles - selectedFiles.length;
       if (totalAllowed <= 0) {
-        setValidationError(`Maximum ${maxFiles} photos allowed per dog profile.`);
+        setValidationError(`Maximum ${maxFiles} photos allowed.`);
         return;
       }
 
-      const filesToAdd = validFiles.slice(0, totalAllowed);
+      const toAdd = validFiles.slice(0, totalAllowed);
       if (validFiles.length > totalAllowed) {
         setValidationError(`Only ${totalAllowed} more photo(s) could be added (max ${maxFiles}).`);
       }
 
-      const startIdx = selectedFiles.length;
-      filesToAdd.forEach((_, i) => newIndices.push(startIdx + i));
-
-      updatedFiles = [...selectedFiles, ...filesToAdd];
-      const newUrls = filesToAdd.map((file) => URL.createObjectURL(file));
+      updatedFiles = [...selectedFiles, ...toAdd];
+      const newUrls = toAdd.map((f) => URL.createObjectURL(f));
       updatedUrls = [...previewUrls, ...newUrls];
+      filesToValidate.push(...toAdd);
     }
 
     onFilesChange(updatedFiles, updatedUrls);
@@ -159,47 +165,36 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       onPhotoCapturedAutoGps();
     }
 
-    newIndices.forEach((idx) => {
-      const fileToValidate = updatedFiles[idx];
-      if (fileToValidate) {
-        runAiValidationOnFile(fileToValidate, idx);
-      }
+    filesToValidate.forEach((f) => {
+      validateSingleFile(f);
     });
-  };
-
-  const handleMobileCameraCapture = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files);
-      processNewFiles(files, activeRetakeIndex);
-      setActiveRetakeIndex(null);
-    }
-    e.target.value = "";
-  };
-
-  const handleGallerySelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const files = Array.from(e.target.files);
-      processNewFiles(files, activeRetakeIndex);
-      setActiveRetakeIndex(null);
-    }
-    e.target.value = "";
   };
 
   const handleRemoveImage = (index: number) => {
+    const fileToRemove = selectedFiles[index];
+    const urlToRemove = previewUrls[index];
+
+    if (urlToRemove) {
+      try {
+        URL.revokeObjectURL(urlToRemove);
+      } catch {
+        // ignore
+      }
+    }
+
     const updatedFiles = selectedFiles.filter((_, i) => i !== index);
     const updatedUrls = previewUrls.filter((_, i) => i !== index);
-    onFilesChange(updatedFiles, updatedUrls);
 
-    setAiStatusMap((prev) => {
-      const next = { ...prev };
-      delete next[index];
-      return next;
-    });
-    setValidatingMap((prev) => {
-      const next = { ...prev };
-      delete next[index];
-      return next;
-    });
+    if (fileToRemove) {
+      const key = getFileKey(fileToRemove);
+      setValidationMap((prev) => {
+        const next = { ...prev };
+        delete next[key];
+        return next;
+      });
+    }
+
+    onFilesChange(updatedFiles, updatedUrls);
     setValidationError(null);
   };
 
@@ -216,7 +211,6 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
   const handleLiveCameraClick = () => {
     setActiveRetakeIndex(null);
     const isMobileDevice = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
     if (isMobileDevice && mobileCameraInputRef.current) {
       mobileCameraInputRef.current.click();
     } else {
@@ -229,6 +223,11 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
     setActiveRetakeIndex(null);
   };
 
+  const hasRejectedImage = selectedFiles.some((f) => {
+    const info = validationMap[getFileKey(f)];
+    return info && info.status === "rejected";
+  });
+
   return (
     <div className="space-y-3.5">
       <input
@@ -236,7 +235,13 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         type="file"
         accept="image/jpeg,image/png,image/webp,image/jpg"
         capture="environment"
-        onChange={handleMobileCameraCapture}
+        onChange={(e) => {
+          if (e.target.files?.length) {
+            processNewFiles(Array.from(e.target.files), activeRetakeIndex);
+            setActiveRetakeIndex(null);
+          }
+          e.target.value = "";
+        }}
         className="hidden"
         id="ngo-camera-capture-input"
       />
@@ -246,7 +251,13 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         type="file"
         multiple
         accept="image/jpeg,image/png,image/webp,image/jpg"
-        onChange={handleGallerySelect}
+        onChange={(e) => {
+          if (e.target.files?.length) {
+            processNewFiles(Array.from(e.target.files), activeRetakeIndex);
+            setActiveRetakeIndex(null);
+          }
+          e.target.value = "";
+        }}
         className="hidden"
         id="ngo-gallery-upload-input"
       />
@@ -267,10 +278,13 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         )}
       </div>
 
-      {validationError && (
-        <div className="p-3 bg-red-950/80 border border-red-800/80 rounded-xl text-xs text-red-200 flex items-center gap-2 animate-fadeIn">
-          <span className="material-symbols-outlined !text-base text-red-400 shrink-0">error</span>
-          <span>{validationError}</span>
+      {(validationError || hasRejectedImage) && (
+        <div className="p-3 bg-red-950/80 border border-red-800/80 rounded-xl text-xs text-red-200 flex items-start gap-2.5 animate-fadeIn">
+          <span className="material-symbols-outlined !text-base text-red-400 shrink-0 mt-0.5">error</span>
+          <div className="space-y-0.5">
+            <strong className="font-extrabold block text-red-300">Upload Warning</strong>
+            <span>{validationError || "One or more uploaded photos does not contain a supported animal (Dog, Cat, or Cow). Please remove or replace invalid photos."}</span>
+          </div>
         </div>
       )}
 
@@ -301,7 +315,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           </div>
           <div className="text-left">
             <div className="text-xs font-bold text-white leading-tight">🖼 Upload From Gallery</div>
-            <div className="text-[10px] font-normal text-slate-400">Dog, Cat, or Cow image</div>
+            <div className="text-[10px] font-normal text-slate-400">Pick device photos</div>
           </div>
         </button>
       </div>
@@ -309,67 +323,68 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       {selectedFiles.length > 0 && (
         <div className="space-y-2 pt-1">
           <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
-            Attached Photos & AI Validation Status
+            Attached Incident Photos ({selectedFiles.length})
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {selectedFiles.map((file, idx) => {
-              const aiStatus = aiStatusMap[idx];
-              const isValidating = validatingMap[idx];
+              const fileKey = getFileKey(file);
+              const info = validationMap[fileKey];
+
+              const isAccepted = info?.status === "accepted";
+              const isRejected = info?.status === "rejected";
+              const isValidating = info?.status === "validating";
+
+              const animalLabel = info?.animalType ? info.animalType.toUpperCase() : "UNKNOWN";
+              const emoji = info?.animalType === "dog" ? "🐶" : info?.animalType === "cat" ? "🐱" : info?.animalType === "cow" ? "🐮" : "🐾";
 
               return (
                 <div
-                  key={idx}
-                  className={`relative p-2.5 rounded-2xl border shadow-sm flex items-center gap-3 animate-fadeIn ${
-                    aiStatus && !aiStatus.valid
+                  key={fileKey}
+                  className={`relative p-3 rounded-2xl border shadow-sm flex items-start gap-3 transition-all animate-fadeIn ${
+                    isRejected
                       ? "bg-red-950/40 border-red-800/60"
-                      : aiStatus && aiStatus.valid
+                      : isAccepted
                       ? "bg-emerald-950/30 border-emerald-700/60"
                       : "bg-slate-800/90 border-slate-700"
                   }`}
                 >
-                  <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-900 shrink-0 border border-slate-700 relative">
+                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-900 shrink-0 border border-slate-700 relative">
                     <img
                       src={previewUrls[idx]}
                       alt={`Preview ${idx + 1}`}
                       className="w-full h-full object-cover"
                     />
-                    {aiStatus && !aiStatus.valid && (
+                    {isRejected && (
                       <div className="absolute inset-0 bg-red-950/80 flex items-center justify-center text-red-200 text-base font-bold">
                         ✕
                       </div>
                     )}
                   </div>
 
-                  <div className="flex-1 min-w-0 pr-6">
-                    <div className="text-xs font-bold text-slate-100 truncate">
+                  <div className="flex-1 min-w-0 pr-6 space-y-1">
+                    <div className="text-xs font-bold text-slate-100 truncate" title={file.name}>
                       {file.name || `Photo #${idx + 1}`}
                     </div>
-                    <div className="text-[10px] text-slate-400 font-mono mt-0.5">
+                    <div className="text-[10px] text-slate-400 font-mono">
                       {formatFileSize(file.size)} • {file.type.split("/")[1]?.toUpperCase() || "JPG"}
                     </div>
 
-                    <div className="mt-1">
-                      {isValidating ? (
-                        <div className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded-md">
-                          <span className="w-2.5 h-2.5 border-2 border-emerald-400 border-t-transparent rounded-full animate-spin" />
-                          <span>AI Validating...</span>
-                        </div>
-                      ) : aiStatus ? (
-                        aiStatus.valid ? (
-                          <div className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-300 bg-emerald-950/80 px-2 py-0.5 rounded-md">
-                            <span>{aiStatus.message}</span>
-                          </div>
-                        ) : (
-                          <div className="inline-flex items-center gap-1 text-[10px] font-bold text-red-300 bg-red-950/80 px-2 py-0.5 rounded-md">
-                            <span>❌ Not Dog/Cat/Cow</span>
-                          </div>
-                        )
-                      ) : (
-                        <div className="inline-flex items-center gap-1 text-[10px] font-semibold text-slate-500">
-                          <span>Ready</span>
-                        </div>
-                      )}
+                    <div className="p-1.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-[10px] font-mono leading-tight space-y-0.5">
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-400">Animal:</span>
+                        <span className="font-bold text-slate-200">{isValidating ? "Detecting..." : `${emoji} ${animalLabel}`}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-400">Confidence:</span>
+                        <span className="font-bold text-slate-200">{isValidating ? "..." : `${info?.confidencePercent || 0}%`}</span>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-slate-400">Status:</span>
+                        <span className={`font-bold ${isAccepted ? "text-emerald-400" : isRejected ? "text-red-400" : "text-amber-400"}`}>
+                          {isValidating ? "Validating..." : isAccepted ? "Accepted" : "Rejected"}
+                        </span>
+                      </div>
                     </div>
 
                     <button
@@ -385,7 +400,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
                   <button
                     type="button"
                     onClick={() => handleRemoveImage(idx)}
-                    className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-slate-700 hover:bg-red-900/60 text-slate-300 hover:text-red-300 flex items-center justify-center text-xs font-bold transition-colors"
+                    className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-slate-700 hover:bg-red-900/60 text-slate-300 hover:text-red-300 flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
                     title="Remove Photo"
                   >
                     ✕

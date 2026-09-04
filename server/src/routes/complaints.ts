@@ -84,25 +84,40 @@ router.post(
         );
       }
 
-      // AI ANIMAL VALIDATION: Validate that the uploaded image contains a supported animal (Dog, Cat, Cow)
-      const primaryImage = imageUrls[0];
-      const primaryFileBuffer = Array.isArray(req.files) && req.files.length > 0 ? req.files[0].buffer : undefined;
-      const primaryFileName = Array.isArray(req.files) && req.files.length > 0 ? req.files[0].originalname : undefined;
+      // AI ANIMAL VALIDATION: Validate EACH uploaded image independently
+      // Multi-image rule: Accept if at least ONE image contains a valid Dog, Cat, or Cow with confidence >= 0.40
+      const validationResults = [];
+      const filesArray = Array.isArray(req.files) ? req.files : [];
 
-      const validation = await validateAnimalImage(primaryImage, {
-        title: `${title || ""} ${primaryFileName || ""}`.trim(),
-        description,
-        category,
-        buffer: primaryFileBuffer
-      });
+      for (let i = 0; i < imageUrls.length; i++) {
+        const imgUrl = imageUrls[i];
+        const fileBuffer = filesArray[i]?.buffer;
+        const fileName = filesArray[i]?.originalname;
 
-      if (!validation.validAnimal || !validation.animalDetected) {
+        const val = await validateAnimalImage(imgUrl, {
+          title: `${title || ""} ${fileName || ""}`.trim(),
+          description,
+          category,
+          buffer: fileBuffer
+        });
+        validationResults.push(val);
+      }
+
+      const hasValidAnimal = validationResults.some(
+        (v) => v.validAnimal && v.animalDetected && v.confidence >= 0.40
+      );
+
+      if (!hasValidAnimal) {
+        const lastError =
+          validationResults[0]?.error ||
+          "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
+        const allDetected = Array.from(new Set(validationResults.flatMap((v) => v.detectedClasses)));
+        const allScores = validationResults.flatMap((v) => v.confidenceScores);
+
         return res.status(400).json({
-          error:
-            validation.error ||
-            "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.",
-          detectedClasses: validation.detectedClasses,
-          confidenceScores: validation.confidenceScores,
+          error: lastError,
+          detectedClasses: allDetected,
+          confidenceScores: allScores,
           animalDetected: false
         });
       }
