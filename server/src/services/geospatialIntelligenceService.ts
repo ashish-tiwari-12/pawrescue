@@ -510,47 +510,62 @@ export const getGeospatialLayerData = async (layerType: GeospatialLayerType) => 
     }
 
     case "rescue_activity": {
-      const rescuePins = complaints.map((c: any) => {
-        const lat = c.location?.latitude || c.geoPoint?.coordinates?.[1] || 28.5482;
-        const lng = c.location?.longitude || c.geoPoint?.coordinates?.[0] || 77.3426;
-        const cIdStr = c._id ? c._id.toString() : (c.id || "");
+      const rescuePins = complaints
+        .map((c: any) => {
+          const isResolved = c.status === "Resolved" || c.status === "Closed";
 
-        let statusType: "Pending" | "Active" | "Completed" = "Pending";
-        let markerColor = "#ef4444";
+          // Automatic Cleanup: Remove resolved marks from map after 24 hours
+          if (isResolved) {
+            const resolvedTime = c.resolvedAt || c.updatedAt || c.createdAt;
+            if (resolvedTime) {
+              const elapsedHours = (Date.now() - new Date(resolvedTime).getTime()) / (1000 * 60 * 60);
+              if (elapsedHours > 24) {
+                return null;
+              }
+            }
+          }
 
-        if (c.status === "In Progress" || c.status === "Accepted") {
-          statusType = "Active";
-          markerColor = "#f97316";
-        } else if (c.status === "Resolved" || c.status === "Closed") {
-          statusType = "Completed";
-          markerColor = "#10b981";
-        }
+          const lat = c.location?.latitude || c.geoPoint?.coordinates?.[1] || 28.5482;
+          const lng = c.location?.longitude || c.geoPoint?.coordinates?.[0] || 77.3426;
+          const cIdStr = c._id ? c._id.toString() : (c.id || "");
 
-        return {
-          id: cIdStr,
-          trackingId: c.trackingId,
-          title: c.title || c.category,
-          category: c.category,
-          address: c.address,
-          city: c.city,
-          latitude: lat,
-          longitude: lng,
-          status: c.status,
-          statusType,
-          markerColor,
-          priority: c.priority,
-          ngoName: c.ngoName || "Dispatched NGO",
-          reportedAt: c.createdAt
-        };
-      });
+          let statusType: "Pending" | "Active" | "Completed" = "Pending";
+          let markerColor = "#ef4444";
+
+          if (c.status === "In Progress" || c.status === "Accepted") {
+            statusType = "Active";
+            markerColor = "#f97316";
+          } else if (isResolved) {
+            statusType = "Completed";
+            markerColor = "#10b981";
+          }
+
+          return {
+            id: cIdStr,
+            trackingId: c.trackingId,
+            title: c.title || c.category,
+            category: c.category,
+            address: c.address,
+            city: c.city,
+            latitude: lat,
+            longitude: lng,
+            status: c.status,
+            statusType,
+            markerColor,
+            priority: c.priority,
+            ngoName: c.ngoName || "Dispatched NGO",
+            reportedAt: c.createdAt
+          };
+        })
+        .filter(Boolean);
 
       return {
         layer: "rescue_activity",
         title: "Live Rescue Operations & Distress Stream",
-        description: "Real-time stream of Pending (🔴), Active Rescues (🟠), and Completed Missions (🟢).",
-        totalActive: rescuePins.filter((p) => p.statusType === "Active").length,
-        totalPending: rescuePins.filter((p) => p.statusType === "Pending").length,
-        totalCompleted: rescuePins.filter((p) => p.statusType === "Completed").length,
+        description: "Real-time stream of Pending (🔴), Active Rescues (🟠), and Completed Missions within 24h (🟢).",
+        totalActive: rescuePins.filter((p: any) => p.statusType === "Active").length,
+        totalPending: rescuePins.filter((p: any) => p.statusType === "Pending").length,
+        totalCompleted: rescuePins.filter((p: any) => p.statusType === "Completed").length,
         rescues: rescuePins
       };
     }

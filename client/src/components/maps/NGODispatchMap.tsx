@@ -110,6 +110,25 @@ export const NGODispatchMap: React.FC<Props> = ({
       const isCritical = comp.priority === "Critical" || comp.category === "Emergency Rescue";
       const isResolved = comp.status === "Resolved" || comp.status === "Closed";
 
+      // AUTOMATIC MAP CLEANUP: If an issue is resolved, automatically remove its green tick mark after 24 hours
+      if (isResolved) {
+        const resolvedTimeStr =
+          comp.resolvedAt ||
+          comp.timeline?.find((t) => t.status === "Resolved")?.timestamp ||
+          comp.updatedAt;
+
+        if (resolvedTimeStr) {
+          const resolvedTimeMs = new Date(resolvedTimeStr).getTime();
+          const nowMs = Date.now();
+          const hoursSinceResolved = (nowMs - resolvedTimeMs) / (1000 * 60 * 60);
+
+          // If resolved more than 24 hours ago, remove mark from map
+          if (hoursSinceResolved > 24) {
+            return;
+          }
+        }
+      }
+
       const markerColor = isResolved
         ? "#006c49"
         : isCritical
@@ -226,7 +245,7 @@ export const NGODispatchMap: React.FC<Props> = ({
             <span className="w-2.5 h-2.5 rounded-full bg-orange-500" /> In Progress
           </span>
           <span className="flex items-center gap-1 bg-slate-800 px-2 py-1 rounded-lg border border-slate-700">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Resolved
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> Resolved (Last 24h)
           </span>
           <button
             onClick={handleResetView}
