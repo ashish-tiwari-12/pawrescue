@@ -1,6 +1,6 @@
 /**
  * PawConnect India – Client-Side Animal Validation Proxy
- * Calls the backend /api/dogs/validate-animal endpoint directly.
+ * Calls the backend /api/dogs/validate-animal endpoint with auto-compressed preview payload.
  */
 
 import { api } from "../api/client";
@@ -18,11 +18,46 @@ export interface ClientValidationResult {
   ageGroup?: string;
 }
 
-export function fileToDataUrl(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
+/**
+ * Converts File to a lightweight compressed Base64 Data URL (max 800px)
+ * to prevent 413 Payload Too Large / Request Entity Too Large errors.
+ */
+export function fileToDataUrl(file: File, maxDim: number = 800): Promise<string> {
+  return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
+    reader.onload = (e) => {
+      const rawUrl = e.target?.result as string;
+      if (!rawUrl) {
+        resolve("");
+        return;
+      }
+      const img = new Image();
+      img.onload = () => {
+        let { width, height } = img;
+        if (width > maxDim || height > maxDim) {
+          if (width > height) {
+            height = Math.round((height * maxDim) / width);
+            width = maxDim;
+          } else {
+            width = Math.round((width * maxDim) / height);
+            height = maxDim;
+          }
+        }
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext("2d");
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          resolve(canvas.toDataURL("image/jpeg", 0.8));
+        } else {
+          resolve(rawUrl);
+        }
+      };
+      img.onerror = () => resolve(rawUrl);
+      img.src = rawUrl;
+    };
+    reader.onerror = () => resolve("");
     reader.readAsDataURL(file);
   });
 }
