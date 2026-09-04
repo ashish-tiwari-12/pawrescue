@@ -420,6 +420,24 @@ export const api = {
     return res.data;
   },
 
+  async validateAnimalImage(data: {
+    imageUrl: string;
+    title?: string;
+    description?: string;
+    category?: string;
+  }): Promise<{
+    validAnimal: boolean;
+    animalType?: "dog" | "cat" | "cow";
+    confidence?: number;
+    breed?: string;
+    color?: string;
+    ageGroup?: string;
+    error?: string;
+  }> {
+    const res = await apiInstance.post("/dogs/validate-animal", data);
+    return res.data;
+  },
+
   // Government & Municipal Analytics (Phase 3)
   async getGovernmentAnalytics(): Promise<any> {
     const res = await apiInstance.get("/gov-analytics/summary");

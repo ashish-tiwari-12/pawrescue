@@ -19,6 +19,7 @@ import {
 } from "../types.js";
 import { broadcastEvent } from "../sockets/index.js";
 import { processResolvedComplaintForDogProfile } from "../services/aiDogProfilingService.js";
+import { validateAnimalImage } from "../services/aiAnimalValidationService.js";
 
 const router = Router();
 
@@ -81,6 +82,22 @@ router.post(
         imageUrls.push(
           "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=800&auto=format&fit=crop&q=80"
         );
+      }
+
+      // AI ANIMAL VALIDATION: Validate that the uploaded image contains a supported animal (Dog, Cat, Cow)
+      const primaryImage = imageUrls[0];
+      const validation = await validateAnimalImage(primaryImage, {
+        title,
+        description,
+        category
+      });
+
+      if (!validation.validAnimal) {
+        return res.status(400).json({
+          error:
+            validation.error ||
+            "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
+        });
       }
 
       // Parse dogCondition

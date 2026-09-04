@@ -261,11 +261,27 @@ export const ReportIssuePage: React.FC<Props> = ({
         </div>
 
         {error && (
-          <div className="p-3 bg-red-50 text-red-700 text-xs rounded-2xl border border-red-200 flex items-center gap-2 animate-shake">
-            <span className="material-symbols-outlined !text-base text-red-600">error</span>
-            <span>{error}</span>
+          <div className="p-4 bg-red-50 text-red-800 text-xs rounded-2xl border-2 border-red-200 flex items-start gap-2.5 animate-shake shadow-xs">
+            <span className="material-symbols-outlined !text-xl text-red-600 shrink-0">error</span>
+            <div className="space-y-0.5">
+              <strong className="font-extrabold block text-red-900">Upload Validation Error</strong>
+              <span>{error}</span>
+            </div>
           </div>
         )}
+
+        {/* AI Animal Validation Status Badge */}
+        <div className="p-3 bg-gradient-to-r from-amber-50 to-orange-50 border border-orange-200 rounded-2xl flex items-center justify-between gap-2 text-[11px] text-orange-950 font-semibold shadow-2xs">
+          <div className="flex items-center gap-2 min-w-0">
+            <span className="material-symbols-outlined text-orange-600 !text-base shrink-0">verified</span>
+            <span className="truncate">
+              AI Animal Verification: Only <strong>Dog</strong>, <strong>Cat</strong>, and <strong>Cow</strong> photos are allowed.
+            </span>
+          </div>
+          <span className="shrink-0 text-[10px] uppercase font-mono px-2 py-0.5 bg-orange-200/70 text-orange-900 rounded-full font-bold">
+            YOLOv8 Active
+          </span>
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* STEP 1: What is the issue? (4 Big Cards) */}

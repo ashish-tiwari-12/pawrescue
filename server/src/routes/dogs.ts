@@ -16,6 +16,7 @@ import {
   analyzeDogImageWithAI,
   validateAndSyncResolvedComplaints
 } from "../services/aiDogProfilingService.js";
+import { validateAnimalImage } from "../services/aiAnimalValidationService.js";
 
 const router = Router();
 
@@ -167,6 +168,32 @@ router.post("/analyze-image", optionalAuth, async (req: Request, res: Response) 
   } catch (error: any) {
     console.error("Image analysis error:", error);
     return res.status(500).json({ error: "Image analysis failed." });
+  }
+});
+
+// 1E. AI Animal Validation Endpoint (Dog, Cat, Cow only, >=70% confidence)
+router.post("/validate-animal", optionalAuth, async (req: Request, res: Response) => {
+  try {
+    const { imageUrl, title, description, category } = req.body;
+    if (!imageUrl) {
+      return res.status(400).json({
+        validAnimal: false,
+        error: "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
+      });
+    }
+
+    const validation = await validateAnimalImage(imageUrl, { title, description, category });
+    if (!validation.validAnimal) {
+      return res.status(400).json(validation);
+    }
+
+    return res.json(validation);
+  } catch (error: any) {
+    console.error("Animal validation error:", error);
+    return res.status(400).json({
+      validAnimal: false,
+      error: "Unable to identify the animal clearly. Please upload a clearer image."
+    });
   }
 });
 
