@@ -96,11 +96,14 @@ router.post(
         buffer: primaryFileBuffer
       });
 
-      if (!validation.validAnimal) {
+      if (!validation.validAnimal || !validation.animalDetected) {
         return res.status(400).json({
           error:
             validation.error ||
-            "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
+            "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.",
+          detectedClasses: validation.detectedClasses,
+          confidenceScores: validation.confidenceScores,
+          animalDetected: false
         });
       }
 

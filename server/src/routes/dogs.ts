@@ -155,7 +155,7 @@ router.post("/:id/review", authenticateJWT, requireRole(["ngo_admin", "volunteer
   }
 });
 
-// 1D. Direct AI Image Feature Analysis
+// 1D. Direct AI Image Feature Analysis (Validation runs BEFORE breed detection)
 router.post("/analyze-image", optionalAuth, async (req: Request, res: Response) => {
   try {
     const { imageUrl, title, description, category } = req.body;
@@ -163,21 +163,41 @@ router.post("/analyze-image", optionalAuth, async (req: Request, res: Response) 
       return res.status(400).json({ error: "Image URL is required for AI analysis." });
     }
 
+    // Step 1: Pre-Validation Check
+    const validation = await validateAnimalImage(imageUrl, { title, description, category });
+    if (!validation.validAnimal || !validation.animalDetected) {
+      return res.status(400).json({
+        error: validation.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.",
+        detectedClasses: validation.detectedClasses,
+        confidenceScores: validation.confidenceScores,
+        animalDetected: false
+      });
+    }
+
+    // Step 2: Breed Detection (Runs only for verified animals)
     const aiResult = await analyzeDogImageWithAI(imageUrl, { title, description, category });
-    return res.json({ analysis: aiResult });
+    return res.json({
+      validation,
+      analysis: aiResult
+    });
   } catch (error: any) {
     console.error("Image analysis error:", error);
     return res.status(500).json({ error: "Image analysis failed." });
   }
 });
 
-// 1E. AI Animal Validation Endpoint (Dog, Cat, Cow only, >=70% confidence)
+// 1E. AI Animal Validation Endpoint (Dog, Cat, Cow only, confidence > 0.4)
 router.post("/validate-animal", optionalAuth, async (req: Request, res: Response) => {
   try {
     const { imageUrl, title, description, category } = req.body;
     if (!imageUrl) {
       return res.status(400).json({
         validAnimal: false,
+        animalDetected: false,
+        animalType: null,
+        detectedClasses: [],
+        confidenceScores: [],
+        confidence: 0,
         error: "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal."
       });
     }
@@ -192,6 +212,11 @@ router.post("/validate-animal", optionalAuth, async (req: Request, res: Response
     console.error("Animal validation error:", error);
     return res.status(400).json({
       validAnimal: false,
+      animalDetected: false,
+      animalType: null,
+      detectedClasses: ["error"],
+      confidenceScores: [0.0],
+      confidence: 0,
       error: "Unable to identify the animal clearly. Please upload a clearer image."
     });
   }
