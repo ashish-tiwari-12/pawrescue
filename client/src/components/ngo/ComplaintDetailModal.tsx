@@ -29,14 +29,17 @@ export const ComplaintDetailModal: React.FC<Props> = ({
   const [statusNote, setStatusNote] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
   const [selectedPhoto, setSelectedPhoto] = useState<string | null>(null);
+  const [registerAsNewDog, setRegisterAsNewDog] = useState(true);
 
-  const handleStatusChange = async (newStatus: ComplaintStatus) => {
+  const handleStatusChange = async (newStatus: ComplaintStatus, forceNewDog?: boolean) => {
     setLoadingAction(true);
     try {
       const res = await api.updateComplaintStatus(
         currentComplaint.id,
         newStatus,
-        statusNote || `Status progressed to ${newStatus} by NGO dispatch staff.`
+        statusNote || `Status progressed to ${newStatus} by NGO dispatch staff.`,
+        undefined,
+        forceNewDog !== undefined ? forceNewDog : registerAsNewDog
       );
       setCurrentComplaint(res.complaint);
       onUpdated(res.complaint);
@@ -170,22 +173,41 @@ export const ComplaintDetailModal: React.FC<Props> = ({
 
               {/* STEP 3: IF status == "In Progress" -> Show ONLY Mark Resolved */}
               {currentComplaint.status === "In Progress" && (
-                <button
-                  type="button"
-                  onClick={() => handleStatusChange("Resolved")}
-                  disabled={loadingAction}
-                  className="px-4 py-2 bg-[#006c49] hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
-                >
-                  <span className="material-symbols-outlined !text-base">task_alt</span>
-                  <span>{loadingAction ? "Resolving..." : "Mark Resolved"}</span>
-                </button>
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                  <label className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-700 bg-white border border-slate-200 px-2.5 py-1.5 rounded-xl shadow-2xs cursor-pointer select-none">
+                    <input
+                      type="checkbox"
+                      checked={registerAsNewDog}
+                      onChange={(e) => setRegisterAsNewDog(e.target.checked)}
+                      className="rounded text-emerald-600 focus:ring-emerald-500 w-3.5 h-3.5"
+                    />
+                    <span>Add as New Dog Profile in Registry</span>
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => handleStatusChange("Resolved", registerAsNewDog)}
+                    disabled={loadingAction}
+                    className="px-4 py-2 bg-[#006c49] hover:bg-emerald-800 text-white rounded-xl text-xs font-bold shadow-md transition-all flex items-center gap-1.5 hover:scale-105 active:scale-95 cursor-pointer disabled:opacity-50"
+                  >
+                    <span className="material-symbols-outlined !text-base">task_alt</span>
+                    <span>{loadingAction ? "Resolving & Profiling..." : "Mark Resolved"}</span>
+                  </button>
+                </div>
               )}
 
               {/* STEP 4: IF status == "Resolved" or "Closed" -> Hide action buttons & Show Completed Badge */}
               {(currentComplaint.status === "Resolved" || currentComplaint.status === "Closed") && (
-                <div className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-100 border border-emerald-300 text-emerald-800 rounded-xl text-xs font-extrabold shadow-xs">
-                  <span className="material-symbols-outlined !text-base text-emerald-700">verified</span>
-                  <span>✓ Rescue Completed</span>
+                <div className="flex items-center gap-2">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-100 border border-emerald-300 text-emerald-800 rounded-xl text-xs font-extrabold shadow-2xs">
+                    <span className="material-symbols-outlined !text-base text-emerald-700">verified</span>
+                    <span>✓ Rescue Completed</span>
+                  </div>
+                  {currentComplaint.matchedDogId && (
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-orange-100 border border-orange-300 text-orange-900 rounded-xl text-xs font-extrabold shadow-2xs">
+                      <span className="material-symbols-outlined !text-base text-orange-700">pets</span>
+                      <span>Dog Profile: #{currentComplaint.matchedDogId}</span>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

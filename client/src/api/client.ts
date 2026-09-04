@@ -181,9 +181,15 @@ export const api = {
     id: string,
     status: string,
     note?: string,
-    resolutionNotes?: string
+    resolutionNotes?: string,
+    forceNewDog?: boolean
   ): Promise<{ complaint: Complaint; message: string }> {
-    const res = await apiInstance.patch(`/complaints/${id}/status`, { status, note, resolutionNotes });
+    const res = await apiInstance.patch(`/complaints/${id}/status`, {
+      status,
+      note,
+      resolutionNotes,
+      forceNewDog
+    });
     return res.data;
   },
 

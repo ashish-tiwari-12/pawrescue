@@ -163,7 +163,8 @@ export const analyzeDogImageWithAI = async (
  * 5. Update community dogs registry and log all lifecycle events
  */
 export const processResolvedComplaintForDogProfile = async (
-  complaintId: string
+  complaintId: string,
+  options?: { forceNewDog?: boolean }
 ): Promise<{
   action: "matched" | "draft_created" | "skipped";
   dogId?: string;
@@ -183,8 +184,10 @@ export const processResolvedComplaintForDogProfile = async (
       return { action: "skipped", message: `Complaint status is ${complaint.status}, not Resolved.` };
     }
 
+    const forceNewDog = options?.forceNewDog === true;
+
     console.log(`\n========================================`);
-    console.log(`[Dog Registry] Complaint Resolved: #${complaint.trackingId}`);
+    console.log(`[Dog Registry] Complaint Resolved: #${complaint.trackingId} (Force New Profile: ${forceNewDog})`);
     console.log(`[Dog Registry] Dog Matching Started for complaint: #${complaint.trackingId}`);
     console.log(`========================================`);
 
@@ -216,35 +219,39 @@ export const processResolvedComplaintForDogProfile = async (
 
     // 2. Check Existing Dog Registry for Matching Facial/Visual Signatures
     let existingMatches: any[] = [];
-    try {
-      existingMatches = await matchDogImageAgainstRegistry(
-        primaryImage,
-        aiAnalysis.breedPrediction.breed !== "Unknown" ? aiAnalysis.breedPrediction.breed : undefined,
-        aiAnalysis.colorPrediction.primaryColor !== "Unknown" ? aiAnalysis.colorPrediction.primaryColor : undefined,
-        complaint.address
-      );
-    } catch (matchErr) {
-      console.warn("[Dog Registry] Registry visual matching warning:", matchErr);
+    if (!forceNewDog) {
+      try {
+        existingMatches = await matchDogImageAgainstRegistry(
+          primaryImage,
+          aiAnalysis.breedPrediction.breed !== "Unknown" ? aiAnalysis.breedPrediction.breed : undefined,
+          aiAnalysis.colorPrediction.primaryColor !== "Unknown" ? aiAnalysis.colorPrediction.primaryColor : undefined,
+          complaint.address
+        );
+      } catch (matchErr) {
+        console.warn("[Dog Registry] Registry visual matching warning:", matchErr);
+      }
     }
 
     const topMatch = existingMatches && existingMatches.length > 0 ? existingMatches[0] : null;
 
-    // Check if complaint was previously matched or topMatch >= 85%
+    // Check if complaint was previously matched or topMatch >= 85% (only if NOT forcing new dog)
     let existingDog = null;
-    if (complaint.matchedDogId) {
-      existingDog = await DogProfileModel.findOne({ dogId: complaint.matchedDogId });
-    }
-    if (!existingDog && topMatch && topMatch.similarityScore >= 85) {
-      existingDog = await DogProfileModel.findById(topMatch.dog.id || topMatch.dog._id);
-      if (!existingDog && topMatch.dog.dogId) {
-        existingDog = await DogProfileModel.findOne({ dogId: topMatch.dog.dogId });
+    if (!forceNewDog) {
+      if (complaint.matchedDogId) {
+        existingDog = await DogProfileModel.findOne({ dogId: complaint.matchedDogId });
+      }
+      if (!existingDog && topMatch && topMatch.similarityScore >= 85) {
+        existingDog = await DogProfileModel.findById(topMatch.dog.id || topMatch.dog._id);
+        if (!existingDog && topMatch.dog.dogId) {
+          existingDog = await DogProfileModel.findOne({ dogId: topMatch.dog.dogId });
+        }
       }
     }
 
     // ==========================================
-    // CASE 1: DOG ALREADY EXISTS (AI Match Found)
+    // CASE 1: DOG ALREADY EXISTS (AI Match Found and user did not choose New Profile)
     // ==========================================
-    if (existingDog) {
+    if (existingDog && !forceNewDog) {
       const matchScore = topMatch?.similarityScore || 95;
       console.log(`[Dog Registry] Match Found: Existing Dog #${existingDog.dogId} (${matchScore}% match)`);
 

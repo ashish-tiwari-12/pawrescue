@@ -357,7 +357,14 @@ router.get("/:id", async (req: Request, res: Response) => {
 router.patch("/:id/status", authenticateJWT, async (req: AuthRequest, res: Response) => {
   try {
     const { id } = req.params;
-    const { status, note, resolutionNotes } = req.body;
+    const { status, note, resolutionNotes, forceNewDog, createNewDog, asNewDog } = req.body;
+    const shouldForceNewDog =
+      forceNewDog === true ||
+      forceNewDog === "true" ||
+      createNewDog === true ||
+      createNewDog === "true" ||
+      asNewDog === true ||
+      asNewDog === "true";
 
     const complaint = await ComplaintModel.findById(id);
     if (!complaint) {
@@ -408,7 +415,9 @@ router.patch("/:id/status", authenticateJWT, async (req: AuthRequest, res: Respo
 
       // AUTO DOG REGISTRY PROCESS ON RESOLVE: Case 1 (Update Existing) or Case 2 (Create New)
       try {
-        const aiResult = await processResolvedComplaintForDogProfile(complaint._id.toString());
+        const aiResult = await processResolvedComplaintForDogProfile(complaint._id.toString(), {
+          forceNewDog: shouldForceNewDog
+        });
         console.log(`🐕 [Dog Registry] Auto-profile result for #${complaint.trackingId}:`, aiResult.message);
         if (aiResult.dogId) {
           complaint.matchedDogId = aiResult.dogId;

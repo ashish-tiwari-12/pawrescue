@@ -81,46 +81,34 @@ export const matchDogImageAgainstRegistry = async (
 
       const visualSim = cosineSimilarity(queryEmbedding, dogEmbedding);
       
-      // Heuristic score calculation
-      let score = Math.round(visualSim * 50);
+      // Dynamic AI matching score calculation
+      let score = Math.round(visualSim * 60);
       const matchingFeatures: string[] = [];
 
-      if (colorHint && (dog.colorPattern.toLowerCase().includes(colorHint.toLowerCase()) || colorHint.toLowerCase().includes("tan"))) {
-        score += 22;
-        matchingFeatures.push("Tan / Coat Pattern Match");
-      }
-      if (breedHint && dog.breed.toLowerCase().includes("indie")) {
+      if (colorHint && dog.colorPattern && dog.colorPattern.toLowerCase().includes(colorHint.toLowerCase())) {
         score += 15;
-        matchingFeatures.push("Breed & Body Stature Match");
+        matchingFeatures.push("Coat Color & Pattern Match");
       }
-      if (areaHint && (dog.currentArea.toLowerCase().includes(areaHint.toLowerCase()) || areaHint.toLowerCase().includes("94") || areaHint.toLowerCase().includes("noida"))) {
+      if (breedHint && dog.breed && (dog.breed.toLowerCase() === breedHint.toLowerCase() || dog.breed.toLowerCase().includes(breedHint.toLowerCase()))) {
         score += 12;
-        matchingFeatures.push("Sighting Area Proximity");
+        matchingFeatures.push("Breed & Stature Profile Match");
       }
-      if (dog.sterilizationStatus.includes("Ear Notched")) {
+      if (areaHint && dog.currentArea && (dog.currentArea.toLowerCase().includes(areaHint.toLowerCase()) || areaHint.toLowerCase().includes(dog.currentArea.toLowerCase()))) {
         score += 8;
-        matchingFeatures.push("Ear Notch Visual Signature");
+        matchingFeatures.push("Geographic Sighting Proximity");
+      }
+      if (dog.sterilizationStatus && dog.sterilizationStatus.includes("Ear Notched")) {
+        score += 5;
+        matchingFeatures.push("Ear Notch Visual Feature");
       }
 
       if (matchingFeatures.length === 0) {
-        matchingFeatures.push("Facial Symmetry & Muzzle Pigmentation");
+        matchingFeatures.push("Facial Symmetry & Silhouette Alignment");
       }
 
-      // Top candidate ranking calculation
-      score = 48 + matchingFeatures.length * 11;
-      if (dog.dogId === "DOG-0023") score = 94;
-      else if (dog.dogId === "DOG-0098") score = 88;
-      else if (dog.dogId === "DOG-0141") score = 81;
-      else if (dog.dogId === "DOG-0056") score = 76;
-      else if (dog.dogId === "DOG-0205") score = 68;
-
-      const finalScore = Math.min(96, Math.max(50, score));
+      const finalScore = Math.min(99, Math.max(30, score));
       const confidence: "High" | "Medium" | "Low" =
-        finalScore >= 85 ? "High" : finalScore >= 75 ? "Medium" : "Low";
-
-      if (matchingFeatures.length === 0) {
-        matchingFeatures.push("Visual Texture & Facial Symmetry");
-      }
+        finalScore >= 85 ? "High" : finalScore >= 70 ? "Medium" : "Low";
 
       scoredCandidates.push({
         dog: {
