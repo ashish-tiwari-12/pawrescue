@@ -18,6 +18,7 @@ import govAnalyticsRouter from "./routes/govAnalytics.js";
 import geospatialRouter from "./routes/geospatial.js";
 import ngoAuthRouter from "./routes/ngoAuthRoutes.js";
 import { initSocket } from "./sockets/index.js";
+import { validateAndSyncResolvedComplaints } from "./services/aiDogProfilingService.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -106,6 +107,11 @@ app.use((err: any, req: express.Request, res: express.Response, next: express.Ne
 // Connect to MongoDB Atlas & Start Server
 if (process.env.NODE_ENV !== "test" && !process.env.VERCEL) {
   connectDatabase().then(() => {
+    // Run validation check in background to ensure all resolved complaints have dog profiles
+    validateAndSyncResolvedComplaints().catch((e) =>
+      console.warn("[Dog Registry Startup Sync Warning]:", e.message)
+    );
+
     server.listen(PORT, () => {
       console.log(`🚀 PawConnect India Server running on http://localhost:${PORT}`);
       console.log(`🗄️ Connected to MongoDB Atlas cluster 'pawrescue'`);
@@ -116,7 +122,11 @@ if (process.env.NODE_ENV !== "test" && !process.env.VERCEL) {
   });
 } else {
   // Ensure DB connects lazily in serverless environments
-  connectDatabase().catch(console.error);
+  connectDatabase()
+    .then(() => {
+      validateAndSyncResolvedComplaints().catch(() => {});
+    })
+    .catch(console.error);
 }
 
 export { app, server };

@@ -404,15 +404,22 @@ router.patch("/:id/status", authenticateJWT, async (req: AuthRequest, res: Respo
       complaint.resolutionNotes =
         resolutionNotes || note || "Rescue and veterinary care completed.";
 
-      // FEATURE: AI-powered Dog Profile Generation from Resolved Complaint
-      processResolvedComplaintForDogProfile(complaint._id.toString())
-        .then((aiResult) => {
-          console.log(`🐕 [AI PROFILER] Auto-profile generated for #${complaint.trackingId}:`, aiResult.message);
-        })
-        .catch((err) => console.error("Auto dog profile error:", err));
-    }
+      await complaint.save();
 
-    await complaint.save();
+      // AUTO DOG REGISTRY PROCESS ON RESOLVE: Case 1 (Update Existing) or Case 2 (Create New)
+      try {
+        const aiResult = await processResolvedComplaintForDogProfile(complaint._id.toString());
+        console.log(`🐕 [Dog Registry] Auto-profile result for #${complaint.trackingId}:`, aiResult.message);
+        if (aiResult.dogId) {
+          complaint.matchedDogId = aiResult.dogId;
+          await complaint.save();
+        }
+      } catch (err) {
+        console.error("[Dog Registry] Auto dog profile error:", err);
+      }
+    } else {
+      await complaint.save();
+    }
 
     // Citizen Notification
     const citizenNotif = await NotificationModel.create({

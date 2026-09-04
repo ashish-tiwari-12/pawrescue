@@ -12,7 +12,10 @@ import { authenticateJWT, optionalAuth, requireRole, AuthRequest } from "../midd
 import { uploadImages, processUploadedImages } from "../middleware/upload.js";
 
 import { broadcastEvent } from "../sockets/index.js";
-import { analyzeDogImageWithAI } from "../services/aiDogProfilingService.js";
+import {
+  analyzeDogImageWithAI,
+  validateAndSyncResolvedComplaints
+} from "../services/aiDogProfilingService.js";
 
 const router = Router();
 
@@ -22,7 +25,7 @@ function generateDogId(): string {
   return `DOG-${randomNum}`;
 }
 
-// 1. List / Search Community Dogs (Filters out unreviewed drafts for public registry)
+// 1. List / Search Community Dogs (Community Dogs, Registry, Map, Search)
 router.get("/", async (req: Request, res: Response) => {
   try {
     const {
@@ -34,18 +37,17 @@ router.get("/", async (req: Request, res: Response) => {
       sterilizationStatus,
       adoptionStatus,
       reviewStatus,
-      includePending,
       page = 1,
       limit = 24
     } = req.query;
 
     const query: any = {};
 
-    // Only show approved profiles publicly unless explicitly requested by NGO dashboard
+    // Show approved & pending verification dogs in community registry by default; exclude rejected
     if (reviewStatus) {
       query.reviewStatus = reviewStatus;
-    } else if (includePending !== "true") {
-      query.reviewStatus = { $ne: "Pending NGO Review", $nin: ["Pending NGO Review", "Rejected"] };
+    } else {
+      query.reviewStatus = { $ne: "Rejected" };
     }
 
     if (search) {
@@ -457,6 +459,19 @@ router.post("/:id/seen", async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     return res.status(500).json({ error: "Failed to record sighting." });
+  }
+});
+
+// 9. Database Validation & Auto-Sync for Resolved Complaints
+router.all("/sync-resolved-complaints", async (req: Request, res: Response) => {
+  try {
+    const syncResult = await validateAndSyncResolvedComplaints();
+    return res.json({
+      message: "Dog Registry Synchronization Completed!",
+      ...syncResult
+    });
+  } catch (error: any) {
+    return res.status(500).json({ error: "Sync failed: " + error.message });
   }
 });
 

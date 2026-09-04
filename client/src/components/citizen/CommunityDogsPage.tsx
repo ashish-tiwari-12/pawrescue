@@ -258,10 +258,20 @@ export const CommunityDogsPage: React.FC<Props> = ({
                       </p>
 
                       {/* Status Tag */}
-                      <div className="mt-2">
+                      <div className="mt-2 flex flex-wrap gap-1.5 items-center">
                         <span className="inline-block text-[10px] font-bold bg-orange-50 text-orange-800 border border-orange-200/80 px-2 py-0.5 rounded-md">
-                          Status: {dog.adoptionStatus || "Community Dog (Free Roaming)"}
+                          {dog.adoptionStatus || "Community Dog (Free Roaming)"}
                         </span>
+                        {dog.reviewStatus === "Pending NGO Review" ? (
+                          <span className="inline-block text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 px-2 py-0.5 rounded-md flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                            Pending Verification
+                          </span>
+                        ) : (
+                          <span className="inline-block text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded-md">
+                            ✓ Verified Dog
+                          </span>
+                        )}
                       </div>
 
                       {/* Location & Last Seen & Sightings */}
