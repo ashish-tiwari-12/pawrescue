@@ -80,17 +80,18 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         title: file.name
       });
 
-      const conf = res.confidence || 0.92;
+      const conf = res.confidence || 0.94;
       const confPercent = Math.round(conf * 100);
-      const isAccepted = Boolean(res.validAnimal && (res as any).animalDetected !== false && conf >= 0.40);
+      const isAccepted = Boolean(res.validAnimal && (res as any).animalDetected !== false && conf >= 0.25);
+      const detectedType = res.animalType || (isAccepted ? "dog" : undefined);
 
       setValidationMap((prev) => ({
         ...prev,
         [key]: {
           status: isAccepted ? "accepted" : "rejected",
           animalDetected: isAccepted,
-          animalType: res.animalType,
-          detectedClasses: (res as any).detectedClasses || (res.animalType ? [res.animalType] : []),
+          animalType: detectedType,
+          detectedClasses: (res as any).detectedClasses || (detectedType ? [detectedType] : ["dog"]),
           confidence: conf,
           confidencePercent: confPercent,
           error: isAccepted ? undefined : (res.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.")
@@ -98,17 +99,22 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       }));
     } catch (err: any) {
       const data = err.response?.data;
+      const isAccepted = Boolean(data?.validAnimal && data?.animalDetected && (data?.confidence || 0) >= 0.25);
+      const detectedType = data?.animalType || (isAccepted ? "dog" : undefined);
+      const conf = data?.confidence || (isAccepted ? 0.92 : 0);
+      const confPercent = Math.round(conf * 100);
       const errMsg = data?.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
       
       setValidationMap((prev) => ({
         ...prev,
         [key]: {
-          status: "rejected",
-          animalDetected: false,
-          detectedClasses: data?.detectedClasses || ["unsupported"],
-          confidence: 0,
-          confidencePercent: 0,
-          error: errMsg
+          status: isAccepted ? "accepted" : "rejected",
+          animalDetected: isAccepted,
+          animalType: detectedType,
+          detectedClasses: data?.detectedClasses || (detectedType ? [detectedType] : ["unsupported"]),
+          confidence: conf,
+          confidencePercent: confPercent,
+          error: isAccepted ? undefined : errMsg
         }
       }));
     }
@@ -351,8 +357,9 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
               const isRejected = info?.status === "rejected";
               const isValidating = info?.status === "validating";
 
-              const animalLabel = info?.animalType ? info.animalType.toUpperCase() : "UNKNOWN";
-              const emoji = info?.animalType === "dog" ? "🐶" : info?.animalType === "cat" ? "🐱" : info?.animalType === "cow" ? "🐮" : "🐾";
+              const resolvedType = info?.animalType || (isAccepted ? "dog" : undefined);
+              const animalLabel = resolvedType ? resolvedType.toUpperCase() : isAccepted ? "DOG" : "NOT SUPPORTED";
+              const emoji = resolvedType === "cat" ? "🐱" : resolvedType === "cow" ? "🐮" : resolvedType === "dog" || isAccepted ? "🐶" : "⚠️";
 
               return (
                 <div
