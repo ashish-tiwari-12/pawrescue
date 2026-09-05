@@ -100,7 +100,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       const isAccepted = Boolean(data?.validAnimal && data?.animalDetected && data?.status !== "rejected" && conf >= 0.25);
       const detectedType = isAccepted ? data?.animalType : undefined;
       const errMsg = data?.error || err.message || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
-      
+
       setValidationMap((prev) => ({
         ...prev,
         [key]: {
@@ -353,13 +353,12 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
               return (
                 <div
                   key={fileKey}
-                  className={`relative p-3 rounded-2xl border shadow-sm flex items-start gap-3 transition-all animate-fadeIn ${
-                    isRejected
+                  className={`relative p-3 rounded-2xl border shadow-sm flex items-start gap-3 transition-all animate-fadeIn ${isRejected
                       ? "bg-red-50/90 border-red-300"
                       : isAccepted
-                      ? "bg-emerald-50/60 border-emerald-300"
-                      : "bg-white border-slate-200"
-                  }`}
+                        ? "bg-emerald-50/60 border-emerald-300"
+                        : "bg-white border-slate-200"
+                    }`}
                 >
                   {/* Thumbnail */}
                   <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200 relative">
