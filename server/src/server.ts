@@ -19,6 +19,7 @@ import geospatialRouter from "./routes/geospatial.js";
 import ngoAuthRouter from "./routes/ngoAuthRoutes.js";
 import { initSocket } from "./sockets/index.js";
 import { validateAndSyncResolvedComplaints } from "./services/aiDogProfilingService.js";
+import { validateAnimalImage } from "./services/aiAnimalValidationService.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -84,6 +85,23 @@ app.get("/", (req, res) => {
 
 app.get("/health", healthHandler);
 app.get("/api/health", healthHandler);
+
+// STEP 7 - Debug Animal Detection Endpoint
+app.all("/api/debug/animal-detection", async (req, res) => {
+  const imageUrl = req.body?.imageUrl || req.query?.imageUrl || "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500";
+  const title = req.body?.title || req.query?.title || "test_image.jpg";
+  const result = await validateAnimalImage(String(imageUrl), { title: String(title) });
+  return res.json({
+    environment: process.env.NODE_ENV || (process.env.VERCEL ? "production-vercel" : "development"),
+    aiServiceUrl: process.env.AI_SERVICE_URL || (process.env.VERCEL ? "none (serverless in-process fallback)" : "http://localhost:8000"),
+    modelLoaded: result.modelLoaded,
+    detections: result.detections,
+    animalType: result.animalType || "unknown",
+    confidence: result.confidence,
+    status: result.status,
+    error: result.error
+  });
+});
 
 // API Routes
 app.use("/api/auth", authRouter);
