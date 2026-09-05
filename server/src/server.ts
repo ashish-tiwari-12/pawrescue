@@ -87,13 +87,13 @@ app.get("/health", healthHandler);
 app.get("/api/health", healthHandler);
 
 // STEP 7 - Debug Animal Detection Endpoint
-app.all("/api/debug/animal-detection", async (req, res) => {
+app.all(["/debug/animal-detection", "/api/debug/animal-detection"], async (req: express.Request, res: express.Response) => {
   const imageUrl = req.body?.imageUrl || req.query?.imageUrl || "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500";
-  const title = req.body?.title || req.query?.title || "test_image.jpg";
+  const title = req.body?.title || req.query?.title || "test_dog.jpg";
   const result = await validateAnimalImage(String(imageUrl), { title: String(title) });
   return res.json({
     environment: process.env.NODE_ENV || (process.env.VERCEL ? "production-vercel" : "development"),
-    aiServiceUrl: process.env.AI_SERVICE_URL || (process.env.VERCEL ? "none (serverless in-process fallback)" : "http://localhost:8000"),
+    aiServiceUrl: process.env.AI_SERVICE_URL || (process.env.VERCEL ? "in-process-serverless" : "http://localhost:8000"),
     modelLoaded: result.modelLoaded,
     detections: result.detections,
     animalType: result.animalType || "unknown",

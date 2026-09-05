@@ -222,6 +222,23 @@ router.post("/validate-animal", optionalAuth, async (req: Request, res: Response
   }
 });
 
+// STEP 7 - Debug Animal Detection Route
+router.all("/debug/animal-detection", async (req: Request, res: Response) => {
+  const imageUrl = req.body?.imageUrl || req.query?.imageUrl || "https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=500";
+  const title = req.body?.title || req.query?.title || "test_dog.jpg";
+  const result = await validateAnimalImage(String(imageUrl), { title: String(title) });
+  return res.json({
+    environment: process.env.NODE_ENV || (process.env.VERCEL ? "production-vercel" : "development"),
+    aiServiceUrl: process.env.AI_SERVICE_URL || (process.env.VERCEL ? "in-process-serverless" : "http://localhost:8000"),
+    modelLoaded: result.modelLoaded,
+    detections: result.detections,
+    animalType: result.animalType || "unknown",
+    confidence: result.confidence,
+    status: result.status,
+    error: result.error
+  });
+});
+
 // 2. AI Visual Dog Matching Endpoint (MODULE 2)
 router.post("/match", optionalAuth, async (req: Request, res: Response) => {
   try {
