@@ -269,13 +269,13 @@ export const ReportIssuePage: React.FC<Props> = ({
         {/* Quick Header */}
         <div className="text-center space-y-1">
           <div className="inline-flex items-center gap-1.5 px-3 py-0.5 bg-orange-100 text-orange-800 rounded-full text-[11px] font-bold">
-            <span>⚡ 60-Second Quick Rescue Alert</span>
+            <span>⚡ Quick Rescue Alert</span>
           </div>
           <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 tracking-tight">
-            Report a Dog in Need
+            Report a Dog
           </h1>
           <p className="text-xs text-slate-500">
-            Tell us what happened and where. We'll alert nearby animal rescue NGOs immediately.
+            Share the location and details to alert nearby animal rescue NGOs.
           </p>
         </div>
 
@@ -294,11 +294,11 @@ export const ReportIssuePage: React.FC<Props> = ({
           <div className="flex items-center gap-2 min-w-0">
             <span className="material-symbols-outlined text-orange-600 !text-base shrink-0">verified</span>
             <span className="truncate">
-              AI Animal Verification: Only <strong>Dog</strong>, <strong>Cat</strong>, and <strong>Cow</strong> photos are allowed.
+              AI Verification: Supports <strong>Dog</strong>, <strong>Cat</strong>, and <strong>Cow</strong> photos.
             </span>
           </div>
           <span className="shrink-0 text-[10px] uppercase font-mono px-2 py-0.5 bg-orange-200/70 text-orange-900 rounded-full font-bold">
-            YOLOv8 Active
+            Active
           </span>
         </div>
 
@@ -309,7 +309,7 @@ export const ReportIssuePage: React.FC<Props> = ({
               <span className="w-5 h-5 rounded-full bg-orange-500 text-white text-[11px] flex items-center justify-center font-bold">
                 1
               </span>
-              What is the situation?
+              Situation
             </label>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -350,13 +350,13 @@ export const ReportIssuePage: React.FC<Props> = ({
             </div>
           </div>
 
-          {/* STEP 2: Where is the dog? (Auto-Detected GPS + 1 Simple Spot Input) */}
+          {/* STEP 2: Where is the dog? */}
           <div className="bg-white p-5 sm:p-6 rounded-3xl card-elevation-1 border border-slate-100 space-y-3.5">
             <label className="text-xs font-extrabold text-slate-900 uppercase tracking-wider flex items-center gap-2">
               <span className="w-5 h-5 rounded-full bg-orange-500 text-white text-[11px] flex items-center justify-center font-bold">
                 2
               </span>
-              Where is the dog?
+              Location
             </label>
 
             {/* Auto-detected GPS banner */}
@@ -379,7 +379,7 @@ export const ReportIssuePage: React.FC<Props> = ({
                 type="button"
                 onClick={handleFetchLocation}
                 disabled={gpsLoading}
-                className="px-2.5 py-1 bg-white border border-emerald-300 text-emerald-800 rounded-xl text-[11px] font-bold shrink-0 hover:bg-slate-50 transition-colors flex items-center gap-1 shadow-sm"
+                className="px-2.5 py-1 bg-white border border-emerald-300 text-emerald-800 rounded-xl text-[11px] font-bold shrink-0 hover:bg-slate-50 transition-colors flex items-center gap-1 shadow-sm cursor-pointer"
               >
                 <span className={`material-symbols-outlined !text-sm text-emerald-600 ${gpsLoading ? "animate-spin" : ""}`}>
                   {gpsLoading ? "sync" : "my_location"}
@@ -388,17 +388,17 @@ export const ReportIssuePage: React.FC<Props> = ({
               </button>
             </div>
 
-            {/* One Simple Spot Input */}
+            {/* Spot Input */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                Exact Spot / Shop / Landmark (e.g. Near Chai Tapri, Metro Pillar #42) *
+                Spot / Landmark *
               </label>
               <input
                 type="text"
                 required
                 value={spotAddress}
                 onChange={(e) => setSpotAddress(e.target.value)}
-                placeholder="e.g. Outside Gate 2 of Royal Towers, Behind Bus Stop"
+                placeholder="e.g. Near Metro Pillar #42, Outside Main Gate"
                 className="w-full px-3.5 py-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-slate-50"
               />
             </div>
@@ -410,7 +410,7 @@ export const ReportIssuePage: React.FC<Props> = ({
               <span className="w-5 h-5 rounded-full bg-orange-500 text-white text-[11px] flex items-center justify-center font-bold">
                 3
               </span>
-              Dog Photo & Citizen Helpline Contact
+              Photos & Contact
             </label>
 
             {/* Live Camera & Gallery Photo Section */}
@@ -430,7 +430,7 @@ export const ReportIssuePage: React.FC<Props> = ({
             {/* Contact Phone Number */}
             <div className="pt-2 border-t border-slate-100 space-y-1.5">
               <label className="block text-xs font-bold text-slate-700">
-                Your Contact Phone Number *
+                Contact Phone *
               </label>
               <div className="relative">
                 <span className="material-symbols-outlined absolute left-3.5 top-3 !text-lg text-slate-400">
@@ -441,12 +441,12 @@ export const ReportIssuePage: React.FC<Props> = ({
                   required
                   value={contactNumber}
                   onChange={(e) => setContactNumber(e.target.value)}
-                  placeholder="Your 10-digit mobile number (+91...)"
+                  placeholder="10-digit mobile number"
                   className="w-full h-11 pl-10 pr-3.5 text-xs border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 bg-slate-50 font-semibold text-slate-900"
                 />
               </div>
               <p className="text-[10px] text-slate-500">
-                Used strictly by assigned NGO rescuers and ambulance drivers to locate the dog.
+                Used by rescuers to locate the animal.
               </p>
             </div>
 
@@ -455,9 +455,9 @@ export const ReportIssuePage: React.FC<Props> = ({
               <button
                 type="button"
                 onClick={() => setShowExtraDetails(!showExtraDetails)}
-                className="text-[11px] text-slate-500 hover:text-slate-800 font-semibold flex items-center gap-1"
+                className="text-[11px] text-slate-500 hover:text-slate-800 font-semibold flex items-center gap-1 cursor-pointer"
               >
-                <span>{showExtraDetails ? "− Hide Extra Details" : "+ Add Extra Incident Details (Optional)"}</span>
+                <span>{showExtraDetails ? "− Hide Details" : "+ Add Note (Optional)"}</span>
               </button>
 
               {showExtraDetails && (
@@ -466,7 +466,7 @@ export const ReportIssuePage: React.FC<Props> = ({
                     rows={2}
                     value={extraDetails}
                     onChange={(e) => setExtraDetails(e.target.value)}
-                    placeholder="Dog color/size, visible symptoms, or special instructions..."
+                    placeholder="Describe the issue or animal details..."
                     className="w-full p-2.5 text-xs border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 bg-slate-50"
                   />
                   <input
@@ -486,21 +486,21 @@ export const ReportIssuePage: React.FC<Props> = ({
             <button
               type="button"
               onClick={onCancel}
-              className="px-5 py-3.5 border border-slate-200 hover:bg-slate-100 rounded-2xl text-xs font-bold text-slate-600 transition-colors"
+              className="px-5 py-3.5 border border-slate-200 hover:bg-slate-100 rounded-2xl text-xs font-bold text-slate-600 transition-colors cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 py-4 bg-gradient-to-r from-orange-600 to-[#f97316] hover:from-orange-700 hover:to-orange-600 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-xl shadow-orange-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50"
+              className="flex-1 py-4 bg-gradient-to-r from-orange-600 to-[#f97316] hover:from-orange-700 hover:to-orange-600 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-xl shadow-orange-500/30 flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
                   <span className="material-symbols-outlined !text-xl">emergency</span>
-                  <span>🚨 Alert Nearby NGOs & Dispatch Help</span>
+                  <span>Submit Report</span>
                 </>
               )}
             </button>

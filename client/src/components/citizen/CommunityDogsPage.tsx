@@ -71,22 +71,22 @@ export const CommunityDogsPage: React.FC<Props> = ({
           <div className="space-y-2 z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-xs font-semibold border border-orange-500/30">
               <span className="material-symbols-outlined !text-sm">pets</span>
-              <span>National Stray & Community Dog Directory</span>
+              <span>Community Dog Registry</span>
             </div>
             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
-              Community Dogs in Your Neighborhood
+              Community Dogs
             </h1>
             <p className="text-slate-300 text-xs sm:text-sm max-w-2xl">
-              Meet the community dogs of your area. Check immunization & ABC sterilization records, record daily sightings, or sponsor adoption.
+              Browse registered community dogs, vaccination & sterilization records, and sightings.
             </p>
           </div>
 
           <button
             onClick={onStartReport}
-            className="px-6 py-3.5 bg-[#f97316] hover:bg-orange-600 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-lg shadow-orange-500/30 transition-all flex items-center gap-2 z-10 shrink-0 hover:scale-105"
+            className="px-6 py-3.5 bg-[#f97316] hover:bg-orange-600 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-lg shadow-orange-500/30 transition-all flex items-center gap-2 z-10 shrink-0 hover:scale-105 cursor-pointer"
           >
             <span className="material-symbols-outlined !text-lg">emergency</span>
-            <span>Report Stray in Distress</span>
+            <span>Report a Dog</span>
           </button>
 
           <span
@@ -108,15 +108,15 @@ export const CommunityDogsPage: React.FC<Props> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by Dog ID (e.g. DOG-0023), Breed, Area (e.g. Sector 94), or Color..."
+                placeholder="Search by ID (e.g. DOG-0023), Breed, or Area..."
                 className="w-full pl-11 pr-4 py-2.5 text-xs sm:text-sm border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
               />
             </div>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-[#006c49] hover:bg-emerald-800 text-white rounded-2xl text-xs font-bold shadow-md transition-all shrink-0"
+              className="px-6 py-2.5 bg-[#006c49] hover:bg-emerald-800 text-white rounded-2xl text-xs font-bold shadow-md transition-all shrink-0 cursor-pointer"
             >
-              Search Registry
+              Search
             </button>
           </form>
 

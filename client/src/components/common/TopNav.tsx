@@ -111,7 +111,7 @@ export const TopNav: React.FC<Props> = ({
                 <>
                   <button
                     onClick={() => onNavigateCitizen("landing")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       citizenView === "landing"
                         ? "text-orange-600 bg-orange-50"
                         : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
@@ -121,17 +121,17 @@ export const TopNav: React.FC<Props> = ({
                   </button>
                   <button
                     onClick={() => onNavigateCitizen("report")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       citizenView === "report"
                         ? "text-orange-600 bg-orange-50"
                         : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
                     }`}
                   >
-                    Report Issue
+                    Report a Dog
                   </button>
                   <button
                     onClick={() => onNavigateCitizen("community_dogs")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer ${
                       citizenView === "community_dogs"
                         ? "text-orange-600 bg-orange-50 font-bold"
                         : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
@@ -141,24 +141,24 @@ export const TopNav: React.FC<Props> = ({
                   </button>
                   <button
                     onClick={() => onNavigateCitizen("track")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       citizenView === "track"
                         ? "text-orange-600 bg-orange-50"
                         : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
                     }`}
                   >
-                    Track Complaint
+                    Track Rescue
                   </button>
                   {user && (
                     <button
                       onClick={() => onNavigateCitizen("dashboard")}
-                      className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                      className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                         citizenView === "dashboard"
                           ? "text-orange-600 bg-orange-50"
                           : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
                       }`}
                     >
-                      My Complaints
+                      My Reports
                     </button>
                   )}
                 </>
@@ -166,17 +166,17 @@ export const TopNav: React.FC<Props> = ({
                 <>
                   <button
                     onClick={() => onNavigateNGO("overview")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       ngoView === "overview"
                         ? "text-[#006c49] bg-emerald-50"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
                     }`}
                   >
-                    Dashboard Home
+                    Overview
                   </button>
                   <button
                     onClick={() => onNavigateNGO("dogs")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer ${
                       ngoView === "dogs"
                         ? "text-[#006c49] bg-emerald-50 font-bold"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
@@ -186,21 +186,21 @@ export const TopNav: React.FC<Props> = ({
                   </button>
                   <button
                     onClick={() => onNavigateNGO("ai_review")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
                       ngoView === "ai_review"
                         ? "text-indigo-700 bg-indigo-50 font-extrabold border border-indigo-200"
                         : "text-slate-600 hover:text-indigo-700 hover:bg-slate-50"
                     }`}
                   >
                     <span className="material-symbols-outlined !text-base text-indigo-600">psychology</span>
-                    <span>AI Dog Review</span>
+                    <span>AI Review</span>
                     <span className="text-[9px] font-black bg-indigo-600 text-white px-1.5 py-0.2 rounded-full">
                       AI
                     </span>
                   </button>
                   <button
                     onClick={() => onNavigateNGO("maps")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer ${
                       ngoView === "maps"
                         ? "text-[#006c49] bg-emerald-50 font-bold"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
@@ -211,7 +211,7 @@ export const TopNav: React.FC<Props> = ({
                   </button>
                   <button
                     onClick={() => onNavigateNGO("complaints")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       ngoView === "complaints"
                         ? "text-[#006c49] bg-emerald-50"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
