@@ -71,22 +71,22 @@ export const CommunityDogsPage: React.FC<Props> = ({
           <div className="space-y-2 z-10">
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-orange-500/20 text-orange-300 rounded-full text-xs font-semibold border border-orange-500/30">
               <span className="material-symbols-outlined !text-sm">pets</span>
-              <span>Community Dog Registry</span>
+              <span>National Stray & Community Dog Directory</span>
             </div>
             <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">
-              Community Dogs
+              Community Dogs in Your Neighborhood
             </h1>
             <p className="text-slate-300 text-xs sm:text-sm max-w-2xl">
-              Browse registered community dogs, vaccination & sterilization records, and sightings.
+              Meet the community dogs of your area. Check immunization & ABC sterilization records, record daily sightings, or sponsor adoption.
             </p>
           </div>
 
           <button
             onClick={onStartReport}
-            className="px-6 py-3.5 bg-[#f97316] hover:bg-orange-600 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-lg shadow-orange-500/30 transition-all flex items-center gap-2 z-10 shrink-0 hover:scale-105 cursor-pointer"
+            className="px-6 py-3.5 bg-[#f97316] hover:bg-orange-600 text-white rounded-2xl text-xs sm:text-sm font-extrabold shadow-lg shadow-orange-500/30 transition-all flex items-center gap-2 z-10 shrink-0 hover:scale-105"
           >
             <span className="material-symbols-outlined !text-lg">emergency</span>
-            <span>Report a Dog</span>
+            <span>Report Stray in Distress</span>
           </button>
 
           <span
@@ -108,15 +108,15 @@ export const CommunityDogsPage: React.FC<Props> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by ID (e.g. DOG-0023), Breed, or Area..."
+                placeholder="Search by Dog ID (e.g. DOG-0023), Breed, Area (e.g. Sector 94), or Color..."
                 className="w-full pl-11 pr-4 py-2.5 text-xs sm:text-sm border border-slate-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500"
               />
             </div>
             <button
               type="submit"
-              className="px-6 py-2.5 bg-[#006c49] hover:bg-emerald-800 text-white rounded-2xl text-xs font-bold shadow-md transition-all shrink-0 cursor-pointer"
+              className="px-6 py-2.5 bg-[#006c49] hover:bg-emerald-800 text-white rounded-2xl text-xs font-bold shadow-md transition-all shrink-0"
             >
-              Search
+              Search Registry
             </button>
           </form>
 
@@ -215,20 +215,18 @@ export const CommunityDogsPage: React.FC<Props> = ({
                     </div>
 
                     <div className="absolute top-3 right-3 flex flex-col items-end gap-1">
-                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-lg shadow-sm ${
-                        dog.vaccinationStatus === "Fully Vaccinated"
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-lg shadow-sm ${dog.vaccinationStatus === "Fully Vaccinated"
                           ? "bg-emerald-600 text-white"
                           : dog.vaccinationStatus === "Due Soon"
-                          ? "bg-amber-500 text-white"
-                          : "bg-slate-800/80 text-slate-200 backdrop-blur-xs"
-                      }`}>
+                            ? "bg-amber-500 text-white"
+                            : "bg-slate-800/80 text-slate-200 backdrop-blur-xs"
+                        }`}>
                         💉 {dog.vaccinationStatus || "Not Available"}
                       </span>
-                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-lg shadow-sm ${
-                        dog.sterilizationStatus?.includes("Ear Notched") || dog.sterilizationStatus?.includes("Sterilized")
+                      <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-lg shadow-sm ${dog.sterilizationStatus?.includes("Ear Notched") || dog.sterilizationStatus?.includes("Sterilized")
                           ? "bg-purple-600 text-white"
                           : "bg-slate-800/80 text-slate-200 backdrop-blur-xs"
-                      }`}>
+                        }`}>
                         ✂️ {dog.sterilizationStatus || "Not Available"}
                       </span>
                     </div>
@@ -307,11 +305,10 @@ export const CommunityDogsPage: React.FC<Props> = ({
                   <button
                     type="button"
                     onClick={(e) => handleSighting(e, dog)}
-                    className={`w-full py-1.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-sm ${
-                      sightingSuccessId === dog.id
+                    className={`w-full py-1.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1 shadow-sm ${sightingSuccessId === dog.id
                         ? "bg-emerald-600 text-white"
                         : "bg-orange-50 hover:bg-orange-100 text-orange-800 border border-orange-200"
-                    }`}
+                      }`}
                   >
                     <span className="material-symbols-outlined !text-sm">
                       {sightingSuccessId === dog.id ? "check_circle" : "visibility"}

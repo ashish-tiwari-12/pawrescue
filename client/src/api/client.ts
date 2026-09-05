@@ -427,8 +427,13 @@ export const api = {
     category?: string;
   }): Promise<{
     validAnimal: boolean;
+    animalDetected?: boolean;
     animalType?: "dog" | "cat" | "cow";
+    status?: "accepted" | "rejected";
     confidence?: number;
+    detectedClasses?: string[];
+    confidenceScores?: number[];
+    detections?: Array<{ classId?: number; class: string; confidence: number }>;
     breed?: string;
     color?: string;
     ageGroup?: string;

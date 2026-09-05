@@ -44,7 +44,7 @@ export const TrackComplaintPage: React.FC<Props> = ({
       setComplaint(null);
       setError(
         err.response?.data?.error ||
-          `No complaint found matching '${idToSearch}'. Please check your Tracking ID or registered phone number.`
+        `No complaint found matching '${idToSearch}'. Please check your Tracking ID or registered phone number.`
       );
     } finally {
       setLoading(false);
@@ -67,13 +67,13 @@ export const TrackComplaintPage: React.FC<Props> = ({
         <div className="bg-white p-6 sm:p-8 rounded-3xl card-elevation-1 border border-slate-100 space-y-4 text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-xs font-bold">
             <span className="material-symbols-outlined !text-sm">search</span>
-            <span>Live Status Tracking</span>
+            <span>Real-Time Citizen Tracking</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-            Track Rescue
+            Track Stray Dog Complaint
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
-            Enter your Tracking ID to view real-time rescue progress.
+            Enter your 10-digit Tracking ID (e.g. <strong>PC-2026-9812</strong>) or registered mobile number to see real-time updates.
           </p>
 
           <form
@@ -98,14 +98,14 @@ export const TrackComplaintPage: React.FC<Props> = ({
             <button
               type="submit"
               disabled={loading}
-              className="px-7 py-3 bg-[#f97316] hover:bg-orange-600 text-white rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50 cursor-pointer"
+              className="px-7 py-3 bg-[#f97316] hover:bg-orange-600 text-white rounded-xl text-xs font-bold shadow-md shadow-orange-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
                   <span className="material-symbols-outlined !text-base">manage_search</span>
-                  <span>Track Report</span>
+                  <span>Track Status</span>
                 </>
               )}
             </button>
@@ -210,13 +210,12 @@ export const TrackComplaintPage: React.FC<Props> = ({
                       <div key={idx} className="text-center space-y-2 relative">
                         {/* Circle */}
                         <div
-                          className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center transition-all ${
-                            state === "completed"
+                          className={`w-10 h-10 mx-auto rounded-full flex items-center justify-center transition-all ${state === "completed"
                               ? "bg-[#006c49] text-white ring-4 ring-emerald-50"
                               : state === "current"
-                              ? "bg-[#f97316] text-white ring-4 ring-orange-100 animate-pulse"
-                              : "bg-slate-100 text-slate-400 border border-slate-200"
-                          }`}
+                                ? "bg-[#f97316] text-white ring-4 ring-orange-100 animate-pulse"
+                                : "bg-slate-100 text-slate-400 border border-slate-200"
+                            }`}
                         >
                           <span className="material-symbols-outlined !text-lg">
                             {step.icon}
@@ -224,13 +223,12 @@ export const TrackComplaintPage: React.FC<Props> = ({
                         </div>
                         <div>
                           <p
-                            className={`text-xs font-bold ${
-                              state === "current"
+                            className={`text-xs font-bold ${state === "current"
                                 ? "text-orange-600"
                                 : state === "completed"
-                                ? "text-[#006c49]"
-                                : "text-slate-400"
-                            }`}
+                                  ? "text-[#006c49]"
+                                  : "text-slate-400"
+                              }`}
                           >
                             {step.title}
                           </p>

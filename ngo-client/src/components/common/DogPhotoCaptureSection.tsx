@@ -76,10 +76,10 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         title: file.name
       });
 
-      const conf = res.confidence || 0.94;
+      const conf = typeof res.confidence === "number" ? res.confidence : 0;
       const confPercent = Math.round(conf * 100);
-      const isAccepted = Boolean(res.validAnimal && (res as any).animalDetected !== false && conf >= 0.25);
-      const detectedType = res.animalType || (isAccepted ? "dog" : undefined);
+      const isAccepted = Boolean(res.validAnimal && (res as any).animalDetected !== false && res.status !== "rejected" && conf >= 0.25);
+      const detectedType = isAccepted ? res.animalType : undefined;
 
       setValidationMap((prev) => ({
         ...prev,
@@ -87,7 +87,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           status: isAccepted ? "accepted" : "rejected",
           animalDetected: isAccepted,
           animalType: detectedType,
-          detectedClasses: (res as any).detectedClasses || (detectedType ? [detectedType] : ["dog"]),
+          detectedClasses: (res as any).detectedClasses || [],
           confidence: conf,
           confidencePercent: confPercent,
           error: isAccepted ? undefined : (res.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.")
@@ -95,11 +95,11 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       }));
     } catch (err: any) {
       const data = err.response?.data;
-      const isAccepted = Boolean(data?.validAnimal && data?.animalDetected && (data?.confidence || 0) >= 0.25);
-      const detectedType = data?.animalType || (isAccepted ? "dog" : undefined);
-      const conf = data?.confidence || (isAccepted ? 0.92 : 0);
+      const conf = typeof data?.confidence === "number" ? data.confidence : 0;
       const confPercent = Math.round(conf * 100);
-      const errMsg = data?.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
+      const isAccepted = Boolean(data?.validAnimal && data?.animalDetected && data?.status !== "rejected" && conf >= 0.25);
+      const detectedType = isAccepted ? data?.animalType : undefined;
+      const errMsg = data?.error || err.message || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
       
       setValidationMap((prev) => ({
         ...prev,
@@ -107,7 +107,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           status: isAccepted ? "accepted" : "rejected",
           animalDetected: isAccepted,
           animalType: detectedType,
-          detectedClasses: data?.detectedClasses || (detectedType ? [detectedType] : ["unsupported"]),
+          detectedClasses: data?.detectedClasses || [],
           confidence: conf,
           confidencePercent: confPercent,
           error: isAccepted ? undefined : errMsg
@@ -236,6 +236,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
 
   return (
     <div className="space-y-3.5">
+      {/* Hidden File Inputs */}
       <input
         ref={mobileCameraInputRef}
         type="file"
@@ -249,7 +250,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           e.target.value = "";
         }}
         className="hidden"
-        id="ngo-camera-capture-input"
+        id="paw-camera-capture-input"
       />
 
       <input
@@ -265,48 +266,51 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           e.target.value = "";
         }}
         className="hidden"
-        id="ngo-gallery-upload-input"
+        id="paw-gallery-upload-input"
       />
 
+      {/* Title & Count Badge */}
       <div className="flex items-center justify-between">
-        <label className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+        <label className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
           <span>Animal Photos (Dog, Cat, Cow)</span>
-          <span className="text-[11px] font-normal text-slate-400">
+          <span className="text-[11px] font-normal text-slate-500">
             ({selectedFiles.length}/{maxFiles} attached)
           </span>
         </label>
 
         {locationCaptured && (
-          <div className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-950 text-emerald-300 border border-emerald-800/80 rounded-full text-[10px] font-bold animate-fadeIn">
-            <span className="material-symbols-outlined !text-xs text-emerald-400">my_location</span>
+          <div className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-bold animate-fadeIn">
+            <span className="material-symbols-outlined !text-xs text-emerald-600">my_location</span>
             <span>📍 Current Location Captured</span>
           </div>
         )}
       </div>
 
+      {/* Validation Warning Alert */}
       {(validationError || hasRejectedImage) && (
-        <div className="p-3 bg-red-950/80 border border-red-800/80 rounded-xl text-xs text-red-200 flex items-start gap-2.5 animate-fadeIn">
-          <span className="material-symbols-outlined !text-base text-red-400 shrink-0 mt-0.5">error</span>
+        <div className="p-3 bg-red-50 border-2 border-red-200 rounded-2xl text-xs text-red-800 flex items-start gap-2.5 animate-fadeIn shadow-xs">
+          <span className="material-symbols-outlined !text-lg text-red-600 shrink-0 mt-0.5">error</span>
           <div className="space-y-0.5">
-            <strong className="font-extrabold block text-red-300">Upload Warning</strong>
-            <span>{validationError || "One or more uploaded photos does not contain a supported animal (Dog, Cat, or Cow). Please remove or replace invalid photos."}</span>
+            <strong className="font-extrabold block text-red-950">Upload Warning</strong>
+            <span>{validationError || "One or more uploaded images does not contain a supported animal (Dog, Cat, or Cow). Please remove or replace invalid photos."}</span>
           </div>
         </div>
       )}
 
+      {/* Action Buttons */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <button
           type="button"
           onClick={handleLiveCameraClick}
           disabled={selectedFiles.length >= maxFiles}
-          className="h-14 px-4 bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 active:scale-[0.98] text-slate-950 rounded-2xl font-black text-xs shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2.5 transition-all disabled:opacity-40 cursor-pointer"
+          className="h-14 px-4 bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 active:scale-[0.98] text-white rounded-2xl font-bold text-xs shadow-md shadow-orange-500/20 flex items-center justify-center gap-2.5 transition-all disabled:opacity-40 cursor-pointer"
         >
-          <div className="w-8 h-8 rounded-xl bg-slate-950/20 flex items-center justify-center">
-            <span className="material-symbols-outlined !text-xl text-slate-950">photo_camera</span>
+          <div className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center">
+            <span className="material-symbols-outlined !text-xl text-white">photo_camera</span>
           </div>
           <div className="text-left">
-            <div className="text-xs font-black leading-tight">📷 Capture Live Photo</div>
-            <div className="text-[10px] font-normal text-slate-900">Rear Camera / Webcam</div>
+            <div className="text-xs font-extrabold leading-tight">📷 Capture Live Photo</div>
+            <div className="text-[10px] font-normal text-orange-100">Rear Camera / Webcam</div>
           </div>
         </button>
 
@@ -314,21 +318,22 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           type="button"
           onClick={() => galleryInputRef.current?.click()}
           disabled={selectedFiles.length >= maxFiles}
-          className="h-14 px-4 bg-slate-800/90 hover:bg-slate-700/90 border border-slate-700 active:scale-[0.98] text-slate-200 rounded-2xl font-bold text-xs shadow-sm flex items-center justify-center gap-2.5 transition-all disabled:opacity-40 cursor-pointer"
+          className="h-14 px-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 hover:border-slate-300 active:scale-[0.98] text-slate-800 rounded-2xl font-bold text-xs shadow-sm flex items-center justify-center gap-2.5 transition-all disabled:opacity-40 cursor-pointer"
         >
-          <div className="w-8 h-8 rounded-xl bg-slate-700 text-slate-300 flex items-center justify-center">
+          <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-700 flex items-center justify-center">
             <span className="material-symbols-outlined !text-xl">photo_library</span>
           </div>
           <div className="text-left">
-            <div className="text-xs font-bold text-white leading-tight">🖼 Upload From Gallery</div>
-            <div className="text-[10px] font-normal text-slate-400">Pick device photos</div>
+            <div className="text-xs font-extrabold text-slate-900 leading-tight">🖼 Upload From Gallery</div>
+            <div className="text-[10px] font-normal text-slate-500">Pick device photos</div>
           </div>
         </button>
       </div>
 
+      {/* Preview Cards with Independent Debug & Status Info */}
       {selectedFiles.length > 0 && (
         <div className="space-y-2 pt-1">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+          <div className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
             Attached Incident Photos ({selectedFiles.length})
           </div>
 
@@ -341,73 +346,78 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
               const isRejected = info?.status === "rejected";
               const isValidating = info?.status === "validating";
 
-              const resolvedType = info?.animalType || (isAccepted ? "dog" : undefined);
-              const animalLabel = resolvedType ? resolvedType.toUpperCase() : isAccepted ? "DOG" : "NOT SUPPORTED";
-              const emoji = resolvedType === "cat" ? "🐱" : resolvedType === "cow" ? "🐮" : resolvedType === "dog" || isAccepted ? "🐶" : "⚠️";
+              const resolvedType = info?.animalType;
+              const animalLabel = resolvedType ? resolvedType.toUpperCase() : "UNKNOWN";
+              const emoji = resolvedType === "cat" ? "🐱" : resolvedType === "cow" ? "🐮" : resolvedType === "dog" ? "🐶" : "⚠️";
 
               return (
                 <div
                   key={fileKey}
                   className={`relative p-3 rounded-2xl border shadow-sm flex items-start gap-3 transition-all animate-fadeIn ${
                     isRejected
-                      ? "bg-red-950/40 border-red-800/60"
+                      ? "bg-red-50/90 border-red-300"
                       : isAccepted
-                      ? "bg-emerald-950/30 border-emerald-700/60"
-                      : "bg-slate-800/90 border-slate-700"
+                      ? "bg-emerald-50/60 border-emerald-300"
+                      : "bg-white border-slate-200"
                   }`}
                 >
-                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-900 shrink-0 border border-slate-700 relative">
+                  {/* Thumbnail */}
+                  <div className="w-16 h-16 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200 relative">
                     <img
                       src={previewUrls[idx]}
                       alt={`Preview ${idx + 1}`}
                       className="w-full h-full object-cover"
                     />
                     {isRejected && (
-                      <div className="absolute inset-0 bg-red-950/80 flex items-center justify-center text-red-200 text-base font-bold">
+                      <div className="absolute inset-0 bg-red-950/70 flex items-center justify-center text-red-200 text-base font-bold">
                         ✕
                       </div>
                     )}
                   </div>
 
+                  {/* Debug / Status Info */}
                   <div className="flex-1 min-w-0 pr-6 space-y-1">
-                    <div className="text-xs font-bold text-slate-100 truncate" title={file.name}>
+                    <div className="text-xs font-bold text-slate-900 truncate" title={file.name}>
                       {file.name || `Photo #${idx + 1}`}
                     </div>
-                    <div className="text-[10px] text-slate-400 font-mono">
+                    <div className="text-[10px] text-slate-500 font-mono">
                       {formatFileSize(file.size)} • {file.type.split("/")[1]?.toUpperCase() || "JPG"}
                     </div>
 
-                    <div className="p-1.5 rounded-lg bg-slate-900/80 border border-slate-700/80 text-[10px] font-mono leading-tight space-y-0.5">
+                    {/* Debug Mode Info Display */}
+                    <div className="p-1.5 rounded-lg bg-slate-100/80 border border-slate-200/80 text-[10px] font-mono leading-tight space-y-0.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400">Animal:</span>
-                        <span className="font-bold text-slate-200">{isValidating ? "Detecting..." : `${emoji} ${animalLabel}`}</span>
+                        <span className="text-slate-500">Animal:</span>
+                        <span className="font-bold text-slate-900">{isValidating ? "Detecting..." : `${emoji} ${animalLabel}`}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400">Confidence:</span>
-                        <span className="font-bold text-slate-200">{isValidating ? "..." : `${info?.confidencePercent || 0}%`}</span>
+                        <span className="text-slate-500">Confidence:</span>
+                        <span className="font-bold text-slate-900">{isValidating ? "..." : `${info?.confidencePercent || 0}%`}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-slate-400">Status:</span>
-                        <span className={`font-bold ${isAccepted ? "text-emerald-400" : isRejected ? "text-red-400" : "text-amber-400"}`}>
+                        <span className="text-slate-500">Status:</span>
+                        <span className={`font-bold ${isAccepted ? "text-emerald-700" : isRejected ? "text-red-700" : "text-amber-600"}`}>
                           {isValidating ? "Validating..." : isAccepted ? "Accepted" : "Rejected"}
                         </span>
                       </div>
                     </div>
 
+                    {/* Retake button */}
                     <button
                       type="button"
                       onClick={() => handleRetakeImage(idx)}
-                      className="mt-1 text-[11px] text-emerald-400 hover:text-emerald-300 font-bold inline-flex items-center gap-0.5"
+                      className="mt-1 text-[11px] text-orange-600 hover:text-orange-700 font-bold inline-flex items-center gap-0.5"
                     >
                       <span className="material-symbols-outlined !text-xs">refresh</span>
                       <span>Retake</span>
                     </button>
                   </div>
 
+                  {/* Remove Button */}
                   <button
                     type="button"
                     onClick={() => handleRemoveImage(idx)}
-                    className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-slate-700 hover:bg-red-900/60 text-slate-300 hover:text-red-300 flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
+                    className="absolute top-2.5 right-2.5 w-6 h-6 rounded-full bg-slate-100 hover:bg-red-100 text-slate-400 hover:text-red-600 flex items-center justify-center text-xs font-bold transition-colors cursor-pointer"
                     title="Remove Photo"
                   >
                     ✕
@@ -419,6 +429,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         </div>
       )}
 
+      {/* Desktop Webcam Live Modal */}
       <LiveWebcamModal
         isOpen={isWebcamOpen}
         onClose={() => setIsWebcamOpen(false)}

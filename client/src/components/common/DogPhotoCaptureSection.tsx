@@ -80,10 +80,10 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
         title: file.name
       });
 
-      const conf = res.confidence || 0.94;
+      const conf = typeof res.confidence === "number" ? res.confidence : 0;
       const confPercent = Math.round(conf * 100);
-      const isAccepted = Boolean(res.validAnimal && (res as any).animalDetected !== false && conf >= 0.25);
-      const detectedType = res.animalType || (isAccepted ? "dog" : undefined);
+      const isAccepted = Boolean(res.validAnimal && (res as any).animalDetected !== false && res.status !== "rejected" && conf >= 0.25);
+      const detectedType = isAccepted ? res.animalType : undefined;
 
       setValidationMap((prev) => ({
         ...prev,
@@ -91,7 +91,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           status: isAccepted ? "accepted" : "rejected",
           animalDetected: isAccepted,
           animalType: detectedType,
-          detectedClasses: (res as any).detectedClasses || (detectedType ? [detectedType] : ["dog"]),
+          detectedClasses: (res as any).detectedClasses || [],
           confidence: conf,
           confidencePercent: confPercent,
           error: isAccepted ? undefined : (res.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.")
@@ -99,11 +99,11 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
       }));
     } catch (err: any) {
       const data = err.response?.data;
-      const isAccepted = Boolean(data?.validAnimal && data?.animalDetected && (data?.confidence || 0) >= 0.25);
-      const detectedType = data?.animalType || (isAccepted ? "dog" : undefined);
-      const conf = data?.confidence || (isAccepted ? 0.92 : 0);
+      const conf = typeof data?.confidence === "number" ? data.confidence : 0;
       const confPercent = Math.round(conf * 100);
-      const errMsg = data?.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
+      const isAccepted = Boolean(data?.validAnimal && data?.animalDetected && data?.status !== "rejected" && conf >= 0.25);
+      const detectedType = isAccepted ? data?.animalType : undefined;
+      const errMsg = data?.error || err.message || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
       
       setValidationMap((prev) => ({
         ...prev,
@@ -111,7 +111,7 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
           status: isAccepted ? "accepted" : "rejected",
           animalDetected: isAccepted,
           animalType: detectedType,
-          detectedClasses: data?.detectedClasses || (detectedType ? [detectedType] : ["unsupported"]),
+          detectedClasses: data?.detectedClasses || [],
           confidence: conf,
           confidencePercent: confPercent,
           error: isAccepted ? undefined : errMsg
@@ -357,9 +357,9 @@ export const DogPhotoCaptureSection: React.FC<Props> = ({
               const isRejected = info?.status === "rejected";
               const isValidating = info?.status === "validating";
 
-              const resolvedType = info?.animalType || (isAccepted ? "dog" : undefined);
-              const animalLabel = resolvedType ? resolvedType.toUpperCase() : isAccepted ? "DOG" : "NOT SUPPORTED";
-              const emoji = resolvedType === "cat" ? "🐱" : resolvedType === "cow" ? "🐮" : resolvedType === "dog" || isAccepted ? "🐶" : "⚠️";
+              const resolvedType = info?.animalType;
+              const animalLabel = resolvedType ? resolvedType.toUpperCase() : "UNKNOWN";
+              const emoji = resolvedType === "cat" ? "🐱" : resolvedType === "cow" ? "🐮" : resolvedType === "dog" ? "🐶" : "⚠️";
 
               return (
                 <div

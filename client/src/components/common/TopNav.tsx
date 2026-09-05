@@ -52,22 +52,20 @@ export const TopNav: React.FC<Props> = ({
         <div className="flex items-center gap-1.5 bg-slate-800 p-0.5 rounded-lg border border-slate-700">
           <button
             onClick={() => onSwitchPortal("citizen")}
-            className={`px-3 py-1 rounded-md text-[11px] font-semibold transition-all flex items-center gap-1.5 ${
-              activePortal === "citizen"
+            className={`px-3 py-1 rounded-md text-[11px] font-semibold transition-all flex items-center gap-1.5 ${activePortal === "citizen"
                 ? "bg-[#f97316] text-white shadow-sm"
                 : "text-slate-400 hover:text-white"
-            }`}
+              }`}
           >
             <span className="material-symbols-outlined !text-[13px]">person</span>
             Citizen Portal
           </button>
           <button
             onClick={() => onSwitchPortal("ngo")}
-            className={`px-3 py-1 rounded-md text-[11px] font-semibold transition-all flex items-center gap-1.5 ${
-              activePortal === "ngo"
+            className={`px-3 py-1 rounded-md text-[11px] font-semibold transition-all flex items-center gap-1.5 ${activePortal === "ngo"
                 ? "bg-[#006c49] text-white shadow-sm"
                 : "text-slate-400 hover:text-white"
-            }`}
+              }`}
           >
             <span className="material-symbols-outlined !text-[13px]">medical_services</span>
             NGO Dashboard
@@ -111,54 +109,49 @@ export const TopNav: React.FC<Props> = ({
                 <>
                   <button
                     onClick={() => onNavigateCitizen("landing")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                      citizenView === "landing"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${citizenView === "landing"
                         ? "text-orange-600 bg-orange-50"
                         : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     Home
                   </button>
                   <button
                     onClick={() => onNavigateCitizen("report")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                      citizenView === "report"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${citizenView === "report"
                         ? "text-orange-600 bg-orange-50"
                         : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
-                    Report a Dog
+                    Report Issue
                   </button>
                   <button
                     onClick={() => onNavigateCitizen("community_dogs")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer ${
-                      citizenView === "community_dogs"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${citizenView === "community_dogs"
                         ? "text-orange-600 bg-orange-50 font-bold"
                         : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     <span>🐕 Community Dogs</span>
                   </button>
                   <button
                     onClick={() => onNavigateCitizen("track")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                      citizenView === "track"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${citizenView === "track"
                         ? "text-orange-600 bg-orange-50"
                         : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
-                    Track Rescue
+                    Track Complaint
                   </button>
                   {user && (
                     <button
                       onClick={() => onNavigateCitizen("dashboard")}
-                      className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                        citizenView === "dashboard"
+                      className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${citizenView === "dashboard"
                           ? "text-orange-600 bg-orange-50"
                           : "text-slate-600 hover:text-orange-600 hover:bg-slate-50"
-                      }`}
+                        }`}
                     >
-                      My Reports
+                      My Complaints
                     </button>
                   )}
                 </>
@@ -166,86 +159,78 @@ export const TopNav: React.FC<Props> = ({
                 <>
                   <button
                     onClick={() => onNavigateNGO("overview")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                      ngoView === "overview"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${ngoView === "overview"
                         ? "text-[#006c49] bg-emerald-50"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
-                    Overview
+                    Dashboard Home
                   </button>
                   <button
                     onClick={() => onNavigateNGO("dogs")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer ${
-                      ngoView === "dogs"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${ngoView === "dogs"
                         ? "text-[#006c49] bg-emerald-50 font-bold"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     <span>🐕 Dog Registry</span>
                   </button>
                   <button
                     onClick={() => onNavigateNGO("ai_review")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
-                      ngoView === "ai_review"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${ngoView === "ai_review"
                         ? "text-indigo-700 bg-indigo-50 font-extrabold border border-indigo-200"
                         : "text-slate-600 hover:text-indigo-700 hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     <span className="material-symbols-outlined !text-base text-indigo-600">psychology</span>
-                    <span>AI Review</span>
+                    <span>AI Dog Review</span>
                     <span className="text-[9px] font-black bg-indigo-600 text-white px-1.5 py-0.2 rounded-full">
                       AI
                     </span>
                   </button>
                   <button
                     onClick={() => onNavigateNGO("maps")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 cursor-pointer ${
-                      ngoView === "maps"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${ngoView === "maps"
                         ? "text-[#006c49] bg-emerald-50 font-bold"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     <span className="material-symbols-outlined !text-base text-emerald-600">map</span>
                     <span>Dispatch Map</span>
                   </button>
                   <button
                     onClick={() => onNavigateNGO("complaints")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                      ngoView === "complaints"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${ngoView === "complaints"
                         ? "text-[#006c49] bg-emerald-50"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     Complaints
                   </button>
                   <button
                     onClick={() => onNavigateNGO("gov_analytics")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
-                      ngoView === "gov_analytics"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${ngoView === "gov_analytics"
                         ? "text-indigo-700 bg-indigo-50 font-bold"
                         : "text-slate-600 hover:text-indigo-700 hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     <span>🏛️ Municipal ARV/ABC</span>
                   </button>
                   <button
                     onClick={() => onNavigateNGO("volunteers")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${
-                      ngoView === "volunteers"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all ${ngoView === "volunteers"
                         ? "text-[#006c49] bg-emerald-50"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     Volunteers
                   </button>
                   <button
                     onClick={() => onNavigateNGO("profile")}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${
-                      ngoView === "profile"
+                    className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1 ${ngoView === "profile"
                         ? "text-[#006c49] bg-emerald-50 font-bold"
                         : "text-slate-600 hover:text-[#006c49] hover:bg-slate-50"
-                    }`}
+                      }`}
                   >
                     <span className="material-symbols-outlined !text-base text-emerald-600">domain</span>
                     <span>NGO Profile</span>
@@ -414,9 +399,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateCitizen("landing");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        citizenView === "landing" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${citizenView === "landing" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-orange-500">home</span>
                       <span>Home</span>
@@ -427,9 +411,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateCitizen("report");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        citizenView === "report" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${citizenView === "report" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-orange-500">add_a_photo</span>
                       <span>Report Dog Issue</span>
@@ -440,9 +423,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateCitizen("dogs");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        citizenView === "dogs" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${citizenView === "dogs" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-orange-500">pets</span>
                       <span>Community Dogs</span>
@@ -453,9 +435,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateCitizen("track");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        citizenView === "track" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${citizenView === "track" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-orange-500">manage_search</span>
                       <span>Track Complaint</span>
@@ -467,9 +448,8 @@ export const TopNav: React.FC<Props> = ({
                           onNavigateCitizen("dashboard");
                           setMobileMenuOpen(false);
                         }}
-                        className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                          citizenView === "dashboard" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                        }`}
+                        className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${citizenView === "dashboard" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                          }`}
                       >
                         <span className="material-symbols-outlined !text-lg text-orange-500">receipt_long</span>
                         <span>My Complaints</span>
@@ -500,9 +480,8 @@ export const TopNav: React.FC<Props> = ({
                           onNavigateCitizen("profile");
                           setMobileMenuOpen(false);
                         }}
-                        className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                          citizenView === "profile" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                        }`}
+                        className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${citizenView === "profile" ? "bg-orange-50 text-orange-700 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                          }`}
                       >
                         <span className="material-symbols-outlined !text-lg text-orange-500">person</span>
                         <span>My Profile</span>
@@ -516,9 +495,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("overview");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "overview" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "overview" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-emerald-600">dashboard</span>
                       <span>Overview</span>
@@ -529,9 +507,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("complaints");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "complaints" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "complaints" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-emerald-600">receipt_long</span>
                       <span>Rescues & Cases</span>
@@ -542,9 +519,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("maps");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "maps" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "maps" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-emerald-600">map</span>
                       <span>Live Dispatch Map</span>
@@ -555,9 +531,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("dogs");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "dogs" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "dogs" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-emerald-600">pets</span>
                       <span>National Dog Registry</span>
@@ -568,9 +543,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("ai_review");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "ai_review" ? "bg-indigo-50 text-indigo-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "ai_review" ? "bg-indigo-50 text-indigo-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-indigo-600">psychology</span>
                       <span>AI Dog Profile Review</span>
@@ -581,9 +555,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("volunteers");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "volunteers" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "volunteers" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-emerald-600">group</span>
                       <span>Volunteers</span>
@@ -594,9 +567,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("analytics");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "analytics" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "analytics" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-emerald-600">analytics</span>
                       <span>Rescue Analytics</span>
@@ -607,9 +579,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("gov_analytics");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "gov_analytics" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "gov_analytics" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-emerald-600">account_balance</span>
                       <span>Municipal ARV / ABC</span>
@@ -620,9 +591,8 @@ export const TopNav: React.FC<Props> = ({
                         onNavigateNGO("profile");
                         setMobileMenuOpen(false);
                       }}
-                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${
-                        ngoView === "profile" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
-                      }`}
+                      className={`w-full text-left px-3.5 py-3 text-xs font-bold rounded-xl flex items-center gap-2.5 transition-colors ${ngoView === "profile" ? "bg-emerald-50 text-emerald-800 font-extrabold" : "text-slate-700 hover:bg-slate-50"
+                        }`}
                     >
                       <span className="material-symbols-outlined !text-lg text-emerald-600">domain</span>
                       <span>NGO Profile</span>

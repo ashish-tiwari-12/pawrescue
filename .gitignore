@@ -15,3 +15,6 @@ server/uploads/
 *.local
 .DS_Store
 .gemini/
+*.pt
+__pycache__/
+ai-service/__pycache__/
