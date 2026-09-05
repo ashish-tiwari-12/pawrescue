@@ -113,7 +113,8 @@ async function tryFastApiYoloValidation(
   context?: { title?: string; description?: string; category?: string }
 ): Promise<AnimalValidationResult | null> {
   const isVercel = Boolean(process.env.VERCEL);
-  const aiServiceUrl = process.env.AI_SERVICE_URL || (isVercel ? null : "http://localhost:8000");
+  const rawAiUrl = process.env.AI_SERVICE_URL || (!isVercel ? "http://localhost:8000" : "");
+  const aiServiceUrl = rawAiUrl.trim().replace(/^["']|["']$/g, "").replace(/\/+$/, "");
 
   if (!aiServiceUrl) {
     return null;
@@ -122,11 +123,12 @@ async function tryFastApiYoloValidation(
   const endpoints = [`${aiServiceUrl}/api/validate-animal`, `${aiServiceUrl}/validate-animal`];
   for (const url of endpoints) {
     try {
+      console.log(`[AI Animal Validator] Calling YOLO Microservice: ${url}...`);
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ imageUrl, context }),
-        signal: AbortSignal.timeout(4000)
+        signal: AbortSignal.timeout(12000)
       });
 
       if (response.ok) {
@@ -172,11 +174,15 @@ async function tryFastApiYoloValidation(
           breed: isAccepted ? data.breed || (matchedType === "dog" ? "Indian Pariah / Indie" : matchedType === "cat" ? "Domestic Shorthair" : "Desi Sahiwal") : undefined,
           color: isAccepted ? data.color || "Brown & White" : undefined,
           ageGroup: isAccepted ? data.ageGroup || "Adult" : undefined,
+          aiServiceUrl,
           error: isAccepted ? undefined : (data.error || "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.")
         };
+      } else {
+        const text = await response.text().catch(() => "");
+        console.warn(`[AI Animal Validator] YOLO service responded with HTTP ${response.status}: ${text.slice(0, 150)}`);
       }
-    } catch {
-      // try next endpoint
+    } catch (err: any) {
+      console.warn(`[AI Animal Validator] Failed to reach YOLO endpoint (${url}):`, err?.message || err);
     }
   }
   return null;
