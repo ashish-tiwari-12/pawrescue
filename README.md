@@ -11,7 +11,7 @@
 <p align="center">
   <a href="https://client-jet-pi.vercel.app/"><img src="https://img.shields.io/badge/Live%20Citizen%20App-Vercel-blue?style=for-the-badge&logo=vercel" alt="Live App" /></a>
   <a href="https://pawrescue-ai-service.onrender.com/"><img src="https://img.shields.io/badge/AI%20Microservice-Render%20Live-46E3B7?style=for-the-badge&logo=render" alt="AI Microservice" /></a>
-  <a href="https://pawrescue-nine.vercel.app/api"><img src="https://img.shields.io/badge/API%20Server-Vercel%20Serverless-000000?style=for-the-badge&logo=vercel" alt="API Server" /></a>
+  <a href="https://pawrescue-nine.vercel.app/"><img src="https://img.shields.io/badge/API%20Server-Vercel%20Serverless-000000?style=for-the-badge&logo=vercel" alt="API Server" /></a>
   <img src="https://img.shields.io/badge/YOLOv8-Ultralytics%20PyTorch-FF6F00?style=for-the-badge&logo=pytorch" alt="YOLOv8" />
   <img src="https://img.shields.io/badge/Database-MongoDB%20Atlas-47A248?style=for-the-badge&logo=mongodb" alt="MongoDB Atlas" />
   <img src="https://img.shields.io/badge/RealTime-Socket.io-010101?style=for-the-badge&logo=socketdotio" alt="Socket.IO" />
@@ -335,7 +335,7 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 | Component | Platform | URL |
 | :--- | :--- | :--- |
 | **Citizen & Public App** | **Vercel** | [https://client-jet-pi.vercel.app/](https://client-jet-pi.vercel.app/) |
-| **Backend REST API** | **Vercel Serverless** | [https://pawrescue-nine.vercel.app/api](https://pawrescue-nine.vercel.app/api) |
+| **Backend REST API** | **Vercel Serverless** | [https://pawrescue-nine.vercel.app/](https://pawrescue-nine.vercel.app/) |
 | **AI YOLOv8 Microservice** | **Render** | [https://pawrescue-ai-service.onrender.com/](https://pawrescue-ai-service.onrender.com/) |
 | **Database** | **MongoDB Atlas** | AWS Mumbai Region (`ap-south-1`) |
 | **Media Assets** | **Cloudinary CDN** | Global Multi-Region CDN |
