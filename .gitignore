@@ -18,3 +18,6 @@ server/uploads/
 *.pt
 __pycache__/
 ai-service/__pycache__/
+presentation/
+stitch_screens/
+PRESENTATION.md
