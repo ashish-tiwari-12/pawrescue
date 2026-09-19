@@ -25,10 +25,6 @@ export const LandingPage: React.FC<Props> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             {/* Left Col: Hero Copy */}
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-100/80 border border-orange-200 text-orange-900 text-xs font-semibold">
-                <span className="w-2 h-2 rounded-full bg-orange-600 animate-ping" />
-                <span>India's Dedicated Stray Animal Rescue Hotline & NGO Grid</span>
-              </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-950 tracking-tight leading-[1.15]">
                 Save A Stray Life. <br />

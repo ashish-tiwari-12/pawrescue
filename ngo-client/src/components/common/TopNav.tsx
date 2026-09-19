@@ -90,19 +90,9 @@ export const TopNav: React.FC<Props> = ({
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-orange-600 to-[#f97316] flex items-center justify-center text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform">
                 <span className="material-symbols-outlined !text-2xl">pets</span>
               </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-bold text-slate-900 text-lg tracking-tight group-hover:text-orange-600 transition-colors">
-                    PawConnect
-                  </span>
-                  <span className="text-[10px] bg-orange-100 text-orange-800 font-bold px-1.5 py-0.2 rounded uppercase tracking-wider">
-                    India
-                  </span>
-                </div>
-                <p className="text-[10px] text-slate-500 font-medium -mt-0.5">
-                  {activePortal === "citizen" ? "Citizen Rescue Network" : "NGO Dispatch & Admin"}
-                </p>
-              </div>
+              <span className="font-bold text-slate-900 text-lg tracking-tight group-hover:text-orange-600 transition-colors">
+                PawConnect
+              </span>
             </button>
 
             {/* Desktop Nav Links */}
@@ -246,15 +236,6 @@ export const TopNav: React.FC<Props> = ({
 
           {/* Right Actions */}
           <div className="flex items-center gap-2 sm:gap-3">
-            {/* Emergency CTA */}
-            <button
-              onClick={onEmergencyReport}
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-[#f97316] hover:bg-orange-600 text-white rounded-lg text-xs font-bold shadow-sm shadow-orange-500/30 transition-all hover:scale-105 active:scale-95 animate-urgent-pulse"
-            >
-              <span className="material-symbols-outlined !text-base">emergency</span>
-              <span className="hidden sm:inline">Emergency Rescue</span>
-              <span className="sm:hidden">Report</span>
-            </button>
 
             {/* Notification Bell */}
             <button
