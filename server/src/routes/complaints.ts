@@ -20,6 +20,17 @@ import {
 import { broadcastEvent } from "../sockets/index.js";
 import { processResolvedComplaintForDogProfile } from "../services/aiDogProfilingService.js";
 import { validateAnimalImage } from "../services/aiAnimalValidationService.js";
+import {
+  complaintSubmitRateLimiter,
+  escapeRegExp,
+  sanitizeText
+} from "../middleware/security.js";
+import {
+  validateRequest,
+  CreateComplaintSchema,
+  UpdateComplaintStatusSchema,
+  AddComplaintNoteSchema
+} from "../middleware/validation.js";
 
 const router = Router();
 
@@ -29,9 +40,22 @@ function generateTrackingId(): string {
   return `PC-2026-${randomNum}`;
 }
 
-// 1. Create Complaint (Multer upload supported + Saved to MongoDB + Auto Geospatial NGO Assignment)
+const VALID_CATEGORIES: ComplaintCategory[] = [
+  "Injured Dog",
+  "Sick Dog",
+  "Aggressive Dog",
+  "Abandoned Puppy",
+  "Emergency Rescue",
+  "Sterilization Request",
+  "Vaccination Request",
+  "Lost Dog",
+  "Dog Bite"
+];
+
+// 1. Create Complaint (Rate limited, Input validated, Multer memory upload + Cloudinary + AI Image Validation + Auto Geospatial Assignment)
 router.post(
   "/",
+  complaintSubmitRateLimiter,
   optionalAuth,
   uploadImages.array("images", 5),
   async (req: AuthRequest, res: Response) => {
@@ -59,6 +83,10 @@ router.post(
         });
       }
 
+      if (!VALID_CATEGORIES.includes(category as ComplaintCategory)) {
+        return res.status(400).json({ error: "Invalid complaint category selected." });
+      }
+
       // Collect image URLs (Uploaded directly to Cloudinary collection: pawrescue/complaints)
       const uploadedCloudinaryUrls = await processUploadedImages(req.files as any, "pawrescue/complaints");
       const imageUrls: string[] = [...uploadedCloudinaryUrls];
@@ -69,10 +97,10 @@ router.post(
               ? JSON.parse(req.body.imageUrls)
               : req.body.imageUrls;
           if (Array.isArray(parsed)) {
-            imageUrls.push(...parsed);
+            imageUrls.push(...parsed.filter((u) => typeof u === "string" && u.startsWith("http")));
           }
         } catch {
-          if (typeof req.body.imageUrls === "string") {
+          if (typeof req.body.imageUrls === "string" && req.body.imageUrls.startsWith("http")) {
             imageUrls.push(req.body.imageUrls);
           }
         }
@@ -85,69 +113,72 @@ router.post(
       }
 
       // AI ANIMAL VALIDATION: Validate EACH uploaded image independently
-      // Multi-image rule: Accept if at least ONE image contains a valid Dog, Cat, or Cow with confidence >= 0.40
       const validationResults = [];
       const filesArray = Array.isArray(req.files) ? req.files : [];
 
       for (let i = 0; i < imageUrls.length; i++) {
         const imgUrl = imageUrls[i];
-        const fileBuffer = filesArray[i]?.buffer;
         const fileName = filesArray[i]?.originalname;
 
         const val = await validateAnimalImage(imgUrl, {
           title: `${title || ""} ${fileName || ""}`.trim(),
-          description,
-          category,
-          buffer: fileBuffer
+          description: sanitizeText(description),
+          category
         });
         validationResults.push(val);
       }
 
-      const hasValidAnimal = validationResults.some(
-        (v) => v.validAnimal && v.animalDetected && v.confidence >= 0.40
+      // Check if at least one image is a valid animal
+      const hasValidAnimalImage = validationResults.some(
+        (v) => v.validAnimal === true || v.animalDetected === true
       );
 
-      if (!hasValidAnimal) {
-        const lastError =
-          validationResults[0]?.error ||
-          "Please upload a clear image of a Dog, Cat, or Cow. The uploaded image does not contain a supported animal.";
-        const allDetected = Array.from(new Set(validationResults.flatMap((v) => v.detectedClasses)));
-        const allScores = validationResults.flatMap((v) => v.confidenceScores);
-
+      if (!hasValidAnimalImage && validationResults.length > 0) {
+        const topResult = validationResults[0];
+        console.warn(
+          `🚫 [Security/AI Validation Reject] Upload rejected: Not an animal (${topResult.detectedClasses?.join(", ")})`
+        );
         return res.status(400).json({
-          error: lastError,
-          detectedClasses: allDetected,
-          confidenceScores: allScores,
-          animalDetected: false
+          error:
+            topResult.error ||
+            "Please upload a clear photo of an animal (Dog, Cat, or Cow). Non-animal photos are rejected to ensure platform integrity.",
+          detectedClasses: topResult.detectedClasses || [],
+          confidenceScores: topResult.confidenceScores || [],
+          animalDetected: false,
+          validationDetails: validationResults
         });
       }
 
-      // Parse dogCondition
+      // Parse condition tags safely
       let parsedConditions: string[] = [];
-      if (dogCondition) {
-        if (Array.isArray(dogCondition)) {
-          parsedConditions = dogCondition;
-        } else {
-          try {
-            parsedConditions = JSON.parse(dogCondition);
-          } catch {
-            parsedConditions = [dogCondition];
-          }
+      if (Array.isArray(dogCondition)) {
+        parsedConditions = dogCondition.map((c) => sanitizeText(String(c)));
+      } else if (typeof dogCondition === "string") {
+        try {
+          const parsed = JSON.parse(dogCondition);
+          if (Array.isArray(parsed)) parsedConditions = parsed.map((c) => sanitizeText(String(c)));
+          else parsedConditions = [sanitizeText(dogCondition)];
+        } catch {
+          parsedConditions = dogCondition.split(",").map((c: string) => sanitizeText(c.trim())).filter(Boolean);
         }
       }
 
-      const isEmerg =
-        isEmergency === "true" ||
-        isEmergency === true ||
-        category === "Emergency Rescue" ||
-        category === "Injured Dog" ||
-        category === "Dog Bite";
-
+      // Priority determination
+      const isEmerg = isEmergency === "true" || isEmergency === true;
       let priority: ComplaintPriority = "Medium";
-      if (isEmerg) priority = "Critical";
-      else if (category === "Sick Dog" || category === "Aggressive Dog") priority = "High";
-      else if (category === "Sterilization Request" || category === "Vaccination Request")
+      if (
+        category === "Emergency Rescue" ||
+        category === "Dog Bite" ||
+        parsedConditions.includes("Critical") ||
+        parsedConditions.includes("Bleeding") ||
+        isEmerg
+      ) {
+        priority = "Critical";
+      } else if (category === "Injured Dog" || category === "Sick Dog" || parsedConditions.includes("Fracture")) {
+        priority = "High";
+      } else if (category === "Sterilization Request" || category === "Vaccination Request") {
         priority = "Low";
+      }
 
       let trackingId = generateTrackingId();
       while (await ComplaintModel.findOne({ trackingId })) {
@@ -156,17 +187,16 @@ router.post(
 
       const now = new Date().toISOString();
       const user = req.user;
-      const cName = citizenName || user?.name || "Concerned Citizen";
+      const cName = sanitizeText(citizenName) || user?.name || "Concerned Citizen";
       const uId = user ? user._id.toString() : `anon-${uuidv4().slice(0, 6)}`;
 
-      const parsedLat = latitude ? parseFloat(latitude) : 28.5482;
-      const parsedLng = longitude ? parseFloat(longitude) : 77.3426;
+      const parsedLat = latitude ? Math.max(-90, Math.min(90, parseFloat(latitude))) : 28.5482;
+      const parsedLng = longitude ? Math.max(-180, Math.min(180, parseFloat(longitude))) : 77.3426;
 
-      // FEATURE 2 & 7: Automatic Geospatial Assignment Engine
+      // Automatic Geospatial Assignment Engine
       let assignedNgo = null;
       let distanceKm = 0;
       let requiredService: any = "Rescue";
-      let withinCoverage = true;
 
       if (ngoId) {
         assignedNgo = await NGOModel.findById(ngoId);
@@ -188,7 +218,6 @@ router.post(
         assignedNgo = assignmentResult.assignedNgo;
         distanceKm = assignmentResult.distanceKm;
         requiredService = assignmentResult.requiredService;
-        withinCoverage = assignmentResult.withinCoverage;
       }
 
       // Initial Timeline
@@ -208,16 +237,16 @@ router.post(
 
       const newComplaint = await ComplaintModel.create({
         trackingId,
-        title: title || `${category} reported at ${address}`,
+        title: sanitizeText(title) || `${category} reported at ${sanitizeText(address)}`,
         category: category as ComplaintCategory,
         requiredService,
         dogCondition: parsedConditions,
-        description,
+        description: sanitizeText(description),
         images: imageUrls,
-        address,
-        landmark: landmark || "",
-        city,
-        pincode,
+        address: sanitizeText(address),
+        landmark: sanitizeText(landmark) || "",
+        city: sanitizeText(city),
+        pincode: String(pincode).trim().slice(0, 10),
         location: {
           latitude: parsedLat,
           longitude: parsedLng
@@ -226,13 +255,13 @@ router.post(
           type: "Point",
           coordinates: [parsedLng, parsedLat]
         },
-        contactNumber,
+        contactNumber: String(contactNumber).trim().slice(0, 20),
         isEmergency: isEmerg,
         priority,
         status: "Reported",
         userId: uId,
         citizenName: cName,
-        citizenPhone: contactNumber,
+        citizenPhone: String(contactNumber).trim().slice(0, 20),
         ngoId: assignedNgo ? assignedNgo._id.toString() : undefined,
         ngoName: assignedNgo ? assignedNgo.name : "Noida Animal Shelter",
         distanceKm,
@@ -245,7 +274,7 @@ router.post(
       const notif = await NotificationModel.create({
         userId: "usr-ngo-admin-1",
         title: isEmerg ? `🚨 CRITICAL: ${category} Reported!` : `New Complaint #${trackingId}`,
-        message: `${category} reported at ${address} (${pincode}). Immediate review required.`,
+        message: `${category} reported at ${sanitizeText(address)} (${pincode}). Immediate review required.`,
         type: isEmerg ? "urgent_alert" : "new_complaint",
         complaintId: newComplaint._id.toString(),
         trackingId: newComplaint.trackingId,
@@ -263,12 +292,12 @@ router.post(
       });
     } catch (error: any) {
       console.error("Create Complaint Error:", error);
-      return res.status(500).json({ error: "Failed to submit complaint. " + error.message });
+      return res.status(500).json({ error: "Failed to submit complaint." });
     }
   }
 );
 
-// 2. Get All Complaints (Filterable, Searchable, Paginated from MongoDB)
+// 2. Get All Complaints (Filterable, Searchable with Safe Regex escaping, Paginated)
 router.get("/", optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
     const {
@@ -288,30 +317,31 @@ router.get("/", optionalAuth, async (req: AuthRequest, res: Response) => {
 
     const query: any = {};
 
-    if (userId) {
-      query.userId = userId;
+    if (userId && typeof userId === "string") {
+      query.userId = userId.trim();
     }
-    if (ngoId) {
-      query.ngoId = ngoId;
+    if (ngoId && typeof ngoId === "string") {
+      query.ngoId = ngoId.trim();
     }
-    if (pincode) {
-      query.pincode = pincode;
+    if (pincode && typeof pincode === "string") {
+      query.pincode = pincode.trim();
     }
-    if (status && status !== "All") {
-      query.status = new RegExp(`^${status}$`, "i");
+    if (status && status !== "All" && typeof status === "string") {
+      query.status = new RegExp(`^${escapeRegExp(status.trim())}$`, "i");
     }
-    if (category && category !== "All") {
-      query.category = category;
+    if (category && category !== "All" && typeof category === "string") {
+      query.category = category.trim();
     }
-    if (priority && priority !== "All") {
-      query.priority = priority;
+    if (priority && priority !== "All" && typeof priority === "string") {
+      query.priority = priority.trim();
     }
     if (isEmergency === "true") {
       query.isEmergency = true;
     }
 
-    if (search) {
-      const regex = new RegExp(search as string, "i");
+    if (search && typeof search === "string") {
+      const safeSearch = escapeRegExp(search.trim());
+      const regex = new RegExp(safeSearch, "i");
       query.$or = [
         { trackingId: regex },
         { title: regex },
@@ -323,15 +353,18 @@ router.get("/", optionalAuth, async (req: AuthRequest, res: Response) => {
       ];
     }
 
-    const pageNum = parseInt(page as string, 10) || 1;
-    const limitNum = parseInt(limit as string, 10) || 50;
+    const pageNum = Math.max(1, parseInt(page as string, 10) || 1);
+    const limitNum = Math.min(100, Math.max(1, parseInt(limit as string, 10) || 50));
     const skip = (pageNum - 1) * limitNum;
     const sortOrder = order === "asc" ? 1 : -1;
+    const safeSortBy = ["createdAt", "updatedAt", "priority", "status"].includes(sortBy as string)
+      ? (sortBy as string)
+      : "createdAt";
 
     const [total, complaints] = await Promise.all([
       ComplaintModel.countDocuments(query),
       ComplaintModel.find(query)
-        .sort({ [sortBy as string]: sortOrder })
+        .sort({ [safeSortBy]: sortOrder })
         .skip(skip)
         .limit(limitNum)
     ]);
@@ -349,15 +382,21 @@ router.get("/", optionalAuth, async (req: AuthRequest, res: Response) => {
   }
 });
 
-// 3. Track Complaint by Tracking ID / Phone (Public endpoint)
+// 3. Track Complaint by Tracking ID / Phone (Public endpoint with safe regex escape)
 router.get("/track/:trackingId", async (req: Request, res: Response) => {
   try {
     const { trackingId } = req.params;
-    const clean = trackingId.trim();
+    const clean = trackingId?.trim();
+
+    if (!clean) {
+      return res.status(400).json({ error: "Tracking ID or phone number is required." });
+    }
+
+    const safeClean = escapeRegExp(clean);
 
     const complaint = await ComplaintModel.findOne({
       $or: [
-        { trackingId: new RegExp(`^${clean}$`, "i") },
+        { trackingId: new RegExp(`^${safeClean}$`, "i") },
         { contactNumber: clean },
         { _id: clean.match(/^[0-9a-fA-F]{24}$/) ? clean : undefined }
       ].filter(Boolean)
@@ -365,7 +404,7 @@ router.get("/track/:trackingId", async (req: Request, res: Response) => {
 
     if (!complaint) {
       return res.status(404).json({
-        error: `No complaint found with Tracking ID or phone number '${trackingId}'.`
+        error: `No complaint found with Tracking ID or phone number '${clean}'.`
       });
     }
 
@@ -380,6 +419,10 @@ router.get("/track/:trackingId", async (req: Request, res: Response) => {
 router.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ error: "Invalid complaint ID format." });
+    }
+
     const complaint = await ComplaintModel.findById(id);
 
     if (!complaint) {
@@ -392,240 +435,253 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// 5. Update Complaint Status (NGO Admin / Volunteer)
-router.patch("/:id/status", authenticateJWT, async (req: AuthRequest, res: Response) => {
-  try {
-    const { id } = req.params;
-    const { status, note, resolutionNotes, forceNewDog, createNewDog, asNewDog } = req.body;
-    const shouldForceNewDog =
-      forceNewDog === true ||
-      forceNewDog === "true" ||
-      createNewDog === true ||
-      createNewDog === "true" ||
-      asNewDog === true ||
-      asNewDog === "true";
+// 5. Update Complaint Status (Requires Authenticated NGO Admin or Volunteer)
+router.patch(
+  "/:id/status",
+  authenticateJWT,
+  requireRole(["ngo_admin", "volunteer"]),
+  validateRequest(UpdateComplaintStatusSchema),
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { status, note, resolutionNotes, forceNewDog, createNewDog, asNewDog } = req.body;
+      const shouldForceNewDog =
+        forceNewDog === true ||
+        forceNewDog === "true" ||
+        createNewDog === true ||
+        createNewDog === "true" ||
+        asNewDog === true ||
+        asNewDog === "true";
 
-    const complaint = await ComplaintModel.findById(id);
-    if (!complaint) {
-      return res.status(404).json({ error: "Complaint not found." });
-    }
-
-    const validStatuses: ComplaintStatus[] = [
-      "Reported",
-      "Accepted",
-      "In Progress",
-      "Resolved",
-      "Closed"
-    ];
-    if (!validStatuses.includes(status)) {
-      return res.status(400).json({ error: "Invalid status value." });
-    }
-
-    const now = new Date().toISOString();
-    const user = req.user!;
-
-    const statusTitles: Record<ComplaintStatus, string> = {
-      Reported: "Complaint Reopened",
-      Accepted: "Complaint Accepted by NGO",
-      "In Progress": "Rescue / Treatment In Progress",
-      Resolved: "Rescue / Treatment Completed",
-      Closed: "Case Verified & Closed"
-    };
-
-    const newTimelineEvent: TimelineEvent = {
-      id: `tl-${uuidv4().slice(0, 6)}`,
-      status,
-      title: statusTitles[status as ComplaintStatus] || `Status changed to ${status}`,
-      description: note || `Complaint status updated to ${status} by ${user.name}.`,
-      timestamp: now,
-      updatedBy: user.name,
-      role: user.role
-    };
-
-    complaint.status = status;
-    complaint.timeline.push(newTimelineEvent);
-
-    if (status === "Resolved") {
-      complaint.resolvedAt = new Date();
-      complaint.resolutionNotes =
-        resolutionNotes || note || "Rescue and veterinary care completed.";
-
-      await complaint.save();
-
-      // AUTO DOG REGISTRY PROCESS ON RESOLVE: Case 1 (Update Existing) or Case 2 (Create New)
-      try {
-        const aiResult = await processResolvedComplaintForDogProfile(complaint._id.toString(), {
-          forceNewDog: shouldForceNewDog
-        });
-        console.log(`🐕 [Dog Registry] Auto-profile result for #${complaint.trackingId}:`, aiResult.message);
-        if (aiResult.dogId) {
-          complaint.matchedDogId = aiResult.dogId;
-          await complaint.save();
-        }
-      } catch (err) {
-        console.error("[Dog Registry] Auto dog profile error:", err);
+      if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        return res.status(400).json({ error: "Invalid complaint ID format." });
       }
-    } else {
-      await complaint.save();
-    }
 
-    // Citizen Notification
-    const citizenNotif = await NotificationModel.create({
-      userId: complaint.userId,
-      title: `Status Update: Complaint #${complaint.trackingId}`,
-      message: `Your complaint has been marked as "${status}". ${note ? `Note: ${note}` : ""}`,
-      type: "status_update",
-      complaintId: complaint._id.toString(),
-      trackingId: complaint.trackingId,
-      read: false
-    });
+      const complaint = await ComplaintModel.findById(id);
+      if (!complaint) {
+        return res.status(404).json({ error: "Complaint not found." });
+      }
 
-    const complaintObj = complaint.toJSON();
+      const now = new Date().toISOString();
+      const user = req.user!;
 
-    broadcastEvent("complaint:status_updated", { complaint: complaintObj });
-    broadcastEvent("notification:new", { notification: citizenNotif.toJSON() });
+      const statusTitles: Record<ComplaintStatus, string> = {
+        Reported: "Complaint Reopened",
+        Accepted: "Complaint Accepted by NGO",
+        "In Progress": "Rescue / Treatment In Progress",
+        Resolved: "Rescue / Treatment Completed",
+        Closed: "Case Verified & Closed"
+      };
 
-    // Send email alert to citizen if registered user with email
-    if (complaint.userId) {
-      UserModel.findById(complaint.userId)
-        .then((citizen) => {
-          if (citizen && citizen.email) {
-            sendRescueNotificationEmail(
-              citizen.email,
-              citizen.name,
-              complaint.trackingId,
-              status,
-              note
-            ).catch((e) => console.error("Status email notify error:", e));
+      const newTimelineEvent: TimelineEvent = {
+        id: `tl-${uuidv4().slice(0, 6)}`,
+        status: status as ComplaintStatus,
+        title: statusTitles[status as ComplaintStatus] || `Status changed to ${status}`,
+        description: note || `Complaint status updated to ${status} by ${user.name}.`,
+        timestamp: now,
+        updatedBy: user.name,
+        role: user.role
+      };
+
+      complaint.status = status;
+      complaint.timeline.push(newTimelineEvent);
+
+      if (status === "Resolved") {
+        complaint.resolvedAt = new Date();
+        complaint.resolutionNotes =
+          resolutionNotes || note || "Rescue and veterinary care completed.";
+
+        await complaint.save();
+
+        // AUTO DOG REGISTRY PROCESS ON RESOLVE: Case 1 (Update Existing) or Case 2 (Create New)
+        try {
+          const aiResult = await processResolvedComplaintForDogProfile(complaint._id.toString(), {
+            forceNewDog: shouldForceNewDog
+          });
+          console.log(`🐕 [Dog Registry] Auto-profile result for #${complaint.trackingId}:`, aiResult.message);
+          if (aiResult.dogId) {
+            complaint.matchedDogId = aiResult.dogId;
+            await complaint.save();
           }
-        })
-        .catch(() => {});
-    }
+        } catch (err) {
+          console.error("[Dog Registry] Auto dog profile error:", err);
+        }
+      } else {
+        await complaint.save();
+      }
 
-    return res.json({
-      message: `Status updated to ${status}`,
-      complaint: complaintObj
-    });
-  } catch (error: any) {
-    console.error("Status Update Error:", error);
-    return res.status(500).json({ error: "Failed to update status." });
+      // Citizen Notification
+      const citizenNotif = await NotificationModel.create({
+        userId: complaint.userId,
+        title: `Status Update: Complaint #${complaint.trackingId}`,
+        message: `Your complaint has been marked as "${status}". ${note ? `Note: ${note}` : ""}`,
+        type: "status_update",
+        complaintId: complaint._id.toString(),
+        trackingId: complaint.trackingId,
+        read: false
+      });
+
+      const complaintObj = complaint.toJSON();
+
+      broadcastEvent("complaint:status_updated", { complaint: complaintObj });
+      broadcastEvent("notification:new", { notification: citizenNotif.toJSON() });
+
+      // Send email alert to citizen if registered user with email
+      if (complaint.userId && !complaint.userId.startsWith("anon-")) {
+        UserModel.findById(complaint.userId)
+          .then((citizen) => {
+            if (citizen && citizen.email) {
+              sendRescueNotificationEmail(
+                citizen.email,
+                citizen.name,
+                complaint.trackingId,
+                status,
+                note
+              ).catch((e) => console.warn("Status email notify warning:", e.message));
+            }
+          })
+          .catch(() => {});
+      }
+
+      return res.json({
+        message: `Status updated to ${status}`,
+        complaint: complaintObj
+      });
+    } catch (error: any) {
+      console.error("Status Update Error:", error);
+      return res.status(500).json({ error: "Failed to update status." });
+    }
   }
-});
+);
 
-// 6. Assign Volunteer to Complaint
-router.patch("/:id/assign", authenticateJWT, async (req: AuthRequest, res: Response) => {
-  try {
-    const { id } = req.params;
-    const { volunteerId } = req.body;
+// 6. Assign Volunteer to Complaint (Requires Authenticated NGO Admin)
+router.patch(
+  "/:id/assign",
+  authenticateJWT,
+  requireRole(["ngo_admin"]),
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { volunteerId } = req.body;
 
-    const complaint = await ComplaintModel.findById(id);
-    if (!complaint) {
-      return res.status(404).json({ error: "Complaint not found." });
+      if (!id.match(/^[0-9a-fA-F]{24}$/) || !volunteerId) {
+        return res.status(400).json({ error: "Valid complaint ID and volunteer ID are required." });
+      }
+
+      const complaint = await ComplaintModel.findById(id);
+      if (!complaint) {
+        return res.status(404).json({ error: "Complaint not found." });
+      }
+
+      const volunteer = await VolunteerModel.findById(volunteerId);
+      if (!volunteer) {
+        return res.status(404).json({ error: "Volunteer not found." });
+      }
+
+      const now = new Date().toISOString();
+      const user = req.user!;
+
+      const timelineEvent: TimelineEvent = {
+        id: `tl-${uuidv4().slice(0, 6)}`,
+        status: complaint.status === "Reported" ? "Accepted" : complaint.status,
+        title: "Volunteer Assigned",
+        description: `${volunteer.name} (${volunteer.phone}) has been assigned to lead this rescue operation.`,
+        timestamp: now,
+        updatedBy: user.name,
+        role: user.role
+      };
+
+      complaint.volunteerId = volunteer._id.toString();
+      complaint.volunteerName = volunteer.name;
+      complaint.volunteerPhone = volunteer.phone;
+      if (complaint.status === "Reported") {
+        complaint.status = "Accepted";
+      }
+      complaint.timeline.push(timelineEvent);
+
+      await complaint.save();
+
+      volunteer.assignedComplaintsCount = (volunteer.assignedComplaintsCount || 0) + 1;
+      volunteer.availability = "On Mission";
+      await volunteer.save();
+
+      const notif = await NotificationModel.create({
+        userId: complaint.userId,
+        title: "Volunteer Assigned to Your Complaint",
+        message: `${volunteer.name} from ${complaint.ngoName || "NGO"} has been assigned to help.`,
+        type: "assignment",
+        complaintId: complaint._id.toString(),
+        trackingId: complaint.trackingId,
+        read: false
+      });
+
+      const complaintObj = complaint.toJSON();
+
+      broadcastEvent("complaint:assigned", { complaint: complaintObj, volunteer: volunteer.toJSON() });
+      broadcastEvent("notification:new", { notification: notif.toJSON() });
+
+      return res.json({
+        message: `Volunteer ${volunteer.name} assigned successfully.`,
+        complaint: complaintObj
+      });
+    } catch (error: any) {
+      console.error("Assign Volunteer Error:", error);
+      return res.status(500).json({ error: "Failed to assign volunteer." });
     }
-
-    const volunteer = await VolunteerModel.findById(volunteerId);
-    if (!volunteer) {
-      return res.status(404).json({ error: "Volunteer not found." });
-    }
-
-    const now = new Date().toISOString();
-    const user = req.user!;
-
-    const timelineEvent: TimelineEvent = {
-      id: `tl-${uuidv4().slice(0, 6)}`,
-      status: complaint.status === "Reported" ? "Accepted" : complaint.status,
-      title: "Volunteer Assigned",
-      description: `${volunteer.name} (${volunteer.phone}) has been assigned to lead this rescue operation.`,
-      timestamp: now,
-      updatedBy: user.name,
-      role: user.role
-    };
-
-    complaint.volunteerId = volunteer._id.toString();
-    complaint.volunteerName = volunteer.name;
-    complaint.volunteerPhone = volunteer.phone;
-    if (complaint.status === "Reported") {
-      complaint.status = "Accepted";
-    }
-    complaint.timeline.push(timelineEvent);
-
-    await complaint.save();
-
-    volunteer.assignedComplaintsCount = (volunteer.assignedComplaintsCount || 0) + 1;
-    volunteer.availability = "On Mission";
-    await volunteer.save();
-
-    const notif = await NotificationModel.create({
-      userId: complaint.userId,
-      title: "Volunteer Assigned to Your Complaint",
-      message: `${volunteer.name} from ${complaint.ngoName || "NGO"} has been assigned to help.`,
-      type: "assignment",
-      complaintId: complaint._id.toString(),
-      trackingId: complaint.trackingId,
-      read: false
-    });
-
-    const complaintObj = complaint.toJSON();
-
-    broadcastEvent("complaint:assigned", { complaint: complaintObj, volunteer: volunteer.toJSON() });
-    broadcastEvent("notification:new", { notification: notif.toJSON() });
-
-    return res.json({
-      message: `Volunteer ${volunteer.name} assigned successfully.`,
-      complaint: complaintObj
-    });
-  } catch (error: any) {
-    console.error("Assign Volunteer Error:", error);
-    return res.status(500).json({ error: "Failed to assign volunteer." });
   }
-});
+);
 
-// 7. Add Comment / Note to Complaint
-router.post("/:id/notes", authenticateJWT, async (req: AuthRequest, res: Response) => {
-  try {
-    const { id } = req.params;
-    const { message, isInternal = false } = req.body;
+// 7. Add Comment / Note to Complaint (Authenticated, Sanitized)
+router.post(
+  "/:id/notes",
+  authenticateJWT,
+  validateRequest(AddComplaintNoteSchema),
+  async (req: AuthRequest, res: Response) => {
+    try {
+      const { id } = req.params;
+      const { message, isInternal = false } = req.body;
 
-    if (!message) {
-      return res.status(400).json({ error: "Message is required." });
+      if (!id.match(/^[0-9a-fA-F]{24}$/)) {
+        return res.status(400).json({ error: "Invalid complaint ID format." });
+      }
+
+      const complaint = await ComplaintModel.findById(id);
+      if (!complaint) {
+        return res.status(404).json({ error: "Complaint not found." });
+      }
+
+      const user = req.user!;
+      const newNote = {
+        id: `nt-${uuidv4().slice(0, 6)}`,
+        authorName: user.name,
+        authorRole:
+          user.role === "ngo_admin"
+            ? "NGO Admin"
+            : user.role === "volunteer"
+            ? "Volunteer"
+            : "Citizen",
+        message: sanitizeText(message),
+        createdAt: new Date().toISOString(),
+        isInternal: Boolean(isInternal)
+      };
+
+      complaint.notes.push(newNote);
+      await complaint.save();
+
+      broadcastEvent("complaint:note_added", { complaintId: id, note: newNote });
+
+      return res.status(201).json({
+        message: "Note added successfully.",
+        complaint: complaint.toJSON()
+      });
+    } catch (error: any) {
+      console.error("Add Note Error:", error);
+      return res.status(500).json({ error: "Failed to add note." });
     }
-
-    const complaint = await ComplaintModel.findById(id);
-    if (!complaint) {
-      return res.status(404).json({ error: "Complaint not found." });
-    }
-
-    const user = req.user!;
-    const newNote = {
-      id: `nt-${uuidv4().slice(0, 6)}`,
-      authorName: user.name,
-      authorRole:
-        user.role === "ngo_admin"
-          ? "NGO Admin"
-          : user.role === "volunteer"
-          ? "Volunteer"
-          : "Citizen",
-      message,
-      createdAt: new Date().toISOString(),
-      isInternal
-    };
-
-    complaint.notes.push(newNote);
-    await complaint.save();
-
-    broadcastEvent("complaint:note_added", { complaintId: id, note: newNote });
-
-    return res.status(201).json({
-      message: "Note added successfully.",
-      complaint: complaint.toJSON()
-    });
-  } catch (error: any) {
-    console.error("Add Note Error:", error);
-    return res.status(500).json({ error: "Failed to add note." });
   }
-});
+);
 
-// 8. Bulk Status Update (NGO Admin)
+// 8. Bulk Status Update (Requires NGO Admin)
 router.post(
   "/bulk-status",
   authenticateJWT,
@@ -638,6 +694,11 @@ router.post(
         return res.status(400).json({ error: "complaintIds array and status are required." });
       }
 
+      const validIds = complaintIds.filter((id) => typeof id === "string" && id.match(/^[0-9a-fA-F]{24}$/));
+      if (validIds.length === 0) {
+        return res.status(400).json({ error: "No valid complaint IDs provided." });
+      }
+
       const now = new Date().toISOString();
       const user = req.user!;
 
@@ -645,14 +706,14 @@ router.post(
         id: `tl-${uuidv4().slice(0, 6)}`,
         status,
         title: `Bulk Status Update: ${status}`,
-        description: note || `Status changed to ${status} in bulk action by ${user.name}.`,
+        description: sanitizeText(note) || `Status changed to ${status} in bulk action by ${user.name}.`,
         timestamp: now,
         updatedBy: user.name,
         role: user.role
       };
 
       const result = await ComplaintModel.updateMany(
-        { _id: { $in: complaintIds } },
+        { _id: { $in: validIds } },
         {
           $set: { status },
           $push: { timeline: timelineEvent }

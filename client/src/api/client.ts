@@ -6,7 +6,8 @@ import {
   Volunteer,
   Notification,
   AnalyticsSummary,
-  UserRole
+  UserRole,
+  DogProfile
 } from "../types";
 
 const isProd = typeof window !== "undefined" && window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1";

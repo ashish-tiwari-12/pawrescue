@@ -451,7 +451,7 @@ export default function App() {
                 user={user}
                 ngo={currentNgo}
                 complaints={complaints}
-                onUpdateNGO={(updated) => setCurrentNgo(updated)}
+                onUpdateNGO={(updated) => setNgos((prev) => prev.map((n) => (n.id === updated.id ? updated : n)))}
                 onSelectComplaint={(c) => setInspectComplaint(c)}
               />
             )}

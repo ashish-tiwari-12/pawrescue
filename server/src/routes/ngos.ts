@@ -4,6 +4,7 @@ import { ComplaintModel } from "../models/Complaint.js";
 import { VolunteerModel } from "../models/Volunteer.js";
 import { authenticateJWT, requireRole, AuthRequest } from "../middleware/auth.js";
 import { calculateDistanceKm } from "../services/routingEngine.js";
+import { sanitizeText } from "../middleware/security.js";
 
 const router = Router();
 
@@ -16,8 +17,8 @@ router.get("/", async (req: Request, res: Response) => {
     const ngoList = ngos.map((ngo) => {
       const obj: any = ngo.toJSON();
       if (lat && lng) {
-        const userLat = parseFloat(lat as string);
-        const userLng = parseFloat(lng as string);
+        const userLat = Math.max(-90, Math.min(90, parseFloat(lat as string)));
+        const userLng = Math.max(-180, Math.min(180, parseFloat(lng as string)));
         const ngoLng = ngo.location.coordinates[0];
         const ngoLat = ngo.location.coordinates[1];
         obj.distanceKm = calculateDistanceKm(userLat, userLng, ngoLat, ngoLng);
@@ -35,17 +36,27 @@ router.get("/", async (req: Request, res: Response) => {
 router.get("/:id", async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const ngo = await NGOModel.findById(id);
+    let ngo = null;
+
+    if (id.match(/^[0-9a-fA-F]{24}$/)) {
+      ngo = await NGOModel.findById(id);
+    }
+    if (!ngo) {
+      ngo = await NGOModel.findOne({ registrationNumber: id.trim() });
+    }
+
     if (!ngo) {
       return res.status(404).json({ error: "NGO not found." });
     }
 
+    const currentNgoId = ngo._id.toString();
+
     const [totalAssigned, pending, inProgress, resolved, volunteersCount] = await Promise.all([
-      ComplaintModel.countDocuments({ ngoId: id }),
-      ComplaintModel.countDocuments({ ngoId: id, status: { $in: ["Reported", "Accepted"] } }),
-      ComplaintModel.countDocuments({ ngoId: id, status: "In Progress" }),
-      ComplaintModel.countDocuments({ ngoId: id, status: "Resolved" }),
-      VolunteerModel.countDocuments({ ngoId: id })
+      ComplaintModel.countDocuments({ ngoId: currentNgoId }),
+      ComplaintModel.countDocuments({ ngoId: currentNgoId, status: { $in: ["Reported", "Accepted"] } }),
+      ComplaintModel.countDocuments({ ngoId: currentNgoId, status: "In Progress" }),
+      ComplaintModel.countDocuments({ ngoId: currentNgoId, status: "Resolved" }),
+      VolunteerModel.countDocuments({ ngoId: currentNgoId })
     ]);
 
     return res.json({
@@ -63,7 +74,7 @@ router.get("/:id", async (req: Request, res: Response) => {
   }
 });
 
-// 3. FEATURE 5: Update NGO Settings (Services, Working Hours, Coverage Radius, Emergency 24x7)
+// 3. Update NGO Settings (Requires Authenticated NGO Admin)
 router.put(
   "/:id/settings",
   authenticateJWT,
@@ -85,34 +96,45 @@ router.put(
         longitude
       } = req.body;
 
-      const ngo = await NGOModel.findById(id);
+      let ngo = null;
+      if (id.match(/^[0-9a-fA-F]{24}$/)) {
+        ngo = await NGOModel.findById(id);
+      }
+      if (!ngo && req.user?.ngoId) {
+        ngo = await NGOModel.findById(req.user.ngoId);
+      }
+
       if (!ngo) {
         return res.status(404).json({ error: "NGO shelter not found." });
       }
 
-      if (name) ngo.name = name;
-      if (phone) ngo.phone = phone;
-      if (email) ngo.email = email;
-      if (pincodesCovered && Array.isArray(pincodesCovered)) ngo.pincodesCovered = pincodesCovered;
+      if (name) ngo.name = sanitizeText(name);
+      if (phone) ngo.phone = phone.trim().slice(0, 20);
+      if (email) ngo.email = email.trim().toLowerCase();
+      if (pincodesCovered && Array.isArray(pincodesCovered)) {
+        ngo.pincodesCovered = pincodesCovered.map((p) => sanitizeText(String(p)).slice(0, 10));
+      }
       if (servicesOffered && Array.isArray(servicesOffered)) {
-        ngo.servicesOffered = servicesOffered;
+        ngo.servicesOffered = servicesOffered.map((s) => sanitizeText(String(s))) as any;
       }
       if (coverageRadiusKm) {
-        ngo.coverageRadiusKm = parseInt(coverageRadiusKm, 10);
+        ngo.coverageRadiusKm = Math.min(100, Math.max(1, parseInt(coverageRadiusKm, 10) || 15));
       }
       if (workingHours) {
-        ngo.workingHours = workingHours;
+        ngo.workingHours = sanitizeText(workingHours);
       }
       if (typeof emergency24x7 === "boolean") {
         ngo.emergency24x7 = emergency24x7;
       }
       if (address) {
-        ngo.address = address;
+        ngo.address = sanitizeText(address);
       }
       if (latitude && longitude) {
+        const lat = Math.max(-90, Math.min(90, parseFloat(latitude)));
+        const lng = Math.max(-180, Math.min(180, parseFloat(longitude)));
         ngo.location = {
           type: "Point",
-          coordinates: [parseFloat(longitude), parseFloat(latitude)]
+          coordinates: [lng, lat]
         };
       }
 

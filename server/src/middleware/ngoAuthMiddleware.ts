@@ -2,8 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
 import { UserModel, IUserDocument } from "../models/User.js";
 import { NGOModel, INGODocument } from "../models/NGO.js";
-
-const JWT_SECRET = process.env.JWT_SECRET || "pawconnect_secret_jwt_key_2026";
+import { ENV } from "../config/env.js";
+import { logSecurityEvent } from "../services/securityLogger.js";
 
 export interface NGOAuthRequest extends Request {
   user?: IUserDocument;
@@ -25,7 +25,11 @@ export const requireNGOAuth = async (
     }
 
     const token = authHeader.split(" ")[1];
-    const decoded = jwt.verify(token, JWT_SECRET) as {
+    if (!token) {
+      return res.status(401).json({ error: "Access denied. Empty token provided." });
+    }
+
+    const decoded = jwt.verify(token, ENV.JWT_SECRET) as {
       id: string;
       email: string;
       role: string;
@@ -42,6 +46,14 @@ export const requireNGOAuth = async (
     }
 
     if (user.role !== "ngo_admin" && user.role !== "volunteer") {
+      logSecurityEvent({
+        eventType: "FORBIDDEN_RESOURCE",
+        ip: req.ip,
+        userId: user._id.toString(),
+        email: user.email,
+        resource: req.originalUrl,
+        details: `Non-NGO user role '${user.role}' attempted to access NGO portal`
+      });
       return res.status(403).json({ error: "Access restricted. NGO privileges required." });
     }
 
@@ -57,7 +69,12 @@ export const requireNGOAuth = async (
 
     next();
   } catch (error: any) {
-    console.error("NGO Auth Middleware Error:", error.message);
+    logSecurityEvent({
+      eventType: "AUTH_FAILED",
+      ip: req.ip,
+      resource: req.originalUrl,
+      details: `NGO Token Error: ${error.message}`
+    });
     return res.status(401).json({ error: "Unauthorized access: " + (error.message || "Invalid token") });
   }
 };

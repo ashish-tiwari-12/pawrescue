@@ -6,8 +6,9 @@ import { NGOModel } from "../models/NGO.js";
 import { ComplaintModel } from "../models/Complaint.js";
 import { NGOAuthRequest } from "../middleware/ngoAuthMiddleware.js";
 import { sendVerificationEmail, sendPasswordResetEmail } from "../services/emailService.js";
-
-const JWT_SECRET = process.env.JWT_SECRET || "pawconnect_secret_jwt_key_2026";
+import { ENV } from "../config/env.js";
+import { logSecurityEvent } from "../services/securityLogger.js";
+import { sanitizeText } from "../middleware/security.js";
 
 function generateOtp(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -22,8 +23,8 @@ function generateToken(user: any): string {
       role: user.role,
       ngoId: user.ngoId
     },
-    JWT_SECRET,
-    { expiresIn: "7d" }
+    ENV.JWT_SECRET,
+    { expiresIn: ENV.JWT_EXPIRES_IN as any }
   );
 }
 
@@ -42,10 +43,23 @@ export const login = async (req: Request, res: Response) => {
     const user = await UserModel.findOne({ email: normalizedEmail });
 
     if (!user) {
+      logSecurityEvent({
+        eventType: "AUTH_FAILED",
+        ip: req.ip,
+        email: normalizedEmail,
+        details: "NGO Login attempt with non-existent account"
+      });
       return res.status(401).json({ error: "No NGO account registered with this email." });
     }
 
     if (user.role !== "ngo_admin" && user.role !== "volunteer") {
+      logSecurityEvent({
+        eventType: "FORBIDDEN_RESOURCE",
+        ip: req.ip,
+        userId: user._id.toString(),
+        email: normalizedEmail,
+        details: `Non-NGO user role '${user.role}' attempted to log into NGO portal`
+      });
       return res.status(403).json({ error: "Access denied. Account does not have NGO triage privileges." });
     }
 
@@ -55,6 +69,13 @@ export const login = async (req: Request, res: Response) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
+      logSecurityEvent({
+        eventType: "AUTH_FAILED",
+        ip: req.ip,
+        userId: user._id.toString(),
+        email: normalizedEmail,
+        details: "Incorrect NGO password attempt"
+      });
       return res.status(401).json({ error: "Incorrect password. Please try again." });
     }
 
@@ -69,6 +90,14 @@ export const login = async (req: Request, res: Response) => {
       ngo = await NGOModel.findOne();
     }
 
+    logSecurityEvent({
+      eventType: "AUTH_SUCCESS",
+      ip: req.ip,
+      userId: user._id.toString(),
+      email: normalizedEmail,
+      details: `Successful NGO login as '${user.role}'`
+    });
+
     return res.json({
       message: "NGO Authentication successful!",
       token,
@@ -77,7 +106,7 @@ export const login = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.error("NGO Login Controller Error:", error);
-    return res.status(500).json({ error: "NGO login failed: " + error.message });
+    return res.status(500).json({ error: "NGO login failed." });
   }
 };
 
@@ -104,6 +133,10 @@ export const register = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Please fill in all mandatory NGO details." });
     }
 
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters long." });
+    }
+
     const normalizedEmail = email.toLowerCase().trim();
     const existingUser = await UserModel.findOne({ email: normalizedEmail });
     if (existingUser) {
@@ -111,25 +144,25 @@ export const register = async (req: Request, res: Response) => {
     }
 
     // 1. Create or Find NGO Entity
-    const regNum = registrationNumber?.trim() || `AWBI-${Date.now().toString().slice(-6)}`;
+    const regNum = sanitizeText(registrationNumber) || `AWBI-${Date.now().toString().slice(-6)}`;
     let ngo = await NGOModel.findOne({ registrationNumber: regNum });
 
     if (!ngo) {
       ngo = await NGOModel.create({
-        name: ngoName.trim(),
+        name: sanitizeText(ngoName),
         registrationNumber: regNum,
         email: normalizedEmail,
         phone: phone.trim(),
-        address: address?.trim() || `${ngoName} Headquarters, ${city}`,
-        city: city.trim(),
-        state: state.trim(),
+        address: sanitizeText(address) || `${sanitizeText(ngoName)} Headquarters, ${sanitizeText(city)}`,
+        city: sanitizeText(city),
+        state: sanitizeText(state),
         pincodesCovered: ["110001", "201301", "122001"],
         location: {
           type: "Point",
           coordinates: [77.3426, 28.5482]
         },
-        coverageRadiusKm: Number(coverageRadiusKm) || 15,
-        servicesOffered,
+        coverageRadiusKm: Math.min(100, Math.max(1, Number(coverageRadiusKm) || 15)),
+        servicesOffered: Array.isArray(servicesOffered) ? servicesOffered : ["Rescue"],
         emergency24x7: true,
         activeVolunteersCount: 1,
         totalRescued: 0,
@@ -137,15 +170,15 @@ export const register = async (req: Request, res: Response) => {
       });
     }
 
-    // 2. Hash Password & Create NGO Admin User
-    const salt = await bcrypt.genSalt(10);
+    // 2. Hash Password & Create NGO Admin User (Minimum 12 salt rounds)
+    const salt = await bcrypt.genSalt(ENV.BCRYPT_SALT_ROUNDS);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const otp = generateOtp();
     const otpExpiry = new Date(Date.now() + 15 * 60 * 1000);
 
     const newUser = await UserModel.create({
-      name: name.trim(),
+      name: sanitizeText(name),
       email: normalizedEmail,
       phone: phone.trim(),
       password: hashedPassword,
@@ -159,10 +192,18 @@ export const register = async (req: Request, res: Response) => {
 
     // Send verification email
     sendVerificationEmail(normalizedEmail, name, otp).catch((err) => {
-      console.warn("Could not send NGO verification email:", err);
+      console.warn("Could not send NGO verification email:", err.message);
     });
 
     const token = generateToken(newUser);
+
+    logSecurityEvent({
+      eventType: "AUTH_SUCCESS",
+      ip: req.ip,
+      userId: newUser._id.toString(),
+      email: normalizedEmail,
+      details: "New NGO organization and admin account registered"
+    });
 
     return res.status(201).json({
       message: "NGO Organization and Admin Account registered successfully!",
@@ -174,7 +215,7 @@ export const register = async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     console.error("NGO Register Controller Error:", error);
-    return res.status(500).json({ error: "NGO registration failed: " + error.message });
+    return res.status(500).json({ error: "NGO registration failed." });
   }
 };
 
@@ -219,7 +260,7 @@ export const verifyEmail = async (req: Request, res: Response) => {
       user: user.toJSON()
     });
   } catch (error: any) {
-    return res.status(500).json({ error: "Failed to verify email: " + error.message });
+    return res.status(500).json({ error: "Failed to verify email." });
   }
 };
 
@@ -237,7 +278,10 @@ export const forgotPassword = async (req: Request, res: Response) => {
     const user = await UserModel.findOne({ email: normalizedEmail });
 
     if (!user) {
-      return res.status(404).json({ error: "No NGO account registered with this email address." });
+      return res.json({
+        message: "If an NGO account exists with this email, a reset code has been sent.",
+        email: normalizedEmail
+      });
     }
 
     const otp = generateOtp();
@@ -248,7 +292,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
     await user.save();
 
     sendPasswordResetEmail(normalizedEmail, user.name, otp).catch((err) => {
-      console.warn("Could not send password reset email:", err);
+      console.warn("Could not send password reset email:", err.message);
     });
 
     return res.json({
@@ -256,18 +300,22 @@ export const forgotPassword = async (req: Request, res: Response) => {
       email: normalizedEmail
     });
   } catch (error: any) {
-    return res.status(500).json({ error: "Forgot password request failed: " + error.message });
+    return res.status(500).json({ error: "Forgot password request failed." });
   }
 };
 
 /**
- * 5. Reset Password (with OTP)
+ * 5. Reset Password (with OTP & 12 salt rounds)
  */
 export const resetPassword = async (req: Request, res: Response) => {
   try {
     const { email, otp, newPassword } = req.body;
     if (!email || !otp || !newPassword) {
       return res.status(400).json({ error: "Email, OTP, and new password are required." });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ error: "New password must be at least 6 characters long." });
     }
 
     const normalizedEmail = email.toLowerCase().trim();
@@ -285,7 +333,7 @@ export const resetPassword = async (req: Request, res: Response) => {
       return res.status(400).json({ error: "Password reset code has expired." });
     }
 
-    const salt = await bcrypt.genSalt(10);
+    const salt = await bcrypt.genSalt(ENV.BCRYPT_SALT_ROUNDS);
     user.password = await bcrypt.hash(newPassword, salt);
     user.resetPasswordOtp = undefined;
     user.resetPasswordOtpExpiry = undefined;
@@ -298,7 +346,7 @@ export const resetPassword = async (req: Request, res: Response) => {
       user: user.toJSON()
     });
   } catch (error: any) {
-    return res.status(500).json({ error: "Password reset failed: " + error.message });
+    return res.status(500).json({ error: "Password reset failed." });
   }
 };
 
@@ -314,10 +362,10 @@ export const getProfile = async (req: NGOAuthRequest, res: Response) => {
 
     let ngo = req.ngo;
     if (!ngo && user.ngoId) {
-      ngo = await NGOModel.findById(user.ngoId) || undefined;
+      ngo = (await NGOModel.findById(user.ngoId)) || undefined;
     }
     if (!ngo) {
-      ngo = await NGOModel.findOne() || undefined;
+      ngo = (await NGOModel.findOne()) || undefined;
     }
 
     const ngoDocId = ngo ? (ngo as any)._id?.toString() || (ngo as any).id : undefined;
@@ -338,7 +386,7 @@ export const getProfile = async (req: NGOAuthRequest, res: Response) => {
       }
     });
   } catch (error: any) {
-    return res.status(500).json({ error: "Failed to fetch NGO profile: " + error.message });
+    return res.status(500).json({ error: "Failed to fetch NGO profile." });
   }
 };
 
@@ -380,16 +428,22 @@ export const updateProfile = async (req: NGOAuthRequest, res: Response) => {
       return res.status(404).json({ error: "NGO record not found to update." });
     }
 
-    if (name) ngo.name = name.trim();
-    if (phone) ngo.phone = phone.trim();
-    if (email) ngo.email = email.trim();
-    if (address) ngo.address = address.trim();
-    if (city) ngo.city = city.trim();
-    if (state) ngo.state = state.trim();
-    if (pincodesCovered) ngo.pincodesCovered = pincodesCovered;
-    if (coverageRadiusKm !== undefined) ngo.coverageRadiusKm = Number(coverageRadiusKm);
-    if (servicesOffered) ngo.servicesOffered = servicesOffered;
-    if (workingHours) ngo.workingHours = workingHours;
+    if (name) ngo.name = sanitizeText(name);
+    if (phone) ngo.phone = phone.trim().slice(0, 20);
+    if (email) ngo.email = email.trim().toLowerCase().slice(0, 100);
+    if (address) ngo.address = sanitizeText(address);
+    if (city) ngo.city = sanitizeText(city);
+    if (state) ngo.state = sanitizeText(state);
+    if (pincodesCovered && Array.isArray(pincodesCovered)) {
+      ngo.pincodesCovered = pincodesCovered.map((p: any) => String(p).trim().slice(0, 10));
+    }
+    if (coverageRadiusKm !== undefined) {
+      ngo.coverageRadiusKm = Math.min(100, Math.max(1, Number(coverageRadiusKm) || 15));
+    }
+    if (servicesOffered && Array.isArray(servicesOffered)) {
+      ngo.servicesOffered = servicesOffered;
+    }
+    if (workingHours) ngo.workingHours = sanitizeText(workingHours);
     if (emergency24x7 !== undefined) ngo.emergency24x7 = Boolean(emergency24x7);
 
     await ngo.save();
@@ -399,7 +453,7 @@ export const updateProfile = async (req: NGOAuthRequest, res: Response) => {
       ngo
     });
   } catch (error: any) {
-    return res.status(500).json({ error: "Failed to update NGO profile: " + error.message });
+    return res.status(500).json({ error: "Failed to update NGO profile." });
   }
 };
 
@@ -445,7 +499,7 @@ export const demoLogin = async (req: Request, res: Response) => {
     let demoUser = await UserModel.findOne({ ngoId: currentNgoId });
 
     if (!demoUser) {
-      const salt = await bcrypt.genSalt(10);
+      const salt = await bcrypt.genSalt(ENV.BCRYPT_SALT_ROUNDS);
       const hashedPassword = await bcrypt.hash("demo123", salt);
       demoUser = await UserModel.create({
         name: `Triage Officer (${ngo.name.split(" ")[0]})`,
@@ -467,6 +521,6 @@ export const demoLogin = async (req: Request, res: Response) => {
       ngo
     });
   } catch (error: any) {
-    return res.status(500).json({ error: "Demo login failed: " + error.message });
+    return res.status(500).json({ error: "Demo login failed." });
   }
 };
