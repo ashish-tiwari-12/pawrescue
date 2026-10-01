@@ -38,7 +38,6 @@
 - [⚙️ Environment Variables](#️-environment-variables)
 - [📡 API Documentation](#-api-documentation)
 - [🌐 Deployment Architecture](#-deployment-architecture)
-- [🎓 Technical Interview & Architecture Guide](#-technical-interview--architecture-guide)
 - [🤝 Contributing & License](#-contributing--license)
 
 ---
@@ -255,7 +254,6 @@ pawrescue/
 ├── api/                     # Vercel Serverless entrypoint
 │   └── index.ts
 │
-├── INTERVIEW_GUIDE.md       # Full-Stack Architecture & Interview Mastery Guide
 ├── vercel.json              # Vercel deployment routing configuration
 └── README.md
 ```
@@ -411,17 +409,6 @@ CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 | **AI YOLOv8 Microservice** | **Render** | [https://pawrescue-ai-service.onrender.com/](https://pawrescue-ai-service.onrender.com/) | Strict CORS, Torchvision Isolated |
 | **Database** | **MongoDB Atlas** | AWS Mumbai Region (`ap-south-1`) | Network Whitelist, TLS 1.3 |
 | **Media Assets** | **Cloudinary CDN** | Global Multi-Region CDN | Magic Byte Header Validated |
-
----
-
-## 🎓 Technical Interview & Architecture Guide
-
-Preparing for system design or full-stack software engineering interviews?
-Check out the complete companion guide: **[`INTERVIEW_GUIDE.md`](./INTERVIEW_GUIDE.md)**, featuring:
-- 🎙️ 30-Second and 2-Minute Elevator Pitches
-- 🏗️ Low-Level Architecture & Spatial Indexing Walkthrough
-- ⚡ STAR-Method Engineering Stories (AI Vision, Serverless Streaming, Injection Defense)
-- 🎯 Top 25+ Technical Interview Questions & Model Answers
 
 ---
 
